@@ -1,6 +1,6 @@
 var config_data = `
 {
-  "title": "Scouting PASS 2023",
+  "title": "Scouting Site 2023",
   "page_title": "Charged Up",
   "checkboxAs": "10",
   "prematch": [
@@ -75,7 +75,7 @@ var config_data = `
       "showUndo": "false",
       "shape": "circle 12 black red true"
     },
-    { "name": "Crossed Cable",
+    { "name": "Exited Community",
       "code": "acc",
       "type": "bool"
     },
