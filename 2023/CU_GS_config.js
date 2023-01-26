@@ -84,9 +84,9 @@ var config_data = `
       "showUndo": "false",
       "shape": "circle 12 black red true"
     },
-    { "name": "Crossed Cable",
+    { "name": "Exited Community",
       "code": "acc",
-      "gsCol": "autoCrossedCable",
+      "gsCol": "autoExitedCommunity",
       "type": "bool"
     },
     { "name": "Crossed Charging Station",
