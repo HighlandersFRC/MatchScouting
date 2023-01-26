@@ -17,7 +17,7 @@ var config_data = `
       "code": "e",
       "gsCol": "event",
       "type": "event",
-      "defaultValue": "2022carv",
+      "defaultValue": "2022cokc",
       "required": "true",
       "disabled": "true"
     },
@@ -85,7 +85,7 @@ var config_data = `
       "shape": "circle 12 black red true"
     },
     { "name": "Exited Community",
-      "code": "acc",
+      "code": "ec",
       "gsCol": "autoExitedCommunity",
       "type": "bool"
     },

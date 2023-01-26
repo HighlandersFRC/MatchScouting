@@ -14,7 +14,7 @@ var config_data = `
     { "name": "Event",
       "code": "e",
       "type": "event",
-      "defaultValue": "2022carv",
+      "defaultValue": "2022cokc",
       "required": "true",
       "disabled": "true"
     },
@@ -76,7 +76,7 @@ var config_data = `
       "shape": "circle 12 black red true"
     },
     { "name": "Exited Community",
-      "code": "acc",
+      "code": "ec",
       "type": "bool"
     },
     { "name": "Crossed Charging Station",
