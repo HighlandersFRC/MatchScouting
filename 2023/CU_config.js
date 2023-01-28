@@ -79,12 +79,8 @@ var config_data = `
       "code": "ec",
       "type": "bool"
     },
-    { "name": "Crossed Charging Station",
-      "code": "acs",
-      "type": "bool"
-    },
-    { "name": "Mobility?",
-      "code": "am",
+    { "name": "Has Auto?",
+      "code": "ha",
       "type": "bool"
     },
     { "name": "Docked",

@@ -90,13 +90,8 @@ var config_data = `
       "gsCol": "autoExitedCommunity",
       "type": "bool"
     },
-    { "name": "Crossed Charging Station",
-      "code": "acs",
-      "gsCol": "autoCrossedCharginStation",
-      "type": "bool"
-    },
-    { "name": "Mobility?",
-      "code": "am",
+    { "name": "Has Auto?",
+      "code": "ha",
       "gsCol": "autoMobility",
       "type": "bool"
     },

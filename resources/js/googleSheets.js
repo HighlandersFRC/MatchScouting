@@ -2,11 +2,6 @@ function setUpGoogleSheets() {
     const scriptURL = 'https://script.google.com/macros/s/AKfycbzoy0_y5foON2jNUlNAoEwSSWqaY3GZY4LiGX8hz7uX7_hozd73ISuSc4J-scfakHGS/exec'
     const form = document.querySelector('#scoutingForm')
     const btn = document.querySelector('#submit')
-    alert("Hello")
-    return true;
-
-
-    
     form.addEventListener('submit', e => {
       e.preventDefault()
       btn.disabled = true
