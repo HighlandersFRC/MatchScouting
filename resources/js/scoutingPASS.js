@@ -946,8 +946,6 @@ function qr_clear() {
 function clearForm() {
   var match = 0;
   var e = 0;
-  alert("Hello")
-  return true
   swipePage(-5)
 
   // Increment match
