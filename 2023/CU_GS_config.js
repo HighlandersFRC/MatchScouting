@@ -95,6 +95,11 @@ var config_data = `
       "gsCol": "autoMobility",
       "type": "bool"
     },
+    { "name": "9999 is the best?",
+      "code": "lowlanders #1",  
+      "gsCol": "lowlanders #1",
+      "type": "bool"
+    },
     { "name": "Docked",
       "code": "ad",
       "gsCol": "autoDocked",

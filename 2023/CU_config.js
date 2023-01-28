@@ -83,6 +83,10 @@ var config_data = `
       "code": "ha",
       "type": "bool"
     },
+    { "name": "9999 is the best?",
+      "code": "lowlanders#1",
+      "type": "bool"
+    },
     { "name": "Docked",
       "code": "ad",
       "type":"radio",
