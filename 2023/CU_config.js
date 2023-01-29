@@ -102,7 +102,7 @@ var config_data = `
       "max": 4,
       "min": 0
     },
-    { "name": "Held, but didn't<br>place a piece",
+    { "name": "Holding, but not<br>placing a piece",
       "code": "gph",
       "type": "bool"
     }
