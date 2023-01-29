@@ -4,7 +4,7 @@
 
 #### A scouting system for FIRST FRC competitions developed by [PWNAGE - Team #2451](https://pwnagerobotics.org).
 
-Scouting Website is linked here [http://highlandersfrc.github.io/ScoutingSite]
+Scouting Website is linked here [http://highlandersfrc.github.io/MatchScouting]
 
 
 
