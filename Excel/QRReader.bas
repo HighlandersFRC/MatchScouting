@@ -53,7 +53,7 @@ Sub saveData(inp As String)
     mapper.add "ad", "docked"
     mapper.add "ha", "hasAuto"
     mapper.add "agpa", "autoAttemptedPieces"
-    mapper.add "gph", "gamePiecesHeld"
+    mapper.add "gph", "gamePiecesStillWithBot"
     mapper.add "tct", "Cycles"
     mapper.add "tsg", "teleopScoring"
     mapper.add "fo", "fedOthers#Pieces"
