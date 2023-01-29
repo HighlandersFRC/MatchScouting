@@ -98,10 +98,11 @@ var config_data = `
       "code": "agpa",
       "type": "number",
       "required": "true",
+      "defaultValue": 0,
       "max": 4,
       "min": 0
     },
-    { "name": "Game Pieces Held",
+    { "name": "Held, but didn't<br>place a piece",
       "code": "gph",
       "type": "bool"
     }
