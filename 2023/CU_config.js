@@ -14,7 +14,7 @@ var config_data = `
     { "name": "Event",
       "code": "e",
       "type": "event",
-      "defaultValue": "2022cokc",
+      "defaultValue": "2022carv",
       "required": "true",
       "disabled": "true"
     },
@@ -57,7 +57,8 @@ var config_data = `
     { "name": "Auto Start Position",
       "code": "as",
       "type": "clickable_image",
-      "filename": "2023/field_image.png",
+      "filename": "2023/field_image2.png",
+      "dimensions": "3 1",
       "clickRestriction": "one",
       "shape": "circle 5 black red true"
     }
@@ -82,26 +83,27 @@ var config_data = `
       "code": "ad",
       "type":"radio",
       "choices": {
-        "d": "Docked (not Engaged)<br>",
-        "e": "Engaged<br>",
-        "a": "Attempted but failed<br>",
+        "dock": "Docked (not Engaged)<br>",
+        "eng": "Engaged<br>",
+        "att": "Attempted but failed<br>",
         "x": "Not attempted"
       },
       "defaultValue": "x"
     },
-    { "name": "Auto Archetype",
-      "code": "aa",
-      "type": "radio",
-      "choices": {
-        "No Auto": "No Auto<br>",
-        "0 piece": "0 piece<br>",
-        "1 piece": "1 piece<br>",
-        "2 piece": "2 piece<br>",
-        "3 piece": "3 piece<br>",
-        "4 piece": "4 piece"
-      },
-      "defaultValue": "No Auto",
-      "required": "true"
+    { "name": "Has Auto",
+      "code": "ha",
+      "type": "bool"
+    },
+    { "name": "Game Pieces Attempted",
+      "code": "agpa",
+      "type": "number",
+      "required": "true",
+      "max": 4,
+      "min": 0
+    },
+    { "name": "Game Pieces Held",
+      "code": "gph",
+      "type": "bool"
     }
   ],
   "teleop": [
@@ -143,17 +145,19 @@ var config_data = `
       "code": "fs",
       "type":"radio",
       "choices": {
-        "p": "Parked<br>",
-        "d": "Docked (Not Engaged)<br>",
-        "e": "Engaged<br>",
-        "a": "Attempted but failed<br>",
+        "park": "Parked<br>",
+        "dock": "Docked (Not Engaged)<br>",
+        "eng": "Engaged<br>",
+        "att": "Attempted but failed<br>",
         "x": "Not attempted"
       },
       "defaultValue": "x"
     },
     { "name": "Total # of alliance<br>robots docked/engaged",
       "code": "dn",
-      "type": "counter"
+      "type": "number",
+      "max": 3,
+      "min": 0
     }
   ],
   "postmatch": [
@@ -161,9 +165,9 @@ var config_data = `
       "code": "ds",
       "type": "radio",
       "choices": {
-        "n": "Not Effective<br>",
-        "a": "Average<br>",
-        "v": "Very Effective<br>",
+        "less": "Less Effective<br>",
+        "avg": "Average<br>",
+        "more": "More Effective<br>",
         "x": "Not Observed"
       },
       "defaultValue": "x"
@@ -172,10 +176,10 @@ var config_data = `
       "code": "dr",
       "type": "radio",
       "choices": {
-        "b": "Below Average<br>",
-        "a": "Average<br>",
-        "g": "Good<br>",
-        "e": "Excellent<br>",
+        "below": "Below Average<br>",
+        "avg": "Average<br>",
+        "good": "Good<br>",
+        "exl": "Excellent<br>",
         "x": "Did not play defense"
       },
       "defaultValue": "x"

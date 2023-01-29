@@ -51,7 +51,9 @@ Sub saveData(inp As String)
     mapper.add "asg", "autoScoring"
     mapper.add "ec", "exitedCommunity"
     mapper.add "ad", "docked"
-    mapper.add "aa", "autoArchetype"
+    mapper.add "ha", "hasAuto"
+    mapper.add "agpa", "autoAttemptedPieces"
+    mapper.add "gph", "gamePiecesHeld"
     mapper.add "tct", "Cycles"
     mapper.add "tsg", "teleopScoring"
     mapper.add "fo", "fedOthers#Pieces"
@@ -127,14 +129,13 @@ Sub saveData(inp As String)
                 i = i + 1
             Next
         End If
-
-        Dim newrow As ListRow
-    
-        Set newrow = table.ListRows.Add
         
+        Dim newrow As ListRow
+        
+        Set newrow = table.ListRows.Add
+            
         For Each str In data.Keys
             newrow.Range(table.ListColumns(str).Index) = data(str)
         Next
     End If
 End Sub
-https://www.youtube.com/watch?v=dQw4w9WgXcQ
