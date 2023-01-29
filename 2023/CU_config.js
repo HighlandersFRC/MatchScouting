@@ -23,8 +23,7 @@ var config_data = `
       "type": "level",
       "choices": {
         "qm": "Quals<br>",
-        "de": "Double Elimination<br>",
-        "f": "Finals"
+        "de": "Double Elimination<br>"
       },
       "defaultValue": "qm",
       "required": "true"
@@ -79,14 +78,6 @@ var config_data = `
       "code": "ec",
       "type": "bool"
     },
-    { "name": "Has Auto?",
-      "code": "ha",
-      "type": "bool"
-    },
-    { "name": "9999 is the best?",
-      "code": "lowlanders#1",
-      "type": "bool"
-    },
     { "name": "Docked",
       "code": "ad",
       "type":"radio",
@@ -97,6 +88,20 @@ var config_data = `
         "x": "Not attempted"
       },
       "defaultValue": "x"
+    },
+    { "name": "Auto Archetype",
+      "code": "aa",
+      "type": "radio",
+      "choices": {
+        "No Auto": "No Auto<br>",
+        "0 piece": "0 piece<br>",
+        "1 piece": "1 piece<br>",
+        "2 piece": "2 piece<br>",
+        "3 piece": "3 piece<br>",
+        "4 piece": "4 piece"
+      },
+      "defaultValue": "No Auto",
+      "required": "true"
     }
   ],
   "teleop": [
@@ -116,32 +121,17 @@ var config_data = `
       "shape": "circle 12 black red true",
       "cycleTimer": "tct"
     },
-    { "name": "Feeder Count<br>(Fed another bot)",
-      "code": "tfc",
+    { "name": "Fed Others # Pieces",
+      "code": "fo",
       "type": "counter"
     },
-    { "name": "Was Defended",
-      "code": "wd",
-      "type": "bool"
+    { "name": "Others Fed # Pieces",
+      "code": "of",
+      "type": "counter"
     },
-    { "name": "Who Defended this bot",
-      "code": "who",
-      "type": "text"
-    },
-    { "name": "Smart Placement<br>(creates Links)",
-      "code": "lnk",
-      "type": "bool"
-    },
-    { "name": "Floor Pickup",
-      "code": "fpu",
-      "type": "radio",
-      "choices": {
-        "o": "Cones<br>",
-        "u": "Cubes<br>",
-        "b": "Both<br>",
-        "x": "Not Attempted"
-      },
-      "defaultValue": "x"
+    { "name": "Dropped Pieces",
+      "code": "dc",
+      "type": "counter"
     }
   ],
   "endgame": [
@@ -178,10 +168,6 @@ var config_data = `
       },
       "defaultValue": "x"
     },
-    { "name": "Links Scored",
-      "code": "ls",
-      "type": "counter"
-    },
     { "name": "Defense Rating",
       "code": "dr",
       "type": "radio",
@@ -194,21 +180,9 @@ var config_data = `
       },
       "defaultValue": "x"
     },
-    { "name": "Swerve drive?",
-      "code": "sd",
+    { "name": "Was Defended",
+      "code": "wd",
       "type": "bool"
-    },
-    { "name": "Speed Rating",
-      "code": "sr",
-      "type": "radio",
-      "choices": {
-        "1": "1 (slow)<br>",
-        "2": "2<br>",
-        "3": "3<br>",
-        "4": "4<br>",
-        "5": "5 (fast)"
-      },
-      "defaultValue":"3"
     },
     { "name": "Died/Immobilized",
       "code": "die",
@@ -216,15 +190,6 @@ var config_data = `
     },
     { "name": "Tippy<br>(almost tipped over)",
       "code": "tip",
-      "type": "bool"
-    },
-    { "name": "Dropped Cones (>2)",
-      "code": "dc",
-      "type": "bool"
-    },
-    { "name": "Make good<br>alliance partner?",
-      "tooltip": "Would you want this robot on your alliance in eliminations?",
-      "code": "all",
       "type": "bool"
     },
     { "name": "Comments",

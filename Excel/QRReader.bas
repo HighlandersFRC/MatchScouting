@@ -47,6 +47,25 @@ Sub saveData(inp As String)
     mapper.Add "m", "matchNumber"
     mapper.Add "r", "robot"
     mapper.Add "t", "teamNumber"
+    mapper.Add "as", "autoStartPosition"
+    mapper.add "asg", "autoScoring"
+    mapper.add "ec", "exitedCommunity"
+    mapper.add "ad", "docked"
+    mapper.add "aa", "autoArchetype"
+    mapper.add "tct", "Cycles"
+    mapper.add "tsg", "teleopScoring"
+    mapper.add "fo", "fedOthers#Pieces"
+    mapper.add "of", "othersFed#Pieces"
+    mapper.add "dc", "droppedPieces"
+    mapper.add "dt", "dockingTimer"
+    mapper.add "fs", "finalStatus"
+    mapper.add "dn", "totalDockedBots"
+    mapper.add "ds", "driverSkill"
+    mapper.add "dr", "defenseRating"
+    mapper.add "wd", "wasDefended"
+    mapper.add "die", "died/immobilized"
+    mapper.add "tip", "Tippy?"
+    mapper.add "co", "Comments"
 
     ' Additional custom mapping
     'mapper.Add "f", "fouls"
@@ -118,3 +137,4 @@ Sub saveData(inp As String)
         Next
     End If
 End Sub
+https://www.youtube.com/watch?v=dQw4w9WgXcQ
