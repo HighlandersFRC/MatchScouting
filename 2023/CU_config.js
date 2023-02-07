@@ -159,6 +159,7 @@ var config_data = `
       "type": "number",
       "max": 3,
       "min": 0
+      "required": "true"
     }
   ],
   "postmatch": [
