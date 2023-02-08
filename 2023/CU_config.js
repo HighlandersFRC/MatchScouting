@@ -158,7 +158,7 @@ var config_data = `
       "code": "dn",
       "type": "number",
       "max": 3,
-      "min": 0
+      "min": 0,
       "required": "true"
     }
   ],
