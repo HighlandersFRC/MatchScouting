@@ -18,16 +18,6 @@ var config_data = `
       "required": "true",
       "disabled": "true"
     },
-    { "name": "Match Level",
-      "code": "l",
-      "type": "level",
-      "choices": {
-        "qm": "Quals<br>",
-        "de": "Double Elimination<br>"
-      },
-      "defaultValue": "qm",
-      "required": "true"
-    },
     { "name": "Match #",
       "code": "m",
       "type": "match",
@@ -89,10 +79,6 @@ var config_data = `
         "x": "Not attempted"
       },
       "defaultValue": "x"
-    },
-    { "name": "Has Auto",
-      "code": "ha",
-      "type": "bool"
     },
     { "name": "Game Pieces Attempted",
       "code": "agpa",
