@@ -25,6 +25,16 @@ var config_data = `
       "max": 100,
       "required": "true"
     },
+    { "name": "Match Level",
+      "code": "l",
+      "type": "level",
+      "choices": {
+        "qm": "Quals<br>"
+      },
+      "defaultValue": "qm",
+      "required": "true",
+      "disabled": "true"
+    },
     { "name": "Robot",
       "code": "r",
       "type": "robot",
