@@ -902,6 +902,21 @@ function getData(useStr) {
       }
     }
   }
+  var array = str.split("\"")
+  str = ""
+  array.forEach(element => {
+    str = str + element
+  });
+  array = str.split("[")
+  str = ""
+  array.forEach(element => {
+    str = str + element
+  });
+  array = str.split("]")
+  str = ""
+  array.forEach(element => {
+    str = str + element
+  });
   if (useStr) {
     return str
   } else {
