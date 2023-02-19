@@ -1334,10 +1334,10 @@ function onTeamnameChange(event) {
  */
 function counter(element, step, max, min) {
   var ctr = element.getElementsByClassName("counter")[0];
-  let cycleTimer = document.getElementById("cycleTimer" + base);
   var result = parseInt(ctr.value) + step;
   if (result > max) result = max;
   if (result < min) result = min;
+  console.log(result)
   if (!isNaN(result))
   ctr.value = result;
 }
