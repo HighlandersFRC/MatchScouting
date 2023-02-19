@@ -153,11 +153,19 @@ function addCounter(table, idx, name, data) {
   if (data.hasOwnProperty('tooltip')) {
     cell1.setAttribute("title", data.tooltip);
   }
+  var max = 99999;
+  if (data.hasOwnProperty('max')){
+    max = data.max
+  }
+  var min = 0;
+  if (data.hasOwnProperty('min')){
+    min = data.min
+  }
   cell2.classList.add("field");
 
   var button1 = document.createElement("input");
   button1.setAttribute("type", "button");
-  button1.setAttribute("onclick", "counter(this.parentElement, -1)");
+  button1.setAttribute("onclick", "counter(this.parentElement, -1, "+max+", "+min+")");
   button1.setAttribute("value", "-");
   cell2.appendChild(button1);
 
@@ -179,7 +187,7 @@ function addCounter(table, idx, name, data) {
 
   var button2 = document.createElement("input");
   button2.setAttribute("type", "button");
-  button2.setAttribute("onclick", "counter(this.parentElement, 1)");
+  button2.setAttribute("onclick", "counter(this.parentElement, 1, "+max+", "+min+")");
   button2.setAttribute("value", "+");
   cell2.appendChild(button2);
 
@@ -1293,19 +1301,13 @@ function onTeamnameChange(event) {
  * @param {element} element the <div> tag element (parent to the value tag).
  * @param {number} step the amount to add to the value tag.
  */
-function counter(element, step) {
+function counter(element, step, max, min) {
   var ctr = element.getElementsByClassName("counter")[0];
   var result = parseInt(ctr.value) + step;
-
-  if (isNaN(result)) {
-    result = 0;
-  }
-
-  if (result >= 0 || ctr.hasAttribute('data-negative')) {
-    ctr.value = result;
-  } else {
-    ctr.value = 0;
-  }
+  if (result > max) result = max;
+  if (result < min) result = min;
+  if (!isNaN(result))
+  ctr.value = result;
 }
 
 function newCycle(event)
@@ -1324,8 +1326,6 @@ function newCycle(event)
     let d = document.getElementById("display" + base);
     d.value = cycleInput.value.replace(/\"/g,'').replace(/\[/g, '').replace(/\]/g, '').replace(/,/g, ', ');
   }
-}
-
 function undoCycle(event) {
   let undoID = event.firstChild;
   let uId = getIdBase(undoID.id);
@@ -1352,6 +1352,8 @@ function resetTimer(event) {
   timerStatus.value = 'stopped';
   startButton.setAttribute("value", "Start");
   if (intervalId != '') {
+}
+
     clearInterval(intervalId);
   }
   intervalIdField.value = '';

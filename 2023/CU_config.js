@@ -92,10 +92,10 @@ var config_data = `
     },
     { "name": "Game Pieces Attempted",
       "code": "agpa",
-      "type": "number",
+      "type": "counter",
       "required": "true",
       "defaultValue": 0,
-      "max": 4,
+      "max": 5,
       "min": 0
     },
     { "name": "Holding, but not<br>placing a piece",
@@ -152,7 +152,7 @@ var config_data = `
     },
     { "name": "Total # of alliance<br>robots docked/engaged",
       "code": "dn",
-      "type": "number",
+      "type": "counter",
       "max": 3,
       "min": 0,
       "required": "true"
