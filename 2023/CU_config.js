@@ -22,7 +22,7 @@ var config_data = `
       "code": "m",
       "type": "match",
       "min": 1,
-      "max": 100,
+      "max": 1000,
       "required": "true"
     },
     { "name": "Match Level",
