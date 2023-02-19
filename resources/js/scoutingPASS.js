@@ -11,6 +11,7 @@ var initialX = null;
 var xThreshold = 0.3;
 var slide = 0;
 var enableGoogleSheets = false;
+var pitScouting = false;
 var checkboxAs = 'YN';
 
 // Options
@@ -191,6 +192,16 @@ function addCounter(table, idx, name, data) {
   button2.setAttribute("value", "+");
   cell2.appendChild(button2);
 
+  if (data.hasOwnProperty('cycleTimer')) {
+    if (data.cycleTimer != "") {
+      inp = document.createElement('input');
+      inp.setAttribute("hidden", "");
+      inp.setAttribute("id", "cycleTimer_" + data.code);
+      inp.setAttribute("value", data.cycleTimer);
+      cell.appendChild(inp);
+    }
+  }
+
   if (data.hasOwnProperty('defaultValue')) {
     var def = document.createElement("input");
     def.setAttribute("id", "default_" + data.code)
@@ -297,7 +308,7 @@ function addClickableImage(table, idx, name, data) {
   inp.setAttribute("id", "input_" + data.code);
   inp.setAttribute("value", "[]");
   inp.setAttribute("class", "clickableImage");
- 
+
   cell.appendChild(inp);
 
   // TODO: Make these more efficient/elegant
@@ -665,10 +676,14 @@ function configure() {
   }
 
   if (mydata.hasOwnProperty('enable_google_sheets')) {
-    if ((mydata.enable_google_sheets == 'true') ||
-      (mydata.enable_google_sheets == 'True') ||
-      (mydata.enable_google_sheets == 'TRUE')) {
+    if (mydata.enable_google_sheets.toUpperCase() == 'TRUE') {
       enableGoogleSheets = true;
+    }
+  }
+
+  if (mydata.hasOwnProperty('pitConfig')) {
+    if (mydata.pitConfig.toUpperCase() == 'TRUE') {
+      pitScouting = true;
     }
   }
 
@@ -900,12 +915,13 @@ function getData(useStr) {
         }
       } else {
 	if (e.className == "cycle") {
-	  e = document.getElementById("cycletime_" + code);
+	  e = document.getElementById("cycletime_" + code)
 	}
+	let val = e.value.split(';').join('-').replace(/"/g,'')
         if (useStr) {
-          str = str + code + '=' + e.value.split(';').join('-')
+          str = str + code + '=' + val
         } else {
-          fd.append(name, e.value.split(';').join('-'))
+          fd.append(name, val)
         }
       }
     }
@@ -933,13 +949,18 @@ function getData(useStr) {
 }
 
 function updateQRHeader() {
-  var str = 'Event: !EVENT! Match: !MATCH! Robot: !ROBOT! Team: !TEAM!';
+  let str = 'Event: !EVENT! Match: !MATCH! Robot: !ROBOT! Team: !TEAM!';
 
-  str = str
-    .replace('!EVENT!', document.getElementById("input_e").value)
-    .replace('!MATCH!', document.getElementById("input_m").value)
-    .replace('!ROBOT!', document.getElementById("display_r").value)
-    .replace('!TEAM!', document.getElementById("input_t").value);
+  if (!pitScouting) {
+    str = str
+      .replace('!EVENT!', document.getElementById("input_e").value)
+      .replace('!MATCH!', document.getElementById("input_m").value)
+      .replace('!ROBOT!', document.getElementById("display_r").value)
+      .replace('!TEAM!', document.getElementById("input_t").value);
+  } else {
+    str = 'Pit Scouting - Team !TEAM!'
+      .replace('!TEAM!', document.getElementById("input_t").value);
+  }
 
   document.getElementById("display_qr-info").textContent = str;
 }
@@ -947,9 +968,11 @@ function updateQRHeader() {
 
 function qr_regenerate() {
   // Validate required pre-match date (event, match, level, robot, scouter)
-  if (validateData() == false) {
-    // Don't allow a swipe until all required data is filled in
-    return false
+  if (!pitScouting) {  
+    if (validateData() == false) {
+      // Don't allow a swipe until all required data is filled in
+      return false
+    }
   }
 
   // Get data
@@ -976,11 +999,19 @@ function clearForm() {
   if (match == NaN) {
     document.getElementById("input_m").value = ""
   } else {
-    document.getElementById("input_m").value = match + 1
-  }
+    swipePage(-5);
 
-  // Robot
-  resetRobot()
+    // Increment match
+    match = parseInt(document.getElementById("input_m").value)
+    if (match == NaN) {
+      document.getElementById("input_m").value = ""
+    } else {
+      document.getElementById("input_m").value = match + 1
+    }
+
+    // Robot
+    resetRobot()
+  }
 
   // Clear XY coordinates
   inputs = document.querySelectorAll("[id*='XY_']");
@@ -1139,10 +1170,10 @@ function drawFields(name) {
 }
 
 function onFieldClick(event) {
-  //Resolution height and width (e.g. 52x26)
   let target = event.target;
   let base = getIdBase(target.id);
 
+  //Resolution height and width (e.g. 52x26)
   let resX = 12;
   let resY = 6;
 
@@ -1303,6 +1334,7 @@ function onTeamnameChange(event) {
  */
 function counter(element, step, max, min) {
   var ctr = element.getElementsByClassName("counter")[0];
+  let cycleTimer = document.getElementById("cycleTimer" + base);
   var result = parseInt(ctr.value) + step;
   if (result > max) result = max;
   if (result < min) result = min;
@@ -1427,11 +1459,17 @@ function copyData(){
 }
 
 window.onload = function () {
-  var ret = configure();
+  let ret = configure();
   if (ret != -1) {
-    var ec = document.getElementById("input_e").value;
-    getTeams(ec);
-    getSchedule(ec);
+    let ece = document.getElementById("input_e");
+    let ec = null;
+    if (ece != null) {
+      ec = ece.value;
+    }
+    if (ec != null) {
+      getTeams(ec);
+      getSchedule(ec);
+    }
     this.drawFields();
     if (enableGoogleSheets) {
       console.log("Enabling Google Sheets.");

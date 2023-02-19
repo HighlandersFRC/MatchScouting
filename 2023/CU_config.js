@@ -120,8 +120,8 @@ var config_data = `
       "shape": "circle 12 black red true",
       "cycleTimer": "tct"
     },
-    { "name": "Fed Others # Pieces",
-      "code": "fo",
+    { "name": "Feeder Count<br>(Fed another bot)",
+      "code": "tfc",
       "type": "counter"
     },
     { "name": "Others Fed # Pieces",
