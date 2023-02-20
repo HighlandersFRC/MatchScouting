@@ -13,7 +13,7 @@ var slide = 0;
 var enableGoogleSheets = false;
 var pitScouting = false;
 var checkboxAs = 'YN';
-
+var intId = setInterval(100)
 // Options
 var options = {
   correctLevel: QRCode.CorrectLevel.L,
@@ -1341,23 +1341,6 @@ function counter(element, step, max, min) {
   if (!isNaN(result))
   ctr.value = result;
 }
-
-function newCycle(event)
-{
-  let timerID = event.firstChild;
-  let base = getIdBase(timerID.id);
-  let inp = document.getElementById("input" + base)
-  let cycleTime = inp.value
-  inp.value = 0
-
-  if (cycleTime > 0) {
-    let cycleInput = document.getElementById("cycletime" + base);
-    var tempValue = Array.from(JSON.parse(cycleInput.value));
-    tempValue.push(cycleTime);
-    cycleInput.value = JSON.stringify(tempValue);
-    let d = document.getElementById("display" + base);
-    d.value = cycleInput.value.replace(/\"/g,'').replace(/\[/g, '').replace(/\]/g, '').replace(/,/g, ', ');
-  }
 function undoCycle(event) {
   let undoID = event.firstChild;
   let uId = getIdBase(undoID.id);
@@ -1384,16 +1367,31 @@ function resetTimer(event) {
   timerStatus.value = 'stopped';
   startButton.setAttribute("value", "Start");
   if (intervalId != '') {
-}
+  }
 
     clearInterval(intervalId);
-  }
-  intervalIdField.value = '';
 }
-
+function newCycle(event)
+  {
+    let timerID = event.firstChild;
+    let base = getIdBase(timerID.id);
+    let inp = document.getElementById("input" + base)
+    let cycleTime = inp.value
+    inp.value = 0
+  
+    if (cycleTime > 0) {
+      let cycleInput = document.getElementById("cycletime" + base);
+      var tempValue = Array.from(JSON.parse(cycleInput.value));
+      tempValue.push(cycleTime);
+      console.log(cycleTime)
+      cycleInput.value = JSON.stringify(tempValue);
+      let d = document.getElementById("display" + base);
+      d.value = cycleInput.value.replace(/\"/g,'').replace(/\[/g, '').replace(/\]/g, '').replace(/,/g, ', ');
+    }
+  } 
 function timer(event) {
   let timerID = event.firstChild;
-  let tId = getIdBase(timerID.id)
+  let tId = getIdBase(timerID.id);
   timerStatus = document.getElementById("status" + tId);
   startButton = document.getElementById("start" + tId);
   intervalIdField = document.getElementById("intervalId" + tId);
@@ -1403,7 +1401,7 @@ function timer(event) {
     timerStatus.value = 'started';
     startButton.setAttribute("value", "Stop");
 
-    var intId = setInterval(() => {
+    intId = setInterval(() => {
       if (document.getElementById("status" + tId).value == 'started') {
         inp = document.getElementById("input" + tId);
         var t = parseFloat(inp.value);

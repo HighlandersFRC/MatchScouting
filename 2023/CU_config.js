@@ -121,7 +121,7 @@ var config_data = `
       "cycleTimer": "tct"
     },
     { "name": "Feeder Count<br>(Fed another bot)",
-      "code": "tfc",
+      "code": "fo",
       "type": "counter"
     },
     { "name": "Others Fed # Pieces",
