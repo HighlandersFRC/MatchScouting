@@ -503,59 +503,125 @@ function addNumber(table, idx, name, data) {
 function addRadio(table, idx, name, data) {
   var row = table.insertRow(idx);
   var cell1 = row.insertCell(0);
+  cell1.setAttribute("style", "text-align: right;");
   cell1.classList.add("title");
   if (!data.hasOwnProperty('code')) {
     cell1.innerHTML = `Error: No code specified for ${name}`;
     return idx + 1;
   }
-  var cell2 = row.insertCell(1);
-  cell1.innerHTML = name + '&nbsp;';
-  if (data.hasOwnProperty('tooltip')) {
-    cell1.setAttribute("title", data.tooltip);
-  }
-  cell2.classList.add("field");
-  if ((data.type == 'level') ||
-    (data.type == 'robot')
-  ) {
-    cell2.setAttribute("onchange", "updateMatchStart(event)");
-  }
-  var checked = null
-  if (data.hasOwnProperty('defaultValue')) {
-    checked = data.defaultValue;
-  }
-  if (data.hasOwnProperty('choices')) {
-    keys = Object.keys(data.choices);
-    keys.forEach(c => {
-      var inp = document.createElement("input");
-      inp.setAttribute("id", "input_" + data.code + "_" + c);
-      inp.setAttribute("type", "radio");
-      if (enableGoogleSheets && data.hasOwnProperty('gsCol')) {
-        inp.setAttribute("name", data.gsCol);
-      } else {
-        inp.setAttribute("name", data.code);
-      }
-      inp.setAttribute("value", c);
-      if (checked == c) {
-        inp.setAttribute("checked", "");
-      }
-      cell2.appendChild(inp);
-      cell2.innerHTML += data.choices[c];
-    });
-  }
-  var inp = document.createElement("input");
-  inp.setAttribute("id", "display_" + data.code);
-  inp.setAttribute("hidden", "");
-  inp.setAttribute("value", "");
-  cell2.appendChild(inp);
+  if (data.hasOwnProperty("filename")){
+    idx+=1;
+    row = table.insertRow(idx);
+    row.setAttribute("style", "text-align: center;");
+    var cell2 = row.insertCell(0)
+    cell2.setAttribute("colspan", 2);
+    cell2.setAttribute("style", "text-align: center;");
+    var img = document.createElement('img');
+    img.src = data.filename;
+    img.setAttribute("id", "img_" + data.code);
+    img.setAttribute("class", "field-image-src");
+    img.setAttribute("onload", "drawFields()");
+    cell2.appendChild(img);
+    idx+=1;
+    row = table.insertRow(idx);
+    row.setAttribute("style", "text-align: center;");
+    var cell3 = row.insertCell(0);
+    cell3.setAttribute("style", "text-align: right;");
+    cell1.innerHTML = name + '&nbsp;';
+    if (data.hasOwnProperty('tooltip')) {
+      cell1.setAttribute("title", data.tooltip);
+    }
+    cell3.classList.add("field");
+    if ((data.type == 'level') ||
+      (data.type == 'robot')
+    ) {
+      cell3.setAttribute("onchange", "updateMatchStart(event)");
+    }
+    var checked = null
+    if (data.hasOwnProperty('defaultValue')) {
+      checked = data.defaultValue;
+    }
+    if (data.hasOwnProperty('choices')) {
+      keys = Object.keys(data.choices);
+      keys.forEach(c => {
+        var inp = document.createElement("input");
+        inp.setAttribute("id", "input_" + data.code + "_" + c);
+        inp.setAttribute("type", "radio");
+        if (enableGoogleSheets && data.hasOwnProperty('gsCol')) {
+          inp.setAttribute("name", data.gsCol);
+        } else {
+          inp.setAttribute("name", data.code);
+        }
+        inp.setAttribute("value", c);
+        if (checked == c) {
+          inp.setAttribute("checked", "");
+        }
+        cell3.appendChild(inp);
+        cell3.innerHTML += data.choices[c];
+      });
+    }
+    var inp = document.createElement("input");
+    inp.setAttribute("id", "display_" + data.code);
+    inp.setAttribute("hidden", "");
+    inp.setAttribute("value", "");
+    cell3.appendChild(inp);
 
-  if (data.hasOwnProperty('defaultValue')) {
-    var def = document.createElement("input");
-    def.setAttribute("id", "default_" + data.code)
-    def.setAttribute("type", "hidden");
-    def.setAttribute("value", data.defaultValue);
-    cell2.appendChild(def);
-  }
+    if (data.hasOwnProperty('defaultValue')) {
+      var def = document.createElement("input");
+      def.setAttribute("id", "default_" + data.code)
+      def.setAttribute("type", "hidden");
+      def.setAttribute("value", data.defaultValue);
+      cell3.appendChild(def);
+    }
+  }else {
+    var cell2 = row.insertCell(1);
+    cell1.innerHTML = name + '&nbsp;';
+    if (data.hasOwnProperty('tooltip')) {
+      cell1.setAttribute("title", data.tooltip);
+    }
+    cell2.classList.add("field");
+    if ((data.type == 'level') ||
+      (data.type == 'robot')
+    ) {
+      cell2.setAttribute("onchange", "updateMatchStart(event)");
+    }
+    var checked = null
+    if (data.hasOwnProperty('defaultValue')) {
+      checked = data.defaultValue;
+    }
+    if (data.hasOwnProperty('choices')) {
+      keys = Object.keys(data.choices);
+      keys.forEach(c => {
+        var inp = document.createElement("input");
+        inp.setAttribute("id", "input_" + data.code + "_" + c);
+        inp.setAttribute("type", "radio");
+        if (enableGoogleSheets && data.hasOwnProperty('gsCol')) {
+          inp.setAttribute("name", data.gsCol);
+        } else {
+          inp.setAttribute("name", data.code);
+        }
+        inp.setAttribute("value", c);
+        if (checked == c) {
+          inp.setAttribute("checked", "");
+        }
+        cell2.appendChild(inp);
+        cell2.innerHTML += data.choices[c];
+      });
+    }
+    var inp = document.createElement("input");
+    inp.setAttribute("id", "display_" + data.code);
+    inp.setAttribute("hidden", "");
+    inp.setAttribute("value", "");
+    cell2.appendChild(inp);
 
+    if (data.hasOwnProperty('defaultValue')) {
+      var def = document.createElement("input");
+      def.setAttribute("id", "default_" + data.code)
+      def.setAttribute("type", "hidden");
+      def.setAttribute("value", data.defaultValue);
+      cell2.appendChild(def);
+    }
+  }
   return idx + 1;
 }
 

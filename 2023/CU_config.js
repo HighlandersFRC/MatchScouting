@@ -56,11 +56,13 @@ var config_data = `
     },
     { "name": "Auto Start Position",
       "code": "as",
-      "type": "clickable_image",
+      "type": "radio",
       "filename": "2023/field_image_updated.png",
-      "dimensions": "3 1",
-      "clickRestriction": "one",
-      "shape": "circle 5 black red true"
+      "choices": {
+        "1": "1<br>",
+        "2": "2<br>",
+        "3": "3"
+      }
     }
   ],
   "auton": [
