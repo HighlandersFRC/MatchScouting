@@ -62,7 +62,8 @@ var config_data = `
         "1": "1<br>",
         "2": "2<br>",
         "3": "3"
-      }
+      },
+      "defaultValue": "1"
     }
   ],
   "auton": [
