@@ -301,7 +301,7 @@ There are no specific attributes to this element.
 { "name": "My Clickable Image",
   "code": "mci",
   "type": "clickable_image",
-  "filename": "2023/field_image.png",
+  "filename": "2023/field_image_updated.png",
   "dimensions": "12 6",
   "toggleClick": "true",
   "clickRestriction": "onePerBox",
