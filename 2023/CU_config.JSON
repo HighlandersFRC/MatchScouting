@@ -57,7 +57,7 @@
       { "name": "Auto Start Position",
         "code": "as",
         "type": "clickable_image",
-        "filename": "2023/field_image.png",
+        "filename": "2023/field_image_updated.png",
         "clickRestriction": "one",
         "shape": "circle 5 black red true"
       }
