@@ -93,7 +93,7 @@ var config_data = `
       },
       "defaultValue": "x"
     },
-    { "name": "Game Pieces Attempted",
+    { "name": "Game Pieces Missed",
       "code": "agpa",
       "type": "counter",
       "required": "true",
