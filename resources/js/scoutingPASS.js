@@ -23,7 +23,7 @@ var options = {
 
 // Must be filled in: e=event, m=match#, l=level(q,qf,sf,f), t=team#, r=robot(r1,r2,b1..), s=scouter
 //var requiredFields = ["e", "m", "l", "t", "r", "s", "as"];
-var requiredFields = ["e", "m", "l", "r", "s"];
+var requiredFields = ["e", "m", "r", "s"];
 
 function addTimer(table, idx, name, data) {
   var row = table.insertRow(idx);
@@ -1089,14 +1089,13 @@ function clearForm() {
   inputs = document.querySelectorAll("[id*='input_']");
   for (e of inputs) {
     code = e.id.substring(6)
-
     // Don't clear key fields
     if (code == "m") continue
     if (code.substring(0, 2) == "r_") continue
     if (code.substring(0, 2) == "l_") continue
     if (code == "e") continue
     if (code == "s") continue
-
+    if (code == "r") continue
     if (e.className == "clickableImage") {
       e.value = "[]";
       continue;

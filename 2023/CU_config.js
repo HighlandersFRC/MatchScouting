@@ -14,7 +14,7 @@ var config_data = `
     { "name": "Event",
       "code": "e",
       "type": "event",
-      "defaultValue": "Scrimmage",
+      "defaultValue": "2023utwv",
       "required": "true",
       "disabled": "true"
     },
@@ -24,16 +24,6 @@ var config_data = `
       "min": 1,
       "max": 1000,
       "required": "true"
-    },
-    { "name": "Match Level",
-      "code": "l",
-      "type": "level",
-      "choices": {
-        "qm": "Quals<br>"
-      },
-      "defaultValue": "qm",
-      "required": "true",
-      "disabled": "true"
     },
     { "name": "Robot",
       "code": "r",
@@ -86,9 +76,9 @@ var config_data = `
       "code": "ad",
       "type":"radio",
       "choices": {
-        "dock": "Docked (not Engaged)<br>",
-        "eng": "Engaged<br>",
-        "att": "Attempted but failed<br>",
+        "d": "Docked (not Engaged)<br>",
+        "e": "Engaged<br>",
+        "a": "Attempted but failed<br>",
         "x": "Not attempted"
       },
       "defaultValue": "x"
@@ -145,10 +135,10 @@ var config_data = `
       "code": "fs",
       "type":"radio",
       "choices": {
-        "park": "Parked<br>",
-        "dock": "Docked (Not Engaged)<br>",
-        "eng": "Engaged<br>",
-        "att": "Attempted but failed<br>",
+        "p": "Parked<br>",
+        "d": "Docked (Not Engaged)<br>",
+        "e": "Engaged<br>",
+        "a": "Attempted but failed<br>",
         "x": "Not attempted"
       },
       "defaultValue": "x"
@@ -166,9 +156,9 @@ var config_data = `
       "code": "ds",
       "type": "radio",
       "choices": {
-        "less": "Less Effective<br>",
-        "avg": "Average<br>",
-        "more": "More Effective<br>",
+        "l": "Less Effective<br>",
+        "a": "Average<br>",
+        "m": "More Effective<br>",
         "x": "Not Observed"
       },
       "defaultValue": "x"
@@ -177,10 +167,10 @@ var config_data = `
       "code": "dr",
       "type": "radio",
       "choices": {
-        "below": "Below Average<br>",
-        "avg": "Average<br>",
-        "good": "Good<br>",
-        "exl": "Excellent<br>",
+        "b": "Below Average<br>",
+        "a": "Average<br>",
+        "g": "Good<br>",
+        "e": "Excellent<br>",
         "x": "Did not play defense"
       },
       "defaultValue": "x"
