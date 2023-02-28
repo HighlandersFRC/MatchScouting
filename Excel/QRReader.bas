@@ -144,19 +144,19 @@ Sub points()
     weights(11) = 6
     For Row = 2 To numRows("ByTeamAverageData") - 1
         points = 0
-        points = points + weights(0) * Worksheets("ByTeamAverageData").Range("B" & Row).Value
-        points = points + weights(1) * Worksheets("ByTeamAverageData").Range("C" & Row).Value
-        points = points + weights(2) * Worksheets("ByTeamAverageData").Range("D" & Row).Value
-        points = points + weights(3) * Worksheets("ByTeamAverageData").Range("E" & Row).Value
-        points = points + weights(4) * Worksheets("ByTeamAverageData").Range("F" & Row).Value
-        points = points + weights(5) * Worksheets("ByTeamAverageData").Range("G" & Row).Value
-        points = points + weights(6) * Worksheets("ByTeamAverageData").Range("J" & Row).Value
-        points = points + weights(7) * Worksheets("ByTeamAverageData").Range("K" & Row).Value
-        points = points + weights(8) * Worksheets("ByTeamAverageData").Range("L" & Row).Value
-        points = points + weights(9) * Worksheets("ByTeamAverageData").Range("M" & Row).Value
-        points = points + weights(10) * Worksheets("ByTeamAverageData").Range("N" & Row).Value
-        points = points + weights(11) * Worksheets("ByTeamAverageData").Range("P" & Row).Value
-        Worksheets("ByTeamAverageData").Range("T" & Row).Value = points
+        points = points + weights(0) * Worksheets("Aggregate_Data").Range("B" & Row).Value
+        points = points + weights(1) * Worksheets("Aggregate_Data").Range("C" & Row).Value
+        points = points + weights(2) * Worksheets("Aggregate_Data").Range("D" & Row).Value
+        points = points + weights(3) * Worksheets("Aggregate_Data").Range("E" & Row).Value
+        points = points + weights(4) * Worksheets("Aggregate_Data").Range("F" & Row).Value
+        points = points + weights(5) * Worksheets("Aggregate_Data").Range("G" & Row).Value
+        points = points + weights(6) * Worksheets("Aggregate_Data").Range("J" & Row).Value
+        points = points + weights(7) * Worksheets("Aggregate_Data").Range("K" & Row).Value
+        points = points + weights(8) * Worksheets("Aggregate_Data").Range("L" & Row).Value
+        points = points + weights(9) * Worksheets("Aggregate_Data").Range("M" & Row).Value
+        points = points + weights(10) * Worksheets("Aggregate_Data").Range("N" & Row).Value
+        points = points + weights(11) * Worksheets("Aggregate_Data").Range("P" & Row).Value
+        Worksheets("Aggregate_Data").Range("T" & Row).Value = points
     Next Row
 End Sub
 Sub averageColumns()
@@ -178,6 +178,7 @@ Sub averageColumns()
     averageColumn ("Q")
     averageColumn ("R")
     averageColumn ("S")
+    averageColumn ("T")
 End Sub
 Sub averageColumn(Column As String)
     Dim Row As Integer, team, teamRow As Integer, y As Integer, z As Integer, Value
