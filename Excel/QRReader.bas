@@ -7,11 +7,44 @@ Sub AggregateData()
     cycles
     exitedCommunity
     stillHasAutoPiece
+    totalDocked
     died
     skill
+    points
     writeTeams
     averageColumns
-    points
+End Sub
+Sub totalDocked()
+    Dim x As Integer, bots
+    For x = 2 To numRows("ScoutingPASS_Excel_Example") - 1
+        bots = Worksheets("ScoutingPASS_Excel_Example").Range("S" & x).Value
+        Worksheets("Aggregate_Data").Range("T" & x).Value = bots
+    Next x
+End Sub
+Sub syncSkill()
+    Dim row As Integer, teamRow As Integer, hasTeam As Boolean, team As Integer, divisor As Integer, val As Double, val1 As Double
+    For row = 2 To numRows("Skill")
+        hasTeam = False
+        For teamRow = 2 To numRows("ByTeamAverageData")
+            If Worksheets("ByTeamAverageData").Range("A" + teamRow).Value = Worksheets("Skill").Range("B" + row).Value Then
+                hasTeam = True
+                Exit For
+            End If
+        Next teamRow
+        For team = row + 1 To numRows("Skill")
+            If Worksheets("Skill").Range("B" + team).Value = Worksheets("Skill").Range("B" + row).Value Then
+                divisor = divisor + 1
+                val = val + Worksheets("Skill").Range("C" + team).Value
+                val1 = val1 + Worksheets("Skill").Range("D" + team).Value
+            End If
+        Next team
+        If hasTeam Then
+        If Not divisor = 0 Then
+            Worksheets("ByTeamAverageData").Range("R" + teamRow).Value = val / divisor
+            Worksheets("ByTeamAverageData").Range("S" + teamRow).Value = val1 / divisor
+        End If
+        End If
+    Next row
 End Sub
 Sub syncPit()
     Dim rows As Integer, teamRow, hasTeam As Boolean, team, rng
@@ -32,42 +65,42 @@ Sub syncPit()
     Next rows
 End Sub
 Sub sortByColumn(Column As String, Worksheet As String)
-    Dim Row As Integer, hold1 As Variant, hold2 As Variant, switches As Integer
+    Dim row As Integer, hold1 As Variant, hold2 As Variant, switches As Integer
     switches = 1
     Do While Not switches = 0
         switches = 0
-        For Row = 2 To numRows(Worksheet) - 2
-            If Worksheets(Worksheet).Range(Column & Row).Value < Worksheets(Worksheet).Range(Column & (Row + 1)).Value Then
-                hold1 = Worksheets(Worksheet).Range("A" & Row & ":Z" & Row)
-                hold2 = Worksheets(Worksheet).Range("A" & (Row + 1) & ":AZ" & (Row + 1))
-                Worksheets(Worksheet).Range("A" & Row & ":Z" & Row) = hold2
-                Worksheets(Worksheet).Range("A" & (Row + 1) & ":Z" & (Row + 1)) = hold1
+        For row = 2 To numRows(Worksheet) - 2
+            If Worksheets(Worksheet).Range(Column & row).Value < Worksheets(Worksheet).Range(Column & (row + 1)).Value Then
+                hold1 = Worksheets(Worksheet).Range("A" & row & ":Z" & row)
+                hold2 = Worksheets(Worksheet).Range("A" & (row + 1) & ":AZ" & (row + 1))
+                Worksheets(Worksheet).Range("A" & row & ":Z" & row) = hold2
+                Worksheets(Worksheet).Range("A" & (row + 1) & ":Z" & (row + 1)) = hold1
                 switches = switches + 1
             End If
-        Next Row
+        Next row
     Loop
 End Sub
 Sub sortByColumnInverse(Column As String, Worksheet As String)
-    Dim Row As Integer, hold1 As Variant, hold2 As Variant, switches As Integer
+    Dim row As Integer, hold1 As Variant, hold2 As Variant, switches As Integer
     switches = 1
     Do While Not switches = 0
         switches = 0
-        For Row = 2 To numRows(Worksheet) - 2
-            If Worksheets(Worksheet).Range(Column & Row).Value > Worksheets(Worksheet).Range(Column & (Row + 1)).Value Then
-                hold1 = Worksheets(Worksheet).Range("A" & Row & ":Z" & Row)
-                hold2 = Worksheets(Worksheet).Range("A" & (Row + 1) & ":AZ" & (Row + 1))
-                Worksheets(Worksheet).Range("A" & Row & ":Z" & Row) = hold2
-                Worksheets(Worksheet).Range("A" & (Row + 1) & ":Z" & (Row + 1)) = hold1
+        For row = 2 To numRows(Worksheet) - 2
+            If Worksheets(Worksheet).Range(Column & row).Value > Worksheets(Worksheet).Range(Column & (row + 1)).Value Then
+                hold1 = Worksheets(Worksheet).Range("A" & row & ":Z" & row)
+                hold2 = Worksheets(Worksheet).Range("A" & (row + 1) & ":AZ" & (row + 1))
+                Worksheets(Worksheet).Range("A" & row & ":Z" & row) = hold2
+                Worksheets(Worksheet).Range("A" & (row + 1) & ":Z" & (row + 1)) = hold1
                 switches = switches + 1
             End If
-        Next Row
+        Next row
     Loop
 End Sub
 Sub skill()
-    Dim skill, defense, Row
-    For Row = 2 To numRows("ScoutingPASS_Excel_Example") - 1
-        skill = Worksheets("ScoutingPASS_Excel_Example").Range("U" & Row).Value
-        defense = Worksheets("ScoutingPASS_Excel_Example").Range("V" & Row).Value
+    Dim skill, defense, row
+    For row = 2 To numRows("ScoutingPASS_Excel_Example") - 1
+        skill = Worksheets("ScoutingPASS_Excel_Example").Range("U" & row).Value
+        defense = Worksheets("ScoutingPASS_Excel_Example").Range("V" & row).Value
         Select Case skill
             Case "x"
                 skill = -1
@@ -94,40 +127,40 @@ Sub skill()
             Case Else
                 defense = 0
         End Select
-        Worksheets("Aggregate_Data").Range("R" & Row).Value = skill
-        Worksheets("Aggregate_Data").Range("S" & Row).Value = defense
-    Next Row
+        Worksheets("Aggregate_Data").Range("R" & row).Value = skill
+        Worksheets("Aggregate_Data").Range("S" & row).Value = defense
+    Next row
 End Sub
 Sub writeTeams()
-    Dim Row As Integer, rows As Integer, team, checkRow As Integer, switches As Integer, hold As Variant, temp As Variant
-    For Row = 2 To numRows("Aggregate_Data")
-        Worksheets("ByTeamAverageData").Range("A" & Row) = Worksheets("Aggregate_Data").Range("A" & Row)
-    Next Row
+    Dim row As Integer, rows As Integer, team, checkRow As Integer, switches As Integer, hold As Variant, temp As Variant
+    For row = 2 To numRows("Aggregate_Data")
+        Worksheets("ByTeamAverageData").Range("A" & row) = Worksheets("Aggregate_Data").Range("A" & row)
+    Next row
     rows = numRows("ByTeamAverageData")
-    For Row = 2 To rows
-        team = Worksheets("ByTeamAverageData").Range("A" & Row).Value
-        For checkRow = Row + 1 To rows
+    For row = 2 To rows
+        team = Worksheets("ByTeamAverageData").Range("A" & row).Value
+        For checkRow = row + 1 To rows
             If Worksheets("ByTeamAverageData").Range("A" & checkRow).Value = team Then
                 Worksheets("ByTeamAverageData").Range("A" & checkRow).Value = Null
             End If
         Next checkRow
-    Next Row
+    Next row
     switches = 1
     Do While Not switches = 0
         switches = 0
-        For Row = 2 To rows
-            If Worksheets("ByTeamAverageData").Range("A" & Row).Value < Worksheets("ByTeamAverageData").Range("A" & (Row + 1)).Value Then
-                hold = Worksheets("ByTeamAverageData").Range("A" & Row).Value
-                temp = Worksheets("ByTeamAverageData").Range("A" & (Row + 1)).Value
-                Worksheets("ByTeamAverageData").Range("A" & Row).Value = temp
-                Worksheets("ByTeamAverageData").Range("A" & (Row + 1)).Value = hold
+        For row = 2 To rows
+            If Worksheets("ByTeamAverageData").Range("A" & row).Value < Worksheets("ByTeamAverageData").Range("A" & (row + 1)).Value Then
+                hold = Worksheets("ByTeamAverageData").Range("A" & row).Value
+                temp = Worksheets("ByTeamAverageData").Range("A" & (row + 1)).Value
+                Worksheets("ByTeamAverageData").Range("A" & row).Value = temp
+                Worksheets("ByTeamAverageData").Range("A" & (row + 1)).Value = hold
                 switches = switches + 1
             End If
-        Next Row
+        Next row
     Loop
 End Sub
 Sub points()
-    Dim Row As Integer, weights() As Double, points As Double, switches As Integer, hold As Variant, temp As Variant
+    Dim row As Integer, weights() As Double, points As Double, switches As Integer, hold As Variant, temp As Variant
     ReDim weights(12)
     switches = 1
     weights(0) = 6
@@ -142,22 +175,22 @@ Sub points()
     weights(9) = 3
     weights(10) = 2
     weights(11) = 6
-    For Row = 2 To numRows("ByTeamAverageData") - 1
+    For row = 2 To numRows("ByTeamAverageData") - 1
         points = 0
-        points = points + weights(0) * Worksheets("Aggregate_Data").Range("B" & Row).Value
-        points = points + weights(1) * Worksheets("Aggregate_Data").Range("C" & Row).Value
-        points = points + weights(2) * Worksheets("Aggregate_Data").Range("D" & Row).Value
-        points = points + weights(3) * Worksheets("Aggregate_Data").Range("E" & Row).Value
-        points = points + weights(4) * Worksheets("Aggregate_Data").Range("F" & Row).Value
-        points = points + weights(5) * Worksheets("Aggregate_Data").Range("G" & Row).Value
-        points = points + weights(6) * Worksheets("Aggregate_Data").Range("J" & Row).Value
-        points = points + weights(7) * Worksheets("Aggregate_Data").Range("K" & Row).Value
-        points = points + weights(8) * Worksheets("Aggregate_Data").Range("L" & Row).Value
-        points = points + weights(9) * Worksheets("Aggregate_Data").Range("M" & Row).Value
-        points = points + weights(10) * Worksheets("Aggregate_Data").Range("N" & Row).Value
-        points = points + weights(11) * Worksheets("Aggregate_Data").Range("P" & Row).Value
-        Worksheets("Aggregate_Data").Range("T" & Row).Value = points
-    Next Row
+        points = points + weights(0) * Worksheets("Aggregate_Data").Range("B" & row).Value
+        points = points + weights(1) * Worksheets("Aggregate_Data").Range("C" & row).Value
+        points = points + weights(2) * Worksheets("Aggregate_Data").Range("D" & row).Value
+        points = points + weights(3) * Worksheets("Aggregate_Data").Range("E" & row).Value
+        points = points + weights(4) * Worksheets("Aggregate_Data").Range("F" & row).Value
+        points = points + weights(5) * Worksheets("Aggregate_Data").Range("G" & row).Value
+        points = points + weights(6) * Worksheets("Aggregate_Data").Range("J" & row).Value
+        points = points + weights(7) * Worksheets("Aggregate_Data").Range("K" & row).Value
+        points = points + weights(8) * Worksheets("Aggregate_Data").Range("L" & row).Value
+        points = points + weights(9) * Worksheets("Aggregate_Data").Range("M" & row).Value
+        points = points + weights(10) * Worksheets("Aggregate_Data").Range("N" & row).Value
+        points = points + weights(11) * Worksheets("Aggregate_Data").Range("P" & row).Value
+        Worksheets("Aggregate_Data").Range("U" & row).Value = points
+    Next row
 End Sub
 Sub averageColumns()
     averageColumn ("B")
@@ -179,11 +212,12 @@ Sub averageColumns()
     averageColumn ("R")
     averageColumn ("S")
     averageColumn ("T")
+    averageColumn ("U")
 End Sub
 Sub averageColumn(Column As String)
-    Dim Row As Integer, team, teamRow As Integer, y As Integer, z As Integer, Value
-    For Row = 2 To numRows("Aggregate_Data") - 1
-        team = Worksheets("Aggregate_Data").Range("A" & Row).Value
+    Dim row As Integer, team, teamRow As Integer, y As Integer, z As Integer, Value
+    For row = 2 To numRows("Aggregate_Data") - 1
+        team = Worksheets("Aggregate_Data").Range("A" & row).Value
         For y = 2 To numRows("ByTeamAverageData") - 1
             If team = Worksheets("ByTeamAverageData").Range("A" & y).Value Then
                 teamRow = y
@@ -194,14 +228,14 @@ Sub averageColumn(Column As String)
             If Not Column = "Q" Then
                 If Column = "H" Then
                     If Not Worksheets("Aggregate_Data").Range(Column & z).Value < 0 Then
-                        If Worksheets("Aggregate_Data").Range("A" & z).Value = Worksheets("Aggregate_Data").Range("A" & Row).Value Then
+                        If Worksheets("Aggregate_Data").Range("A" & z).Value = Worksheets("Aggregate_Data").Range("A" & row).Value Then
                             divisor = divisor + Worksheets("Aggregate_Data").Range("I" & z).Value
                             Value = Value + Worksheets("Aggregate_Data").Range("H" & z).Value * Worksheets("Aggregate_Data").Range("I" & z).Value
                         End If
                     End If
                 Else
                     If Not Worksheets("Aggregate_Data").Range(Column & z).Value < 0 Then
-                        If Worksheets("Aggregate_Data").Range("A" & z).Value = Worksheets("Aggregate_Data").Range("A" & Row).Value Then
+                        If Worksheets("Aggregate_Data").Range("A" & z).Value = Worksheets("Aggregate_Data").Range("A" & row).Value Then
                             divisor = divisor + 1
                             Value = Value + Worksheets("Aggregate_Data").Range(Column & z).Value
                         End If
@@ -209,7 +243,7 @@ Sub averageColumn(Column As String)
                 End If
             Else
                 If Not Worksheets("Aggregate_Data").Range(Column & z).Value < 0 Then
-                    If Worksheets("Aggregate_Data").Range("A" & z).Value = Worksheets("Aggregate_Data").Range("A" & Row).Value Then
+                    If Worksheets("Aggregate_Data").Range("A" & z).Value = Worksheets("Aggregate_Data").Range("A" & row).Value Then
                         divisor = divisor + 1
                         Value = Value + Worksheets("Aggregate_Data").Range(Column & z).Value
                     End If
@@ -227,7 +261,7 @@ Sub averageColumn(Column As String)
         End If
         divisor = 0
         Value = 0
-    Next Row
+    Next row
 End Sub
 Sub teamNumber()
     Dim x As Integer
@@ -242,7 +276,7 @@ Sub exitedCommunity()
 End Sub
 Sub died()
     Dim bool As Boolean
-    bool = tf("X", "Q", "Aggregate_Data")
+    bool = tf("W", "Q", "Aggregate_Data")
 End Sub
 Sub stillHasAutoPiece()
     Dim bool As Boolean
@@ -425,7 +459,7 @@ Sub cycles()
             If numCycles = 0 Then
                 average = 0
             Else
-                average = average / numCycles
+                average = average / (numCycles * 2) / numCycles
             End If
         Else
             average = 0
@@ -475,7 +509,7 @@ Function numRows(Worksheet As String) As Integer
         End If
     Loop
 End Function
-Function AutoGamePieces(Row As String)
+Function AutoGamePieces(row As String)
     Dim x As Integer, y As Integer
     Dim strTest As String
     Dim numHighCubes As Integer
@@ -490,7 +524,7 @@ Function AutoGamePieces(Row As String)
     numHighCones = 0
     numMidCubes = 0
     numMidCones = 0
-    strTest = Worksheets("ScoutingPASS_Excel_Example").Range("G" & Row).Value
+    strTest = Worksheets("ScoutingPASS_Excel_Example").Range("G" & row).Value
     strString() = Split(strTest, ",")
     numPieces = UBound(strString) - LBound(strString) + 1
     ReDim strDouble(numPieces)
@@ -533,18 +567,18 @@ Function AutoGamePieces(Row As String)
         End If
     Next x
     End If
-    Worksheets("Autos").Range("F" + Row).Value = numHighCubes
-    Worksheets("Autos").Range("G" + Row).Value = numHighCones
-    Worksheets("Autos").Range("H" + Row).Value = numMidCubes
-    Worksheets("Autos").Range("I" + Row).Value = numMidCones
-    Worksheets("Autos").Range("J" + Row).Value = numLowPieces
-    Worksheets("Aggregate_Data").Range("B" + Row).Value = numHighCubes
-    Worksheets("Aggregate_Data").Range("C" + Row).Value = numHighCones
-    Worksheets("Aggregate_Data").Range("D" + Row).Value = numMidCubes
-    Worksheets("Aggregate_Data").Range("E" + Row).Value = numMidCones
-    Worksheets("Aggregate_Data").Range("F" + Row).Value = numLowPieces
+    Worksheets("Autos").Range("F" + row).Value = numHighCubes
+    Worksheets("Autos").Range("G" + row).Value = numHighCones
+    Worksheets("Autos").Range("H" + row).Value = numMidCubes
+    Worksheets("Autos").Range("I" + row).Value = numMidCones
+    Worksheets("Autos").Range("J" + row).Value = numLowPieces
+    Worksheets("Aggregate_Data").Range("B" + row).Value = numHighCubes
+    Worksheets("Aggregate_Data").Range("C" + row).Value = numHighCones
+    Worksheets("Aggregate_Data").Range("D" + row).Value = numMidCubes
+    Worksheets("Aggregate_Data").Range("E" + row).Value = numMidCones
+    Worksheets("Aggregate_Data").Range("F" + row).Value = numLowPieces
 End Function
-Function TeleopGamePieces(Row As String)
+Function TeleopGamePieces(row As String)
    Dim x As Integer, y As Integer
     Dim strTest As String
     Dim numHighCubes As Integer
@@ -559,7 +593,7 @@ Function TeleopGamePieces(Row As String)
     numHighCones = 0
     numMidCubes = 0
     numMidCones = 0
-    strTest = Worksheets("ScoutingPASS_Excel_Example").Range("M" & Row).Value
+    strTest = Worksheets("ScoutingPASS_Excel_Example").Range("M" & row).Value
     strString() = Split(strTest, ",")
     numPieces = UBound(strString) - LBound(strString) + 1
     ReDim strDouble(numPieces)
@@ -602,11 +636,11 @@ Function TeleopGamePieces(Row As String)
         End If
     Next x
     End If
-    Worksheets("Aggregate_Data").Range("J" + Row).Value = numHighCubes
-    Worksheets("Aggregate_Data").Range("K" + Row).Value = numHighCones
-    Worksheets("Aggregate_Data").Range("L" + Row).Value = numMidCubes
-    Worksheets("Aggregate_Data").Range("M" + Row).Value = numMidCones
-    Worksheets("Aggregate_Data").Range("N" + Row).Value = numLowPieces
+    Worksheets("Aggregate_Data").Range("J" + row).Value = numHighCubes
+    Worksheets("Aggregate_Data").Range("K" + row).Value = numHighCones
+    Worksheets("Aggregate_Data").Range("L" + row).Value = numMidCubes
+    Worksheets("Aggregate_Data").Range("M" + row).Value = numMidCones
+    Worksheets("Aggregate_Data").Range("N" + row).Value = numLowPieces
 End Function
 Sub prcss1QRCodeInput()
     saveData (getInput())
@@ -747,4 +781,3 @@ Sub saveData(inp As String)
         Next
     End If
 End Sub
-
