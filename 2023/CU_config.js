@@ -187,7 +187,7 @@ var config_data = `
       "code": "tip",
       "type": "bool"
     },
-    { "name": "Fouls",
+    { "name": "Fouls<br>(foul=1, tech=2, yellow=3, red=4)",
       "code": "fl",
       "type": "counter"
     },
