@@ -187,6 +187,10 @@ var config_data = `
       "code": "tip",
       "type": "bool"
     },
+    { "name": "Fouls",
+      "code": "fl",
+      "type": "counter"
+    },
     { "name": "Comments",
       "code": "co",
       "type": "text",
