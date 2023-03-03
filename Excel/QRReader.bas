@@ -21,31 +21,35 @@ Sub totalDocked()
         Worksheets("Aggregate_Data").Range("T" & x).Value = bots
     Next x
 End Sub
-Sub syncSkill()
-    Dim row As Integer, teamRow As Integer, hasTeam As Boolean, team As Integer, divisor As Integer, val As Double, val1 As Double
-    For row = 2 To numRows("Skill")
-        hasTeam = False
-        For teamRow = 2 To numRows("ByTeamAverageData")
-            If Worksheets("ByTeamAverageData").Range("A" + teamRow).Value = Worksheets("Skill").Range("B" + row).Value Then
-                hasTeam = True
-                Exit For
-            End If
-        Next teamRow
-        For team = row + 1 To numRows("Skill")
-            If Worksheets("Skill").Range("B" + team).Value = Worksheets("Skill").Range("B" + row).Value Then
-                divisor = divisor + 1
-                val = val + Worksheets("Skill").Range("C" + team).Value
-                val1 = val1 + Worksheets("Skill").Range("D" + team).Value
-            End If
-        Next team
-        If hasTeam Then
-        If Not divisor = 0 Then
-            Worksheets("ByTeamAverageData").Range("R" + teamRow).Value = val / divisor
-            Worksheets("ByTeamAverageData").Range("S" + teamRow).Value = val1 / divisor
-        End If
-        End If
-    Next row
-End Sub
+'Sub syncSkill()
+ '   Dim row As Integer, teamRow As Integer, hasTeam As Boolean, team As Integer, divisor As Integer, val As Double, val1 As Double
+  '  For row = 2 To numRows("Skill")
+   '     hasTeam = False
+    '    divisor = 0
+     '   val = 0
+      '  val1 = 0
+       ' For teamRow = 2 To numRows("ByTeamAverageData")
+        '    If Worksheets("ByTeamAverageData").Range("A" & teamRow).Value = Worksheets("Skill").Range("B" & row).Value Then
+         '       hasTeam = True
+          '      teamRow = teamRow - 1
+           '     Exit For
+            'End If
+'        Next teamRow
+ '       For team = row + 1 To numRows("Skill")
+  '          If Worksheets("Skill").Range("B" & teamRow).Value = Worksheets("Skill").Range("B" & team).Value Then
+   '             divisor = divisor + 1
+    '            val = val + Worksheets("Skill").Range("C" & team).Value
+     '           val1 = val1 + Worksheets("Skill").Range("D" & team).Value
+      '      End If
+       ' Next team
+        'If hasTeam Then
+'        If Not divisor = 0 Then
+ '           Worksheets("ByTeamAverageData").Range("R" & teamRow).Value = val / divisor
+  '          Worksheets("ByTeamAverageData").Range("S" & teamRow).Value = val1 / divisor
+   '     End If
+    '    End If
+'    Next row
+'End Sub
 Sub syncPit()
     Dim rows As Integer, teamRow, hasTeam As Boolean, team, rng
     For rows = 2 To numRows("PitScouting")
@@ -175,7 +179,7 @@ Sub points()
     weights(9) = 3
     weights(10) = 2
     weights(11) = 6
-    For row = 2 To numRows("ByTeamAverageData") - 1
+    For row = 2 To numRows("Aggregate_Data") - 1
         points = 0
         points = points + weights(0) * Worksheets("Aggregate_Data").Range("B" & row).Value
         points = points + weights(1) * Worksheets("Aggregate_Data").Range("C" & row).Value
@@ -266,8 +270,8 @@ End Sub
 Sub teamNumber()
     Dim x As Integer
     For x = 1 To numRows("ScoutingPASS_Excel_Example") + 1
-        Worksheets("Aggregate_Data").Range("A" & x).Value = Worksheets("ScoutingPASS_Excel_Example").Range("F" & x).Value
-        Worksheets("Autos").Range("A" & x).Value = Worksheets("ScoutingPASS_Excel_Example").Range("F" & x).Value
+        Worksheets("Aggregate_Data").Range("A" & x).Value = Worksheets("ScoutingPASS_Excel_Example").Range("E" & x).Value
+        Worksheets("Autos").Range("A" & x).Value = Worksheets("ScoutingPASS_Excel_Example").Range("E" & x).Value
     Next x
 End Sub
 Sub exitedCommunity()
@@ -477,7 +481,7 @@ Sub teleopDocking()
                 Worksheets("Aggregate_Data").Range("P" & x).Value = 5 / 3
             Else
                 If Worksheets("ScoutingPASS_Excel_Example").Range("R" & x).Value = "p" Then
-                    Worksheets("Aggregate_Data").Range("P" & x).Value = 0
+                    Worksheets("Aggregate_Data").Range("P" & x).Value = 1 / 3
                 Else
                     Worksheets("Aggregate_Data").Range("P" & x).Value = 1
                 End If
