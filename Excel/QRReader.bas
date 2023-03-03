@@ -64,9 +64,16 @@ Sub syncPit()
         Next teamRow
     If hasTeam Then
         rng = Sheets("PitScouting").Range("A" & rows & ":V" & rows)
-        Sheets("ByTeamAverageData").Range("U" & teamRow & ":AP" & teamRow) = rng
+        Sheets("ByTeamAverageData").Range("W" & teamRow & ":AP" & teamRow) = rng
     End If
     Next rows
+End Sub
+Sub fouls()
+    Dim row As Integer, fouls
+    For row = 2 to numRows("ScoutingPASS_Excel_Example") -1
+        fouls = Worksheets("Scouting_PASS_Excel_Example").Range("Y" & row).Value
+        Worksheets("Aggregate_Data").Range("V" & row).Value = fouls
+    Next row
 End Sub
 Sub sortByColumn(Column As String, Worksheet As String)
     Dim row As Integer, hold1 As Variant, hold2 As Variant, switches As Integer
@@ -217,6 +224,7 @@ Sub averageColumns()
     averageColumn ("S")
     averageColumn ("T")
     averageColumn ("U")
+    averageColumn ("V")
 End Sub
 Sub averageColumn(Column As String)
     Dim row As Integer, team, teamRow As Integer, y As Integer, z As Integer, Value
