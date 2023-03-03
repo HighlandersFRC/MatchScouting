@@ -11,6 +11,7 @@ Sub AggregateData()
     died
     skill
     points
+    fouls
     writeTeams
     averageColumns
 End Sub
