@@ -43,6 +43,10 @@ var config_data = `
       "type": "team",
       "min": 1,
       "max": 99999
+    },
+    { "name": "Has Yellow Card<br>(Including Previous Games)",
+      "code": "yc",
+      "type": "bool"
     }
   ],
   "auton": [
@@ -84,13 +88,25 @@ var config_data = `
       "showFlip": "false",
       "showUndo": "false",
       "shape": "circle 12 black red true"
-    }
-  ],
-  "endgame": [
+    },
     { "name": "Docking Timer",
       "code": "dt",
       "type": "timer"
     },
+    { "name": "Fouls",
+      "code": "fl",
+      "type": "counter"
+    },
+    { "name": "Tech Fouls",
+      "code": "tf",
+      "type": "counter"
+    },
+    { "name": "Red Card",
+      "code": "rc",
+      "type": "counter"
+    }
+  ],
+  "endgame": [
     { "name": "Final Status",
       "code": "fs",
       "type":"radio",
@@ -146,22 +162,6 @@ var config_data = `
     { "name": "Tippy<br>(almost tipped over)",
       "code": "tip",
       "type": "bool"
-    },
-    { "name": "Fouls",
-      "code": "fl",
-      "type": "counter"
-    },
-    { "name": "Tech Fouls",
-      "code": "tf",
-      "type": "counter"
-    },
-    { "name": "Has Yellow Card<br>(Including Previous Games)",
-      "code": "yc",
-      "type": "bool"
-    },
-    { "name": "Red Card",
-      "code": "rc",
-      "type": "counter"
     },
     { "name": "Comments",
       "code": "co",
