@@ -83,8 +83,7 @@ var config_data = `
       "toggleClick": "true",
       "showFlip": "false",
       "showUndo": "false",
-      "shape": "circle 12 black red true",
-      "cycleTimer": "tct"
+      "shape": "circle 12 black red true"
     }
   ],
   "endgame": [
