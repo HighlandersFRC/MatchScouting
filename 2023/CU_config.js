@@ -132,9 +132,9 @@ var config_data = `
       "code": "ds",
       "type": "radio",
       "choices": {
-        "l": "Less Effective<br>",
+        "b": "Below Average<br>",
         "a": "Average<br>",
-        "m": "More Effective<br>",
+        "aa": "Above Average<br>",
         "x": "Not Observed"
       },
       "defaultValue": "x"
@@ -145,8 +145,7 @@ var config_data = `
       "choices": {
         "b": "Below Average<br>",
         "a": "Average<br>",
-        "g": "Good<br>",
-        "e": "Excellent<br>",
+        "aa": "Above Average<br>",
         "x": "Did not play defense"
       },
       "defaultValue": "x"
