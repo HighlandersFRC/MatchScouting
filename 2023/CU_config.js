@@ -89,10 +89,6 @@ var config_data = `
       "showUndo": "false",
       "shape": "circle 12 black red true"
     },
-    { "name": "Docking Timer",
-      "code": "dt",
-      "type": "timer"
-    },
     { "name": "Fouls",
       "code": "fl",
       "type": "counter"
@@ -118,6 +114,10 @@ var config_data = `
         "x": "Not attempted"
       },
       "defaultValue": "x"
+    },
+    { "name": "Struggled to Engage",
+      "code": "stg",
+      "type": "bool"
     },
     { "name": "Total # of alliance<br>robots docked/engaged",
       "code": "dn",
