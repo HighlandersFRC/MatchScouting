@@ -222,38 +222,6 @@ End Function
 Function columnLetter(columnNumber As Integer) As String
     columnLetter = Split(Cells(1, columnNumber).Address, "$")(1)
 End Function
-Sub sortByColumn(column As String, Worksheet As String)
-    Dim row As Integer, hold1 As Variant, hold2 As Variant, switches As Integer
-    switches = 1
-    Do While Not switches = 0
-        switches = 0
-        For row = 2 To numRows(Worksheet) - 2
-            If Worksheets(Worksheet).Range(column & row).Value < Worksheets(Worksheet).Range(column & (row + 1)).Value Then
-                hold1 = Worksheets(Worksheet).Range("A" & row & ":Z" & row)
-                hold2 = Worksheets(Worksheet).Range("A" & (row + 1) & ":AZ" & (row + 1))
-                Worksheets(Worksheet).Range("A" & row & ":Z" & row) = hold2
-                Worksheets(Worksheet).Range("A" & (row + 1) & ":Z" & (row + 1)) = hold1
-                switches = switches + 1
-            End If
-        Next row
-    Loop
-End Sub
-Sub sortByColumnInverse(column As String, Worksheet As String)
-    Dim row As Integer, hold1 As Variant, hold2 As Variant, switches As Integer
-    switches = 1
-    Do While Not switches = 0
-        switches = 0
-        For row = 2 To numRows(Worksheet) - 2
-            If Worksheets(Worksheet).Range(column & row).Value > Worksheets(Worksheet).Range(column & (row + 1)).Value Then
-                hold1 = Worksheets(Worksheet).Range("A" & row & ":Z" & row)
-                hold2 = Worksheets(Worksheet).Range("A" & (row + 1) & ":AZ" & (row + 1))
-                Worksheets(Worksheet).Range("A" & row & ":Z" & row) = hold2
-                Worksheets(Worksheet).Range("A" & (row + 1) & ":Z" & (row + 1)) = hold1
-                switches = switches + 1
-            End If
-        Next row
-    Loop
-End Sub
 Sub prcss1QRCodeInput()
     saveData (getInput())
 End Sub
