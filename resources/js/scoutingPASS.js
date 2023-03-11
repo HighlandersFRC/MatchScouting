@@ -1074,9 +1074,6 @@ function clearForm() {
     } else {
       document.getElementById("input_m").value = match + 1
     }
-
-    // Robot
-    resetRobot()
   }
 
   // Clear XY coordinates
