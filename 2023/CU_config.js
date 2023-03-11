@@ -43,10 +43,6 @@ var config_data = `
       "type": "team",
       "min": 1,
       "max": 99999
-    },
-    { "name": "Has Yellow Card<br>(Including Previous Games)",
-      "code": "yc",
-      "type": "bool"
     }
   ],
   "auton": [
@@ -97,9 +93,13 @@ var config_data = `
       "code": "tf",
       "type": "counter"
     },
+    { "name": "Yellow Card<br>(Including Previous Games)",
+      "code": "yc",
+      "type": "bool"
+    },
     { "name": "Red Card",
       "code": "rc",
-      "type": "counter"
+      "type": "bool"
     }
   ],
   "endgame": [
