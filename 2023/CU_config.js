@@ -43,17 +43,6 @@ var config_data = `
       "type": "team",
       "min": 1,
       "max": 99999
-    },
-    { "name": "Auto Start Position",
-      "code": "as",
-      "type": "radio",
-      "filename": "2023/field_image_updated.png",
-      "choices": {
-        "1": "1<br>",
-        "2": "2<br>",
-        "3": "3"
-      },
-      "defaultValue": "1"
     }
   ],
   "auton": [
@@ -82,25 +71,9 @@ var config_data = `
         "x": "Not attempted"
       },
       "defaultValue": "x"
-    },
-    { "name": "Game Pieces Missed",
-      "code": "agpa",
-      "type": "counter",
-      "required": "true",
-      "defaultValue": 0,
-      "max": 5,
-      "min": 0
-    },
-    { "name": "Holding, but not<br>placing a piece",
-      "code": "gph",
-      "type": "bool"
     }
   ],
   "teleop": [
-    { "name": "Cycle Timer",
-      "code": "tct",
-      "type": "cycle"
-    },
     { "name": "Grid Scoring",
       "code": "tsg",
       "type": "clickable_image",
@@ -112,18 +85,6 @@ var config_data = `
       "showUndo": "false",
       "shape": "circle 12 black red true",
       "cycleTimer": "tct"
-    },
-    { "name": "Feeder Count<br>(Fed another bot)",
-      "code": "fo",
-      "type": "counter"
-    },
-    { "name": "Others Fed # Pieces",
-      "code": "of",
-      "type": "counter"
-    },
-    { "name": "Dropped Pieces",
-      "code": "dc",
-      "type": "counter"
     }
   ],
   "endgame": [
@@ -187,8 +148,20 @@ var config_data = `
       "code": "tip",
       "type": "bool"
     },
-    { "name": "Fouls<br>(foul=1, tech=2, yellow=3, red=4)",
+    { "name": "Fouls",
       "code": "fl",
+      "type": "counter"
+    },
+    { "name": "Tech Fouls",
+      "code": "tf",
+      "type": "counter"
+    },
+    { "name": "Has Yellow Card<br>(Including Previous Games)",
+      "code": "yc",
+      "type": "bool"
+    },
+    { "name": "Red Card",
+      "code": "rc",
       "type": "counter"
     },
     { "name": "Comments",
