@@ -20,9 +20,6 @@ Sub AggregateData()
         'Teleop Scoring
         getFrom = getFrom + 1
         sendTo = gamePieces(getFrom, sendTo, row)
-        'Docking Timer
-        getFrom = getFrom + 1
-        sendTo = copy(getFrom, sendTo, row)
         'Fouls
         getFrom = getFrom + 1
         sendTo = copy(getFrom, sendTo, row)
@@ -56,6 +53,10 @@ Sub AggregateData()
         'Tippy
         getFrom = getFrom + 1
         sendTo = copy(getFrom, sendTo, row)
+        'AutoPoints
+        sendTo = AutoPoints("Numerical", row, sendTo)
+        'Points
+        sendTo = Points("Numerical", row, sendTo)
     Next row
     writeTeams
     For x = 2 To sendTo - 1
@@ -75,13 +76,37 @@ Function writeTeams()
         Next checkRow
     Next row
 End Function
+Function Points(sheet As String, row As Integer, sendTo As Integer) As Integer
+    Dim val As Double
+    val = val + 6 * (Worksheets(sheet).Range("C" & row).Value + Worksheets(sheet).Range("D" & row).Value)
+    val = val + 4 * (Worksheets(sheet).Range("E" & row).Value + Worksheets(sheet).Range("F" & row).Value)
+    val = val + 3 * Worksheets(sheet).Range("G" & row).Value
+    val = val + 3 * Worksheets(sheet).Range("I" & row).Value
+    val = val + 8 * Worksheets(sheet).Range("J" & row).Value
+    val = val + 5 * (Worksheets(sheet).Range("K" & row).Value + Worksheets(sheet).Range("L" & row).Value)
+    val = val + 3 * (Worksheets(sheet).Range("M" & row).Value + Worksheets(sheet).Range("N" & row).Value)
+    val = val + 2 * Worksheets(sheet).Range("O" & row).Value
+    val = val + 6 * Worksheets(sheet).Range("T" & row).Value
+    Worksheets(sheet).Range(columnLetter(sendTo) & row).Value = val
+    Points = sendTo + 1
+End Function
+Function AutoPoints(sheet As String, row As Integer, sendTo As Integer) As Integer
+    Dim val As Double
+    val = val + 6 * (Worksheets(sheet).Range("C" & row).Value + Worksheets(sheet).Range("D" & row).Value)
+    val = val + 4 * (Worksheets(sheet).Range("E" & row).Value + Worksheets(sheet).Range("F" & row).Value)
+    val = val + 3 * Worksheets(sheet).Range("G" & row).Value
+    val = val + 3 * Worksheets(sheet).Range("I" & row).Value
+    val = val + 8 * Worksheets(sheet).Range("J" & row).Value
+    Worksheets(sheet).Range(columnLetter(sendTo) & row).Value = val
+    AutoPoints = sendTo + 1
+End Function
 Function averageColumn(column As Integer)
     Dim row As Integer, val As Double, div As Integer, team, x
     For row = 2 To numRows("Average") - 1
         val = 0
         div = 0
         team = Worksheets("Average").Range("A" & row).Value
-        For x = 2 To numRows("Numerical") - 1
+        For x = 2 To numRows("Numerical")
             If Worksheets("Numerical").Range("A" & x).Value = team Then
                 If Not Worksheets("Numerical").Range(columnLetter(column) & x).Value < 0 Then
                     val = val + Worksheets("Numerical").Range(columnLetter(column) & x).Value
@@ -89,7 +114,7 @@ Function averageColumn(column As Integer)
                 End If
             End If
         Next x
-        If divisor = 0 Then
+        If div = 0 Then
             Worksheets("Average").Range(columnLetter(column) & row).Value = 0
         Else
             Worksheets("Average").Range(columnLetter(column) & row).Value = val / div
@@ -188,7 +213,6 @@ Function skill(getFrom As Integer, sendTo As Integer, row As Integer) As Integer
         Case "aa":
             x = 2
     End Select
-    MsgBox columnLetter(sendTo)
     Worksheets("Numerical").Range(columnLetter(sendTo) & row).Value = x
     skill = sendTo + 1
 End Function
@@ -198,38 +222,6 @@ End Function
 Function columnLetter(columnNumber As Integer) As String
     columnLetter = Split(Cells(1, columnNumber).Address, "$")(1)
 End Function
-Sub sortByColumn(column As String, Worksheet As String)
-    Dim row As Integer, hold1 As Variant, hold2 As Variant, switches As Integer
-    switches = 1
-    Do While Not switches = 0
-        switches = 0
-        For row = 2 To numRows(Worksheet) - 2
-            If Worksheets(Worksheet).Range(column & row).Value < Worksheets(Worksheet).Range(column & (row + 1)).Value Then
-                hold1 = Worksheets(Worksheet).Range("A" & row & ":Z" & row)
-                hold2 = Worksheets(Worksheet).Range("A" & (row + 1) & ":AZ" & (row + 1))
-                Worksheets(Worksheet).Range("A" & row & ":Z" & row) = hold2
-                Worksheets(Worksheet).Range("A" & (row + 1) & ":Z" & (row + 1)) = hold1
-                switches = switches + 1
-            End If
-        Next row
-    Loop
-End Sub
-Sub sortByColumnInverse(column As String, Worksheet As String)
-    Dim row As Integer, hold1 As Variant, hold2 As Variant, switches As Integer
-    switches = 1
-    Do While Not switches = 0
-        switches = 0
-        For row = 2 To numRows(Worksheet) - 2
-            If Worksheets(Worksheet).Range(column & row).Value > Worksheets(Worksheet).Range(column & (row + 1)).Value Then
-                hold1 = Worksheets(Worksheet).Range("A" & row & ":Z" & row)
-                hold2 = Worksheets(Worksheet).Range("A" & (row + 1) & ":AZ" & (row + 1))
-                Worksheets(Worksheet).Range("A" & row & ":Z" & row) = hold2
-                Worksheets(Worksheet).Range("A" & (row + 1) & ":Z" & (row + 1)) = hold1
-                switches = switches + 1
-            End If
-        Next row
-    Loop
-End Sub
 Sub prcss1QRCodeInput()
     saveData (getInput())
 End Sub
