@@ -1,12 +1,18 @@
 @font-face {
     font-family: 'Alexis';
     font-style: normal;
-    font-weight: normal;
+    font-weight:900;
     src: local('Alexis'), url('../fonts/alex.woff') format('woff');
     src: url("../fonts/alexisv3.ttf") format('truetype');
 }
-
+@font-face {
+    font-family: 'Sans';
+    font-style: normal;
+    font-weight: normal;
+    src: url("../fonts/ComicSansMS3.ttf") format('truetype');
+}
 html, body{
+    font-family: Sans;
     height: 100%;
     width: 100%;
     margin: 0;
@@ -17,7 +23,7 @@ html, body{
 
 #prematch_table, #postmatch_table {
 
-    font-family : -apple-system, BlinkMacSystemFont, Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif !important;
+    font-family : Sans;
     text-align: center;
     color: white;
     font-size: 13px;
@@ -28,7 +34,7 @@ html, body{
 }
 
 #auton_table, #endgame_table, #teleop_table {
-    font-family : -apple-system, BlinkMacSystemFont, Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif !important;
+    font-family : Sans;
     color: black;
     font-size: 13px;
     font-style: bold;
@@ -58,21 +64,26 @@ html, body{
     border-color: white;
     border-width: 4px;
 }
-
-#qrHeader1, #qrHeader2 {
+#qr-info{
+    font-family: Sans;
+}
+#qrHeader1 {
     color: black;
 }
 
 .field-image {
+    font-family : Sans;
     margin: 2vw;
 }
 
 .field-image-src{
+    font-family : Sans;
     background-position: center;
     border: 1px solid;
 }
 
 .main-panel{
+    font-family : Sans;
     display: none;
     height: 100%;
     min-height: 100%;
@@ -87,22 +98,30 @@ html, body{
 }
 
 #prematch{
+    font-family : Sans;
     display: table;
 }
 
 #auton{
+    font-family : Sans;
+
 }
 
 #teleop{
+    font-family : Sans;
+
 }
 
 #endgame{
+    font-family : Sans;
 }
 
 #postmatch{
+    font-family : Sans;
 }
 
 #qr-code{
+  font-family : Sans;
   text-align: center;
   color: black;
 }
@@ -131,6 +150,7 @@ h2{
 }
 
 .match-label{
+    font-family: Sans;
     text-align: center;
 }
 
@@ -138,7 +158,7 @@ h2{
     width: 48%;
     margin: 1vw;
     height: 100%;
-    font: roboto;
+    font: Sans;
 }
 
 .half-button-r{
@@ -146,7 +166,7 @@ h2{
     height: 100%;
     width: 48%;
     margin: 1vw;
-    font: roboto;
+    font-family : Sans;
 }
 
 .half-button-container{
@@ -219,7 +239,7 @@ td {
 
 input {
     font-size: 16px;
-    font: roboto;
+    font-family: Sans;
 }
 
 .title {
@@ -233,12 +253,13 @@ input {
 }
 
 #qr-table {
+    font-family: Sans;
     text-align: center;
     color: black;
     background-color: white;
 }
 
 #data {
-    font-family:'Lucida Console', 'monospace';
+    font-family:Sans;
     text-align: justify;
 }
