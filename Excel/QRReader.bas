@@ -1,10 +1,12 @@
 Sub AggregateData()
-    Dim sendTo As Integer, getFrom As Integer, x As Integer, row As Integer
+    Dim sendTo As Integer, getFrom As Integer, x As Integer, row As Integer, foulSpot As Integer, lastColumn As Integer, struggled As Integer, cards As Integer
     For row = 2 To numRows("Input") - 1
         'Starts With Team Number
         getFrom = 5
         sendTo = 1
         sendTo = copy(getFrom, sendTo, row)
+        'Skip Two Spots For Points
+        sendTo = sendTo + 2
         'Auto Scoring
         getFrom = getFrom + 1
         sendTo = gamePieces(getFrom, sendTo, row)
@@ -17,23 +19,15 @@ Sub AggregateData()
         'Teleop Scoring
         getFrom = getFrom + 1
         sendTo = gamePieces(getFrom, sendTo, row)
-        'Fouls
-        getFrom = getFrom + 1
-        sendTo = copy(getFrom, sendTo, row)
-        'Tech Fouls
-        getFrom = getFrom + 1
-        sendTo = copy(getFrom, sendTo, row)
-        'Yellow Cards
-        getFrom = getFrom + 1
-        sendTo = copy(getFrom, sendTo, row)
-        'blue Cards
-        getFrom = getFrom + 1
-        sendTo = copy(getFrom, sendTo, row)
+        'Saving the position from which to grab fouls
+        foulSpot = getFrom + 1
+        getFrom = getFrom + 4
         'Final Status
         getFrom = getFrom + 1
         sendTo = docking(getFrom, sendTo, row, False)
         'Struggled
         getFrom = getFrom + 1
+        struggled = sendTo
         sendTo = copy(getFrom, sendTo, row)
         'Total Docked Bots
         getFrom = getFrom + 1
@@ -53,16 +47,62 @@ Sub AggregateData()
         'Tippy
         getFrom = getFrom + 1
         sendTo = copy(getFrom, sendTo, row)
+        'Fouls
+        getFrom = foulSpot
+        sendTo = copy(getFrom, sendTo, row)
+        'Tech Fouls
+        getFrom = getFrom + 1
+        sendTo = copy(getFrom, sendTo, row)
+        'Yellow Cards
+        getFrom = getFrom + 1
+        cards = sendTo
+        sendTo = copy(getFrom, sendTo, row)
+        'Red Cards
+        getFrom = getFrom + 1
+        sendTo = copy(getFrom, sendTo, row)
+        lastColumn = sendTo - 1
         'AutoPoints
+        sendTo = 2
         sendTo = AutoPoints("Numerical", row, sendTo)
         'Points
         sendTo = Points("Numerical", row, sendTo)
     Next row
     writeTeams
     For x = 2 To sendTo - 1
-        averageColumn (x)
+        Select Case (x):
+            Case struggled:
+                getFrom = averageColumn(x, x - 1)
+            Case cards:
+                sumColumn (x)
+            Case cards + 1:
+                sumColumn (x)
+            Case Else:
+                getFrom = averageColumn(x, x)
+            End Select
     Next x
 End Sub
+Sub checkErrors()
+    checkScoring
+    duplicateStations
+    checkNumEntries
+End Sub
+Function sumColumn(column As Integer)
+    Dim row As Integer, val As Double
+    For row = 2 To numRows("Average") - 1
+        val = 0
+        team = Worksheets("Average").Range("A" & row).Value
+        For x = 2 To numRows("Numerical")
+            If Worksheets("Numerical").Range("A" & x).Value = team Then
+                If Not Worksheets("Numerical").Range(columnLetter(column) & x).Value < 0 Then
+                    If Not Worksheets("Numerical").Range(columnLetter(tiedToColumn) & x).Value < 0 Then
+                        val = val + Worksheets("Numerical").Range(columnLetter(column) & x).Value
+                    End If
+                End If
+            End If
+        Next x
+        Worksheets("Average").Range(columnLetter(column) & row).Value = val
+    Next row
+End Function
 Sub syncPit()
     Dim rows As Integer, teamRow, hasTeam As Boolean, team, rng
     For rows = 2 To numRows("PitScouting")
@@ -80,6 +120,40 @@ Sub syncPit()
     End If
     Next rows
 End Sub
+Sub writeLinks()
+    Dim links As Double, team As Integer, eventName As String, row As Integer, json As Object, x As Integer
+    eventName = InputBox("What is the event key?(don't include a year)")
+    For row = 2 To numRows("Average") - 1
+        team = Worksheets("Average").Range("A" & row).Value
+        links = GetPolarForecastData(eventName, team)("linkPoints")
+        Worksheets("Average").Range("AD" & row).Value = links
+        Worksheets("Average").Range("C" & row).Value = Worksheets("Average").Range("C" & row).Value + links
+    Next row
+End Sub
+Function GetPolarForecastData(eventKey As String, team As Integer) As Object
+    ' Define variables
+    Dim requestUrl As String
+    Dim http As New MSXML2.XMLHTTP
+    Dim responseText As String
+    Dim json As Object
+    
+    ' Construct request URL
+    requestUrl = "https://polarforecast.azurewebsites.net/2023/" & eventKey & "/frc" & team & "/stats"
+    
+    ' Make HTTP request
+    http.Open "GET", requestUrl, False
+    http.send
+    
+    ' Get response text
+    responseText = http.responseText
+    'MsgBox responseText
+    
+    ' Parse response text as JSON object
+    Set json = JsonConverter.ParseJson(responseText)
+    
+    ' Return JSON object
+    Set GetPolarForecastData = json
+End Function
 Sub checkScoring()
     Dim tableexists As Boolean, max As Integer, tableName As String, table As ListObject, bluestr As String, redstr As String, redPos() As String, bluePos() As String, pos As Variant, checkPos As Variant, row As ListRow, tbl As ListObject, sht As Worksheet, x As Integer, y As Integer, z As Integer
     tableName = "ScoutingData"
@@ -218,26 +292,6 @@ Sub highlightEntries()
                 End Select
     Next row
 End Sub
-Sub SecondPick()
-    Dim sheet As String, row As Integer, sendTo As String, val As Double
-    sheet = "average"
-    sendTo = "AE"
-    For row = 2 To numRows(sheet)
-        val = val - 20 * Worksheets(sheet).Range("AC" & row).Value
-        val = val + Worksheets(sheet).Range("C" & row).Value
-        val = val + 2 * Worksheets(sheet).Range("AD" & row).Value
-        val = val - 2 * Worksheets(sheet).Range("Z" & row).Value
-        val = val - 5 * Worksheets(sheet).Range("AA" & row).Value
-        val = val - 10 * Worksheets(sheet).Range("AB" & row).Value
-        val = val - 3.5 * Worksheets(sheet).Range("X" & row).Value
-        val = val + 2 * Worksheets(sheet).Range("R" & row).Value
-        val = val + 5 * Worksheets(sheet).Range("J" & row).Value
-        val = val + 5 * Worksheets(sheet).Range("K" & row).Value
-        val = val + 5 * Worksheets(sheet).Range("V" & row).Value
-        val = val + 5 * Worksheets(sheet).Range("W" & row).Value
-        Worksheets(sheet).Range(sendTo & row).Value = val
-    Next row
-End Sub
 Sub duplicateStations()
     Dim tableexists As Boolean, max As Integer
     Dim tableName As String, table As ListObject
@@ -268,9 +322,13 @@ Sub duplicateStations()
         For Each checkRow In table.ListRows
             If Not checkRow.Range.Address = row.Range.Address Then
                 If checkRow.Range(table.ListColumns("matchNumber").Index).Value = row.Range(table.ListColumns("matchNumber").Index).Value Then
-                    If checkRow.Range(table.ListColumns("teamNumber").Index).Value = row.Range(table.ListColumns("teamNumber").Index).Value Or checkRow.Range(table.ListColumns("robot").Index).Value = row.Range(table.ListColumns("robot").Index).Value Then
-                        row.Range.Interior.Color = RGB(220, 20, 60)
-                        row.Range.Borders.Color = RGB(220, 20, 60)
+                    If checkRow.Range(table.ListColumns("robot").Index).Value = row.Range(table.ListColumns("robot").Index).Value Then
+                        row.Range(table.ListColumns("robot").Index).Interior.Color = RGB(255, 49, 49)
+                        row.Range(table.ListColumns("robot").Index).Borders.Color = RGB(255, 49, 49)
+                    End If
+                    If checkRow.Range(table.ListColumns("teamNumber").Index).Value = row.Range(table.ListColumns("teamNumber").Index).Value Then
+                        row.Range(table.ListColumns("teamNumber").Index).Interior.Color = RGB(255, 49, 49)
+                        row.Range(table.ListColumns("teamNumber").Index).Borders.Color = RGB(255, 49, 49)
                     End If
                 End If
             End If
@@ -311,51 +369,12 @@ Sub checkNumEntries()
             End If
         Next checkRow
         If Not x = 6 Then
-            MsgBox ("Match " & row.Range(table.ListColumns("matchNumber").Index).Value & " has " & x & " entries")
+            row.Range(table.ListColumns("matchNumber").Index).Interior.Color = RGB(255, 49, 49)
+            row.Range(table.ListColumns("matchNumber").Index).Borders.Color = RGB(255, 49, 49)
         End If
         x = 0
     Next row
 End Sub
-Function checkMatch(match As Integer)
-    Dim matchRows() As Integer, row As Integer, numMatches As Integer, x As Integer, stations() As String, scoring As String, positions As Variant, position As Variant, pos As Variant, dupPos As Integer
-    numMatches = 0
-    For row = 2 To numRows("Input") - 1
-        If Worksheets("Input").Range("C" & row).Value = match Then
-            numMatches = numMatches + 1
-        End If
-    Next row
-    ReDim matchRows(numMatches)
-    ReDim stations(numMatches)
-    x = 1
-    For row = 2 To numRows("Input") - 1
-        If Worksheets("Input").Range("C" & row) = match Then
-            matchRows(x) = row
-            stations(x) = Worksheets("Input").Range("D" & row).Value
-            If Not IsEmpty(Worksheets("Input").Range("F" & row).Value) Then
-                scoring = scoring + Worksheets("Input").Range("F" & row).Value
-                scoring = scoring + ","
-            End If
-            If Not IsEmpty(Worksheets("Input").Range("I" & row).Value) Then
-                scoring = scoring + Worksheets("Input").Range("I" & row).Value
-                scoring = scoring + ","
-            End If
-            x = x + 1
-        End If
-    Next row
-    Mid(scoring, Len(scoring)) = ""
-    positions = Split(scoring, ",")
-    For Each position In positions
-        x = -1
-        For Each pos In positions
-            If pos = position Then
-                x = x + 1
-            End If
-        Next pos
-        dupPos = dupPos + x
-    Next position
-    dupPos = dupPos / 2
-    
-End Function
 Function writeTeams()
     Dim row As Integer, rows As Integer, team, checkRow As Integer, switches As Integer, hold As Variant, temp As Variant
     Worksheets("Numerical").Range("A2:A" & (numRows("Numerical") - 1)).copy Worksheets("Average").Range("A2")
@@ -383,30 +402,110 @@ Function writeTeams()
     Loop
 End Function
 Function Points(sheet As String, row As Integer, sendTo As Integer) As Integer
-    Dim val As Double
-    val = val + 6 * (Worksheets(sheet).Range("C" & row).Value + Worksheets(sheet).Range("D" & row).Value)
-    val = val + 4 * (Worksheets(sheet).Range("E" & row).Value + Worksheets(sheet).Range("F" & row).Value)
-    val = val + 3 * Worksheets(sheet).Range("G" & row).Value
-    val = val + 3 * Worksheets(sheet).Range("I" & row).Value
-    val = val + 8 * Worksheets(sheet).Range("J" & row).Value
-    val = val + 5 * (Worksheets(sheet).Range("K" & row).Value + Worksheets(sheet).Range("L" & row).Value)
-    val = val + 3 * (Worksheets(sheet).Range("M" & row).Value + Worksheets(sheet).Range("N" & row).Value)
-    val = val + 2 * Worksheets(sheet).Range("O" & row).Value
-    val = val + 6 * Worksheets(sheet).Range("T" & row).Value
+    Dim val As Double, x As Double, y As Double
+    x = Worksheets(sheet).Range("F" & row).Value
+    y = Worksheets(sheet).Range("D" & row).Value
+    If x < 0 Then
+        x = 0
+    End If
+    If y < 0 Then
+        y = 0
+    End If
+    val = val + 6 * (x + y)
+    x = Worksheets(sheet).Range("G" & row).Value
+    y = Worksheets(sheet).Range("F" & row).Value
+    If x < 0 Then
+        x = 0
+    End If
+    If y < 0 Then
+        y = 0
+    End If
+    val = val + 4 * (x + y)
+    x = Worksheets(sheet).Range("I" & row).Value
+    If x < 0 Then
+        x = 0
+    End If
+    val = val + 3 * x
+    x = Worksheets(sheet).Range("J" & row).Value
+    If x < 0 Then
+        x = 0
+    End If
+    val = val + 3 * x
+    x = Worksheets(sheet).Range("K" & row).Value
+    If x < 0 Then
+        x = 0
+    End If
+    val = val + 8 * x
+    x = Worksheets(sheet).Range("L" & row).Value
+    y = Worksheets(sheet).Range("M" & row).Value
+    If x < 0 Then
+        x = 0
+    End If
+    If y < 0 Then
+        y = 0
+    End If
+    val = val + 5 * (x + y)
+    x = Worksheets(sheet).Range("N" & row).Value
+    y = Worksheets(sheet).Range("O" & row).Value
+    If x < 0 Then
+        x = 0
+    End If
+    If y < 0 Then
+        y = 0
+    End If
+    val = val + 3 * (x + y)
+    x = Worksheets(sheet).Range("P" & row).Value
+    If x < 0 Then
+        x = 0
+    End If
+    val = val + 2 * x
+    x = Worksheets(sheet).Range("U" & row).Value
+    If x < 0 Then
+        x = 0
+    End If
+    val = val + 6 * x
     Worksheets(sheet).Range(columnLetter(sendTo) & row).Value = val
     Points = sendTo + 1
 End Function
 Function AutoPoints(sheet As String, row As Integer, sendTo As Integer) As Integer
-    Dim val As Double
-    val = val + 6 * (Worksheets(sheet).Range("C" & row).Value + Worksheets(sheet).Range("D" & row).Value)
-    val = val + 4 * (Worksheets(sheet).Range("E" & row).Value + Worksheets(sheet).Range("F" & row).Value)
-    val = val + 3 * Worksheets(sheet).Range("G" & row).Value
-    val = val + 3 * Worksheets(sheet).Range("I" & row).Value
-    val = val + 8 * Worksheets(sheet).Range("J" & row).Value
+    Dim val As Double, x As Double, y As Double
+    x = Worksheets(sheet).Range("F" & row).Value
+    y = Worksheets(sheet).Range("D" & row).Value
+    If x < 0 Then
+        x = 0
+    End If
+    If y < 0 Then
+        y = 0
+    End If
+    val = val + 6 * (x + y)
+    x = Worksheets(sheet).Range("G" & row).Value
+    y = Worksheets(sheet).Range("F" & row).Value
+    If x < 0 Then
+        x = 0
+    End If
+    If y < 0 Then
+        y = 0
+    End If
+    val = val + 4 * (x + y)
+    x = Worksheets(sheet).Range("I" & row).Value
+    If x < 0 Then
+        x = 0
+    End If
+    val = val + 3 * x
+    x = Worksheets(sheet).Range("J" & row).Value
+    If x < 0 Then
+        x = 0
+    End If
+    val = val + 3 * x
+    x = Worksheets(sheet).Range("K" & row).Value
+    If x < 0 Then
+        x = 0
+    End If
+    val = val + 8 * x
     Worksheets(sheet).Range(columnLetter(sendTo) & row).Value = val
     AutoPoints = sendTo + 1
 End Function
-Function averageColumn(column As Integer)
+Function averageColumn(column As Integer, tiedToColumn As Integer) As Integer
     Dim row As Integer, val As Double, div As Integer, team, x
     For row = 2 To numRows("Average") - 1
         val = 0
@@ -415,8 +514,10 @@ Function averageColumn(column As Integer)
         For x = 2 To numRows("Numerical")
             If Worksheets("Numerical").Range("A" & x).Value = team Then
                 If Not Worksheets("Numerical").Range(columnLetter(column) & x).Value < 0 Then
-                    val = val + Worksheets("Numerical").Range(columnLetter(column) & x).Value
-                    div = div + 1
+                    If Not Worksheets("Numerical").Range(columnLetter(tiedToColumn) & x).Value < 0 Then
+                        val = val + Worksheets("Numerical").Range(columnLetter(column) & x).Value
+                        div = div + 1
+                    End If
                 End If
             End If
         Next x
@@ -661,4 +762,24 @@ Sub saveData(inp As String)
                 newrow.Range.Interior.Color = RGB(255, 153, 255)
         End Select
     End If
+End Sub
+Sub SecondPick()
+    Dim sheet As String, row As Integer, sendTo As String, val As Double
+    sheet = "average"
+    sendTo = "AE"
+    For row = 2 To numRows(sheet)
+        val = val - 20 * Worksheets(sheet).Range("AC" & row).Value
+        val = val + Worksheets(sheet).Range("C" & row).Value
+        val = val + 2 * Worksheets(sheet).Range("AD" & row).Value
+        val = val - 2 * Worksheets(sheet).Range("Z" & row).Value
+        val = val - 5 * Worksheets(sheet).Range("AA" & row).Value
+        val = val - 10 * Worksheets(sheet).Range("AB" & row).Value
+        val = val - 3.5 * Worksheets(sheet).Range("X" & row).Value
+        val = val + 2 * Worksheets(sheet).Range("R" & row).Value
+        val = val + 5 * Worksheets(sheet).Range("J" & row).Value
+        val = val + 5 * Worksheets(sheet).Range("K" & row).Value
+        val = val + 5 * Worksheets(sheet).Range("V" & row).Value
+        val = val + 5 * Worksheets(sheet).Range("W" & row).Value
+        Worksheets(sheet).Range(sendTo & row).Value = val
+    Next row
 End Sub
