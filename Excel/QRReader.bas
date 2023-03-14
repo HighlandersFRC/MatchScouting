@@ -5,9 +5,6 @@ Sub AggregateData()
         getFrom = 5
         sendTo = 1
         sendTo = copy(getFrom, sendTo, row)
-        'Yellow Cards
-        getFrom = getFrom + 1
-        sendTo = copy(getFrom, sendTo, row)
         'Auto Scoring
         getFrom = getFrom + 1
         sendTo = gamePieces(getFrom, sendTo, row)
@@ -26,7 +23,10 @@ Sub AggregateData()
         'Tech Fouls
         getFrom = getFrom + 1
         sendTo = copy(getFrom, sendTo, row)
-        'Red Cards
+        'Yellow Cards
+        getFrom = getFrom + 1
+        sendTo = copy(getFrom, sendTo, row)
+        'blue Cards
         getFrom = getFrom + 1
         sendTo = copy(getFrom, sendTo, row)
         'Final Status
@@ -63,6 +63,279 @@ Sub AggregateData()
         averageColumn (x)
     Next x
 End Sub
+Sub syncPit()
+    Dim rows As Integer, teamRow, hasTeam As Boolean, team, rng
+    For rows = 2 To numRows("PitScouting")
+        hasTeam = False
+        team = Worksheets("PitScouting").Range("B" & rows).Value
+        For teamRow = 2 To numRows("Average")
+            If Worksheets("Average").Range("A" & teamRow).Value = team Then
+                hasTeam = True
+                Exit For
+            End If
+        Next teamRow
+    If hasTeam Then
+        rng = Sheets("PitScouting").Range("A" & rows & ":R" & rows)
+        Sheets("Average").Range("AD" & teamRow) = rng
+    End If
+    Next rows
+End Sub
+Sub checkScoring()
+    Dim tableexists As Boolean, max As Integer, tableName As String, table As ListObject, bluestr As String, redstr As String, redPos() As String, bluePos() As String, pos As Variant, checkPos As Variant, row As ListRow, tbl As ListObject, sht As Worksheet, x As Integer, y As Integer, z As Integer
+    tableName = "ScoutingData"
+    tableexists = False
+    'Loop through each sheet and table in the workbook
+    For Each sht In ThisWorkbook.Worksheets
+        For Each tbl In sht.ListObjects
+            If tbl.Name = tableName Then
+                tableexists = True
+                Set table = tbl
+                Set ws = sht
+            End If
+        Next tbl
+    Next sht
+    If tableexists Then
+        'Set table = ws.ListObjects(tableName)
+    Else
+        MsgBox ("No Table Found")
+        Exit Sub
+    End If
+    max = Application.WorksheetFunction.max(table.ListColumns("matchNumber").Range)
+    For Each row In table.ListRows
+        bluestr = ""
+        redstr = ""
+        For Each checkRow In table.ListRows
+            If row.Range(table.ListColumns("matchNumber").Index).Value = checkRow.Range(table.ListColumns("matchNumber").Index).Value Then
+            If Not IsNull(checkRow) Then
+                If InStr(row.Range(table.ListColumns("robot").Index).Value, "r") Then
+                    If Not IsEmpty(checkRow.Range(table.ListColumns("autoScoring").Index).Value) Then
+                        redstr = redstr & checkRow.Range(table.ListColumns("autoScoring").Index).Value & ","
+                    End If
+                    If Not IsEmpty(row.Range(table.ListColumns("teleopScoring").Index).Value) Then
+                        redstr = redstr & checkRow.Range(table.ListColumns("teleopScoring").Index).Value & ","
+                    End If
+                Else
+                    If Not IsEmpty(checkRow.Range(table.ListColumns("autoScoring").Index).Value) Then
+                        bluestr = bluestr & checkRow.Range(table.ListColumns("autoScoring").Index).Value & ","
+                    End If
+                    If Not IsEmpty(checkRow.Range(table.ListColumns("teleopScoring").Index).Value) Then
+                        bluestr = bluestr & checkRow.Range(table.ListColumns("teleopScoring").Index).Value & ","
+                    End If
+                End If
+            End If
+            End If
+        Next checkRow
+        If Not bluestr = "" Then
+        z = Len(bluestr) - Len(Replace(bluestr, ",", ""))
+        ReDim bluePos(z + 1)
+        bluePos = Split(bluestr, ",")
+        z = 0
+        For Each pos In bluePos
+            For Each checkPos In bluePos
+                If Not pos = "" Or Not checkPos = "" Then
+                    If pos = checkPos Then
+                        z = z + 1
+                    End If
+                End If
+            Next checkPos
+        Next pos
+        z = z - ArrayLen(bluePos) + 1
+        z = z / 2
+        If z > 0 Then
+            row.Range(table.ListColumns("autoScoring").Index).Interior.Color = RGB(255, 49, 49)
+            row.Range(table.ListColumns("teleopScoring").Index).Interior.Color = RGB(255, 49, 49)
+            row.Range(table.ListColumns("autoScoring").Index).Borders.Color = RGB(255, 49, 49)
+            row.Range(table.ListColumns("teleopScoring").Index).Borders.Color = RGB(255, 49, 49)
+        End If
+        End If
+        If Not redstr = "" Then
+        z = Len(redstr) - Len(Replace(redstr, ",", ""))
+        ReDim redPos(z + 1)
+        redPos = Split(redstr, ",")
+        z = 0
+        For Each pos In redPos
+            For Each checkPos In redPos
+                If Not pos = "" Or Not checkPos = "" Then
+                    If pos = checkPos Then
+                        z = z + 1
+                    End If
+                End If
+            Next checkPos
+        Next pos
+        z = z - ArrayLen(redPos)
+        If z > 0 Then
+            row.Range(table.ListColumns("autoScoring").Index).Interior.Color = RGB(255, 49, 49)
+            row.Range(table.ListColumns("teleopScoring").Index).Interior.Color = RGB(255, 49, 49)
+            row.Range(table.ListColumns("autoScoring").Index).Borders.Color = RGB(255, 49, 49)
+            row.Range(table.ListColumns("teleopScoring").Index).Borders.Color = RGB(255, 49, 49)
+        End If
+        End If
+    Next row
+End Sub
+Sub highlightEntries()
+    Dim tableexists As Boolean, max As Integer
+    Dim tableName As String, table As ListObject
+    Dim row As ListRow
+    tableName = "ScoutingData"
+    tableexists = False
+    Dim tbl As ListObject
+    Dim sht As Worksheet
+    Dim x As Integer, y As Integer
+    'Loop through each sheet and table in the workbook
+    For Each sht In ThisWorkbook.Worksheets
+        For Each tbl In sht.ListObjects
+            If tbl.Name = tableName Then
+                tableexists = True
+                Set table = tbl
+                Set ws = sht
+            End If
+        Next tbl
+    Next sht
+    If tableexists Then
+        'Set table = ws.ListObjects(tableName)
+    Else
+        MsgBox ("No Table Found")
+        Exit Sub
+    End If
+    For Each row In table.ListRows
+        y = row.Range(table.ListColumns("matchNumber").Index).Value Mod 5
+                Select Case (y)
+                    Case 0:
+                        row.Range.Borders.Color = RGB(255, 255, 102)
+                        row.Range.Interior.Color = RGB(255, 255, 102)
+                    Case 1:
+                        row.Range.Borders.Color = RGB(255, 178, 102)
+                        row.Range.Interior.Color = RGB(255, 178, 102)
+                    Case 2:
+                        row.Range.Borders.Color = RGB(102, 178, 255)
+                        row.Range.Interior.Color = RGB(102, 178, 255)
+                    Case 3:
+                        row.Range.Borders.Color = RGB(102, 255, 102)
+                        row.Range.Interior.Color = RGB(102, 255, 102)
+                    Case 4:
+                        row.Range.Borders.Color = RGB(255, 153, 255)
+                        row.Range.Interior.Color = RGB(255, 153, 255)
+                End Select
+    Next row
+End Sub
+Sub duplicateStations()
+    Dim tableexists As Boolean, max As Integer
+    Dim tableName As String, table As ListObject
+    Dim rows() As ListRow
+    tableName = "ScoutingData"
+    tableexists = False
+    Dim tbl As ListObject
+    Dim sht As Worksheet
+    Dim x As Integer, y As Integer
+    'Loop through each sheet and table in the workbook
+    For Each sht In ThisWorkbook.Worksheets
+        For Each tbl In sht.ListObjects
+            If tbl.Name = tableName Then
+                tableexists = True
+                Set table = tbl
+                Set ws = sht
+            End If
+        Next tbl
+    Next sht
+    If tableexists Then
+        'Set table = ws.ListObjects(tableName)
+    Else
+        MsgBox ("No Table Found")
+        Exit Sub
+    End If
+    Dim row As ListRow, checkRow As ListRow
+    For Each row In table.ListRows
+        For Each checkRow In table.ListRows
+            If Not checkRow.Range.Address = row.Range.Address Then
+                If checkRow.Range(table.ListColumns("matchNumber").Index).Value = row.Range(table.ListColumns("matchNumber").Index).Value Then
+                    If checkRow.Range(table.ListColumns("teamNumber").Index).Value = row.Range(table.ListColumns("teamNumber").Index).Value Or checkRow.Range(table.ListColumns("robot").Index).Value = row.Range(table.ListColumns("robot").Index).Value Then
+                        row.Range.Interior.Color = RGB(220, 20, 60)
+                        row.Range.Borders.Color = RGB(220, 20, 60)
+                    End If
+                End If
+            End If
+        Next checkRow
+    Next row
+End Sub
+Sub checkNumEntries()
+    Dim tableexists As Boolean, max As Integer, z As Range, a As Range
+    Dim tableName As String, table As ListObject
+    Dim rows() As ListRow
+    tableName = "ScoutingData"
+    tableexists = False
+    Dim tbl As ListObject
+    Dim sht As Worksheet
+    Dim x As Integer, y As Integer
+    'Loop through each sheet and table in the workbook
+    For Each sht In ThisWorkbook.Worksheets
+        For Each tbl In sht.ListObjects
+            If tbl.Name = tableName Then
+                tableexists = True
+                Set table = tbl
+                Set ws = sht
+            End If
+        Next tbl
+    Next sht
+    If tableexists Then
+        'Set table = ws.ListObjects(tableName)
+    Else
+        MsgBox ("No Table Found")
+        Exit Sub
+    End If
+    Dim row As ListRow, checkRow As ListRow
+    max = Application.WorksheetFunction.max(table.ListColumns("matchNumber").Range)
+    For Each row In table.ListRows
+        For Each checkRow In table.ListRows
+            If checkRow.Range(table.ListColumns("matchNumber").Index).Value = row.Range(table.ListColumns("matchNumber").Index).Value Then
+                x = x + 1
+            End If
+        Next checkRow
+        If Not x = 6 Then
+            MsgBox ("Match " & row.Range(table.ListColumns("matchNumber").Index).Value & " has " & x & " entries")
+        End If
+        x = 0
+    Next row
+End Sub
+Function checkMatch(match As Integer)
+    Dim matchRows() As Integer, row As Integer, numMatches As Integer, x As Integer, stations() As String, scoring As String, positions As Variant, position As Variant, pos As Variant, dupPos As Integer
+    numMatches = 0
+    For row = 2 To numRows("Input") - 1
+        If Worksheets("Input").Range("C" & row).Value = match Then
+            numMatches = numMatches + 1
+        End If
+    Next row
+    ReDim matchRows(numMatches)
+    ReDim stations(numMatches)
+    x = 1
+    For row = 2 To numRows("Input") - 1
+        If Worksheets("Input").Range("C" & row) = match Then
+            matchRows(x) = row
+            stations(x) = Worksheets("Input").Range("D" & row).Value
+            If Not IsEmpty(Worksheets("Input").Range("F" & row).Value) Then
+                scoring = scoring + Worksheets("Input").Range("F" & row).Value
+                scoring = scoring + ","
+            End If
+            If Not IsEmpty(Worksheets("Input").Range("I" & row).Value) Then
+                scoring = scoring + Worksheets("Input").Range("I" & row).Value
+                scoring = scoring + ","
+            End If
+            x = x + 1
+        End If
+    Next row
+    Mid(scoring, Len(scoring)) = ""
+    positions = Split(scoring, ",")
+    For Each position In positions
+        x = -1
+        For Each pos In positions
+            If pos = position Then
+                x = x + 1
+            End If
+        Next pos
+        dupPos = dupPos + x
+    Next position
+    dupPos = dupPos / 2
+    
+End Function
 Function writeTeams()
     Dim row As Integer, rows As Integer, team, checkRow As Integer, switches As Integer, hold As Variant, temp As Variant
     Worksheets("Numerical").Range("A2:A" & (numRows("Numerical") - 1)).copy Worksheets("Average").Range("A2")
@@ -75,6 +348,19 @@ Function writeTeams()
             End If
         Next checkRow
     Next row
+    switches = 1
+    Do While Not switches = 0
+        switches = 0
+        For row = 2 To rows
+            If Worksheets("Average").Range("A" & row).Value < Worksheets("Average").Range("A" & (row + 1)).Value Then
+                hold = Worksheets("Average").Range("A" & row).Value
+                temp = Worksheets("Average").Range("A" & (row + 1)).Value
+                Worksheets("Average").Range("A" & row).Value = temp
+                Worksheets("Average").Range("A" & (row + 1)).Value = hold
+                switches = switches + 1
+            End If
+        Next row
+    Loop
 End Function
 Function Points(sheet As String, row As Integer, sendTo As Integer) As Integer
     Dim val As Double
@@ -232,6 +518,7 @@ Sub prcss6QRCodeInput()
     saveData (getInput())
     saveData (getInput())
     saveData (getInput())
+    checkNumEntries
 End Sub
 Public Function getInput()
     getInput = InputBox("Scan QR Code", "Match Scouting Input")
@@ -339,5 +626,19 @@ Sub saveData(inp As String)
         For Each str In data.Keys
             newrow.Range(table.ListColumns(str).Index) = data(str)
         Next
+        Dim x As Integer
+        x = newrow.Range(table.ListColumns("matchNumber").Index).Value Mod 5
+        Select Case (x)
+            Case 0:
+                newrow.Range.Interior.Color = RGB(255, 255, 102)
+            Case 1:
+                newrow.Range.Interior.Color = RGB(255, 178, 102)
+            Case 2:
+                newrow.Range.Interior.Color = RGB(102, 178, 255)
+            Case 3:
+                newrow.Range.Interior.Color = RGB(102, 255, 102)
+            Case 4:
+                newrow.Range.Interior.Color = RGB(255, 153, 255)
+        End Select
     End If
 End Sub
