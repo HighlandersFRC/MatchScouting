@@ -764,22 +764,14 @@ Sub saveData(inp As String)
     End If
 End Sub
 Sub SecondPick()
-    Dim sheet As String, row As Integer, sendTo As String, val As Double
+    Dim sheet As String, row As Integer, sendTo As String, val As Double, column As Integer
     sheet = "average"
     sendTo = "AE"
-    For row = 2 To numRows(sheet)
-        val = val - 20 * Worksheets(sheet).Range("AC" & row).Value
-        val = val + Worksheets(sheet).Range("C" & row).Value
-        val = val + 2 * Worksheets(sheet).Range("AD" & row).Value
-        val = val - 2 * Worksheets(sheet).Range("Z" & row).Value
-        val = val - 5 * Worksheets(sheet).Range("AA" & row).Value
-        val = val - 10 * Worksheets(sheet).Range("AB" & row).Value
-        val = val - 3.5 * Worksheets(sheet).Range("X" & row).Value
-        val = val + 2 * Worksheets(sheet).Range("R" & row).Value
-        val = val + 5 * Worksheets(sheet).Range("J" & row).Value
-        val = val + 5 * Worksheets(sheet).Range("K" & row).Value
-        val = val + 5 * Worksheets(sheet).Range("V" & row).Value
-        val = val + 5 * Worksheets(sheet).Range("W" & row).Value
+    For row = 2 To numRows(sheet) - 1
+        val = 0
+        For column = 2 To 30
+            val = val + Worksheets(sheet).Range(columnLetter(column) & 100).Value * Worksheets("Average").Range(columnLetter(column) & row).Value
+        Next column
         Worksheets(sheet).Range(sendTo & row).Value = val
     Next row
 End Sub
