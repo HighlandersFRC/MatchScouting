@@ -93,7 +93,7 @@ var config_data = `
       "code": "tf",
       "type": "counter"
     },
-    { "name": "Yellow Card<br>(Including Previous Games)",
+    { "name": "Yellow Card",
       "code": "yc",
       "type": "bool"
     },
