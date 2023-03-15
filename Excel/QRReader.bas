@@ -68,16 +68,16 @@ Sub AggregateData()
         sendTo = Points("Numerical", row, sendTo)
     Next row
     writeTeams
-    For x = 2 To sendTo - 1
+    For x = 2 To lastColumn - 1
         Select Case (x):
             Case struggled:
-                getFrom = averageColumn(x, x - 1)
+                sumColumn (x)
             Case cards:
                 sumColumn (x)
             Case cards + 1:
                 sumColumn (x)
             Case Else:
-                getFrom = averageColumn(x, x)
+                getFrom = averageColumn(x)
             End Select
     Next x
 End Sub
@@ -94,9 +94,7 @@ Function sumColumn(column As Integer)
         For x = 2 To numRows("Numerical")
             If Worksheets("Numerical").Range("A" & x).Value = team Then
                 If Not Worksheets("Numerical").Range(columnLetter(column) & x).Value < 0 Then
-                    If Not Worksheets("Numerical").Range(columnLetter(tiedToColumn) & x).Value < 0 Then
                         val = val + Worksheets("Numerical").Range(columnLetter(column) & x).Value
-                    End If
                 End If
             End If
         Next x
@@ -505,7 +503,7 @@ Function AutoPoints(sheet As String, row As Integer, sendTo As Integer) As Integ
     Worksheets(sheet).Range(columnLetter(sendTo) & row).Value = val
     AutoPoints = sendTo + 1
 End Function
-Function averageColumn(column As Integer, tiedToColumn As Integer) As Integer
+Function averageColumn(column As Integer) As Integer
     Dim row As Integer, val As Double, div As Integer, team, x
     For row = 2 To numRows("Average") - 1
         val = 0
@@ -514,10 +512,8 @@ Function averageColumn(column As Integer, tiedToColumn As Integer) As Integer
         For x = 2 To numRows("Numerical")
             If Worksheets("Numerical").Range("A" & x).Value = team Then
                 If Not Worksheets("Numerical").Range(columnLetter(column) & x).Value < 0 Then
-                    If Not Worksheets("Numerical").Range(columnLetter(tiedToColumn) & x).Value < 0 Then
                         val = val + Worksheets("Numerical").Range(columnLetter(column) & x).Value
                         div = div + 1
-                    End If
                 End If
             End If
         Next x
