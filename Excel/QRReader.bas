@@ -68,7 +68,7 @@ Sub AggregateData()
         sendTo = Points("Numerical", row, sendTo)
     Next row
     writeTeams
-    For x = 2 To lastColumn - 1
+    For x = 2 To lastColumn
         Select Case (x):
             Case struggled:
                 sumColumn (x)
@@ -179,7 +179,7 @@ Sub checkScoring()
         For Each checkRow In table.ListRows
             If row.Range(table.ListColumns("matchNumber").Index).Value = checkRow.Range(table.ListColumns("matchNumber").Index).Value Then
             If Not IsNull(checkRow) Then
-                If InStr(row.Range(table.ListColumns("robot").Index).Value, "r") Then
+                If InStr(checkRow.Range(table.ListColumns("robot").Index).Value, "r") Then
                     If Not IsEmpty(checkRow.Range(table.ListColumns("autoScoring").Index).Value) Then
                         redstr = redstr & checkRow.Range(table.ListColumns("autoScoring").Index).Value & ","
                     End If
@@ -214,10 +214,12 @@ Sub checkScoring()
         z = z - ArrayLen(bluePos) + 1
         z = z / 2
         If z > 0 Then
-            row.Range(table.ListColumns("autoScoring").Index).Interior.Color = RGB(255, 49, 49)
-            row.Range(table.ListColumns("teleopScoring").Index).Interior.Color = RGB(255, 49, 49)
-            row.Range(table.ListColumns("autoScoring").Index).Borders.Color = RGB(255, 49, 49)
-            row.Range(table.ListColumns("teleopScoring").Index).Borders.Color = RGB(255, 49, 49)
+            If InStr(row.Range(table.ListColumns("robot").Index).Value, "b") Then
+                row.Range(table.ListColumns("autoScoring").Index).Interior.Color = RGB(255, 49, 49)
+                row.Range(table.ListColumns("teleopScoring").Index).Interior.Color = RGB(255, 49, 49)
+                row.Range(table.ListColumns("autoScoring").Index).Borders.Color = RGB(255, 49, 49)
+                row.Range(table.ListColumns("teleopScoring").Index).Borders.Color = RGB(255, 49, 49)
+            End If
         End If
         End If
         If Not redstr = "" Then
@@ -236,10 +238,12 @@ Sub checkScoring()
         Next pos
         z = z - ArrayLen(redPos)
         If z > 0 Then
-            row.Range(table.ListColumns("autoScoring").Index).Interior.Color = RGB(255, 49, 49)
-            row.Range(table.ListColumns("teleopScoring").Index).Interior.Color = RGB(255, 49, 49)
-            row.Range(table.ListColumns("autoScoring").Index).Borders.Color = RGB(255, 49, 49)
-            row.Range(table.ListColumns("teleopScoring").Index).Borders.Color = RGB(255, 49, 49)
+            If InStr(row.Range(table.ListColumns("robot").Index).Value, "r") Then
+                row.Range(table.ListColumns("autoScoring").Index).Interior.Color = RGB(255, 49, 49)
+                row.Range(table.ListColumns("teleopScoring").Index).Interior.Color = RGB(255, 49, 49)
+                row.Range(table.ListColumns("autoScoring").Index).Borders.Color = RGB(255, 49, 49)
+                row.Range(table.ListColumns("teleopScoring").Index).Borders.Color = RGB(255, 49, 49)
+            End If
         End If
         End If
     Next row
@@ -764,14 +768,19 @@ Sub saveData(inp As String)
     End If
 End Sub
 Sub SecondPick()
-    Dim sheet As String, row As Integer, sendTo As String, val As Double, column As Integer
+    Dim sheet As String, row As Integer, sendTo As Integer, val As Double, column As Integer, weightsFrom As Integer, x As Integer
     sheet = "average"
-    sendTo = "AE"
+    sendTo = 31
+    weightsFrom = 100
+    For x = 1 To CInt(InputBox("How many weighted scores?"))
     For row = 2 To numRows(sheet) - 1
         val = 0
         For column = 2 To 30
-            val = val + Worksheets(sheet).Range(columnLetter(column) & 100).Value * Worksheets("Average").Range(columnLetter(column) & row).Value
+            val = val + Worksheets(sheet).Range(columnLetter(column) & weightsFrom).Value * Worksheets("Average").Range(columnLetter(column) & row).Value
         Next column
-        Worksheets(sheet).Range(sendTo & row).Value = val
+        Worksheets(sheet).Range(columnLetter(sendTo) & row).Value = val
     Next row
+    sendTo = sendTo + 1
+    weightsFrom = weightsFrom + 1
+    Next x
 End Sub
