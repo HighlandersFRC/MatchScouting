@@ -1,9 +1,13 @@
 Sub AggregateData()
     Dim sendTo As Integer, getFrom As Integer, x As Integer, row As Integer, foulSpot As Integer, lastColumn As Integer, struggled As Integer, cards As Integer
     For row = 2 To numRows("Input") - 1
-        'Starts With Team Number
-        getFrom = 5
-        sendTo = 1
+        sendTo = 0
+        'Starts With Match Number
+        getFrom = 3
+        sendTo = sendTo + 1
+        sendTo = copy(getFrom, sendTo, row)
+        'Team Number
+        getFrom = getFrom + 2
         sendTo = copy(getFrom, sendTo, row)
         'Skip Two Spots For Points
         sendTo = sendTo + 2
@@ -62,16 +66,14 @@ Sub AggregateData()
         sendTo = copy(getFrom, sendTo, row)
         lastColumn = sendTo - 1
         'AutoPoints
-        sendTo = 2
+        sendTo = 3
         sendTo = AutoPoints("Numerical", row, sendTo)
         'Points
         sendTo = Points("Numerical", row, sendTo)
     Next row
     writeTeams
-    For x = 2 To lastColumn
+    For x = 3 To lastColumn
         Select Case (x):
-            Case struggled:
-                sumColumn (x)
             Case cards:
                 sumColumn (x)
             Case cards + 1:
@@ -92,13 +94,13 @@ Function sumColumn(column As Integer)
         val = 0
         team = Worksheets("Average").Range("A" & row).Value
         For x = 2 To numRows("Numerical")
-            If Worksheets("Numerical").Range("A" & x).Value = team Then
+            If Worksheets("Numerical").Range("B" & x).Value = team Then
                 If Not Worksheets("Numerical").Range(columnLetter(column) & x).Value < 0 Then
                         val = val + Worksheets("Numerical").Range(columnLetter(column) & x).Value
                 End If
             End If
         Next x
-        Worksheets("Average").Range(columnLetter(column) & row).Value = val
+        Worksheets("Average").Range(columnLetter(column - 1) & row).Value = val
     Next row
 End Function
 Sub syncPit()
@@ -379,7 +381,7 @@ Sub checkNumEntries()
 End Sub
 Function writeTeams()
     Dim row As Integer, rows As Integer, team, checkRow As Integer, switches As Integer, hold As Variant, temp As Variant
-    Worksheets("Numerical").Range("A2:A" & (numRows("Numerical") - 1)).copy Worksheets("Average").Range("A2")
+    Worksheets("Numerical").Range("B2:B" & (numRows("Numerical") - 1)).copy Worksheets("Average").Range("A2")
     rows = numRows("Average") + 1
     For row = 2 To rows
         team = Worksheets("Average").Range("A" & row).Value
@@ -404,9 +406,12 @@ Function writeTeams()
     Loop
 End Function
 Function Points(sheet As String, row As Integer, sendTo As Integer) As Integer
-    Dim val As Double, x As Double, y As Double
-    x = Worksheets(sheet).Range("F" & row).Value
-    y = Worksheets(sheet).Range("D" & row).Value
+    Dim val As Double, x As Double, y As Double, column As Integer
+    column = 5
+    x = Worksheets(sheet).Range(columnLetter(column) & row).Value
+    column = column + 1
+    y = Worksheets(sheet).Range(columnLetter(column) & row).Value
+    column = column + 1
     If x < 0 Then
         x = 0
     End If
@@ -414,8 +419,10 @@ Function Points(sheet As String, row As Integer, sendTo As Integer) As Integer
         y = 0
     End If
     val = val + 6 * (x + y)
-    x = Worksheets(sheet).Range("G" & row).Value
-    y = Worksheets(sheet).Range("F" & row).Value
+    x = Worksheets(sheet).Range(columnLetter(column) & row).Value
+    column = column + 1
+    y = Worksheets(sheet).Range(columnLetter(column) & row).Value
+    column = column + 1
     If x < 0 Then
         x = 0
     End If
@@ -423,23 +430,28 @@ Function Points(sheet As String, row As Integer, sendTo As Integer) As Integer
         y = 0
     End If
     val = val + 4 * (x + y)
-    x = Worksheets(sheet).Range("I" & row).Value
+    x = Worksheets(sheet).Range(columnLetter(column) & row).Value
+    column = column + 1
     If x < 0 Then
         x = 0
     End If
     val = val + 3 * x
-    x = Worksheets(sheet).Range("J" & row).Value
+    x = Worksheets(sheet).Range(columnLetter(column) & row).Value
+    column = column + 2
     If x < 0 Then
         x = 0
     End If
     val = val + 3 * x
-    x = Worksheets(sheet).Range("K" & row).Value
+    x = Worksheets(sheet).Range(columnLetter(column) & row).Value
+    column = column + 1
     If x < 0 Then
         x = 0
     End If
     val = val + x
-    x = Worksheets(sheet).Range("L" & row).Value
-    y = Worksheets(sheet).Range("M" & row).Value
+    x = Worksheets(sheet).Range(columnLetter(column) & row).Value
+    column = column + 1
+    y = Worksheets(sheet).Range(columnLetter(column) & row).Value
+    column = column + 1
     If x < 0 Then
         x = 0
     End If
@@ -447,8 +459,10 @@ Function Points(sheet As String, row As Integer, sendTo As Integer) As Integer
         y = 0
     End If
     val = val + 5 * (x + y)
-    x = Worksheets(sheet).Range("N" & row).Value
-    y = Worksheets(sheet).Range("O" & row).Value
+    x = Worksheets(sheet).Range(columnLetter(column) & row).Value
+    column = column + 1
+    y = Worksheets(sheet).Range(columnLetter(column) & row).Value
+    column = column + 1
     If x < 0 Then
         x = 0
     End If
@@ -456,12 +470,14 @@ Function Points(sheet As String, row As Integer, sendTo As Integer) As Integer
         y = 0
     End If
     val = val + 3 * (x + y)
-    x = Worksheets(sheet).Range("P" & row).Value
+    x = Worksheets(sheet).Range(columnLetter(column) & row).Value
+    column = column + 2
     If x < 0 Then
         x = 0
     End If
     val = val + 2 * x
-    x = Worksheets(sheet).Range("U" & row).Value
+    x = Worksheets(sheet).Range(columnLetter(column) & row).Value
+    column = column + 1
     If x < 0 Then
         x = 0
     End If
@@ -470,9 +486,12 @@ Function Points(sheet As String, row As Integer, sendTo As Integer) As Integer
     Points = sendTo + 1
 End Function
 Function AutoPoints(sheet As String, row As Integer, sendTo As Integer) As Integer
-    Dim val As Double, x As Double, y As Double
-    x = Worksheets(sheet).Range("F" & row).Value
-    y = Worksheets(sheet).Range("D" & row).Value
+    Dim val As Double, x As Double, y As Double, column As Integer
+    column = 5
+    x = Worksheets(sheet).Range(columnLetter(column) & row).Value
+    column = column + 1
+    y = Worksheets(sheet).Range(columnLetter(column) & row).Value
+    column = column + 1
     If x < 0 Then
         x = 0
     End If
@@ -480,8 +499,10 @@ Function AutoPoints(sheet As String, row As Integer, sendTo As Integer) As Integ
         y = 0
     End If
     val = val + 6 * (x + y)
-    x = Worksheets(sheet).Range("G" & row).Value
-    y = Worksheets(sheet).Range("F" & row).Value
+    x = Worksheets(sheet).Range(columnLetter(column) & row).Value
+    column = column + 1
+    y = Worksheets(sheet).Range(columnLetter(column) & row).Value
+    column = column + 1
     If x < 0 Then
         x = 0
     End If
@@ -489,17 +510,20 @@ Function AutoPoints(sheet As String, row As Integer, sendTo As Integer) As Integ
         y = 0
     End If
     val = val + 4 * (x + y)
-    x = Worksheets(sheet).Range("I" & row).Value
+    x = Worksheets(sheet).Range(columnLetter(column) & row).Value
+    column = column + 1
     If x < 0 Then
         x = 0
     End If
     val = val + 3 * x
-    x = Worksheets(sheet).Range("J" & row).Value
+    x = Worksheets(sheet).Range(columnLetter(column) & row).Value
+    column = column + 2
     If x < 0 Then
         x = 0
     End If
     val = val + 3 * x
-    x = Worksheets(sheet).Range("K" & row).Value
+    x = Worksheets(sheet).Range(columnLetter(column) & row).Value
+    column = column + 1
     If x < 0 Then
         x = 0
     End If
@@ -514,7 +538,7 @@ Function averageColumn(column As Integer) As Integer
         div = 0
         team = Worksheets("Average").Range("A" & row).Value
         For x = 2 To numRows("Numerical")
-            If Worksheets("Numerical").Range("A" & x).Value = team Then
+            If Worksheets("Numerical").Range("B" & x).Value = team Then
                 If Not Worksheets("Numerical").Range(columnLetter(column) & x).Value < 0 Then
                         val = val + Worksheets("Numerical").Range(columnLetter(column) & x).Value
                         div = div + 1
@@ -522,9 +546,9 @@ Function averageColumn(column As Integer) As Integer
             End If
         Next x
         If div = 0 Then
-            Worksheets("Average").Range(columnLetter(column) & row).Value = 0
+            Worksheets("Average").Range(columnLetter(column - 1) & row).Value = 0
         Else
-            Worksheets("Average").Range(columnLetter(column) & row).Value = val / div
+            Worksheets("Average").Range(columnLetter(column - 1) & row).Value = val / div
         End If
     Next row
 End Function
