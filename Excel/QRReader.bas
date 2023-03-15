@@ -433,7 +433,7 @@ Function Points(sheet As String, row As Integer, sendTo As Integer) As Integer
     If x < 0 Then
         x = 0
     End If
-    val = val + 8 * x
+    val = val + x
     x = Worksheets(sheet).Range("L" & row).Value
     y = Worksheets(sheet).Range("M" & row).Value
     If x < 0 Then
@@ -461,7 +461,7 @@ Function Points(sheet As String, row As Integer, sendTo As Integer) As Integer
     If x < 0 Then
         x = 0
     End If
-    val = val + 6 * x
+    val = val + x
     Worksheets(sheet).Range(columnLetter(sendTo) & row).Value = val
     Points = sendTo + 1
 End Function
@@ -499,7 +499,7 @@ Function AutoPoints(sheet As String, row As Integer, sendTo As Integer) As Integ
     If x < 0 Then
         x = 0
     End If
-    val = val + 8 * x
+    val = val + x
     Worksheets(sheet).Range(columnLetter(sendTo) & row).Value = val
     AutoPoints = sendTo + 1
 End Function
@@ -586,15 +586,19 @@ Function docking(getFrom As Integer, sendTo As Integer, row As Integer, auto As 
     Value = Worksheets("Input").Range(columnLetter(getFrom) & row).Value
     Select Case (Value)
         Case "p":
-            Value = 1 / 3
+            Value = 2
         Case "e":
             If auto Then
-                Value = 1.5
+                Value = 12
             Else
-                Value = 5 / 3
+                Value = 10
             End If
         Case "d":
-            Value = 1
+            If auto Then
+                Value = 8
+            Else
+                Value = 6
+            End If
         Case "x":
             Value = -1
         Case "a":
