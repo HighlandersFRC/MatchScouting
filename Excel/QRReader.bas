@@ -667,7 +667,7 @@ Sub prcss6QRCodeInput()
     saveData (getInput())
     saveData (getInput())
     saveData (getInput())
-    checkNumEntries
+    checkErrors
 End Sub
 Public Function getInput()
     getInput = InputBox("Scan QR Code", "Match Scouting Input")
