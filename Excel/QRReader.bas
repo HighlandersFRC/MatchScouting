@@ -412,6 +412,7 @@ Function Points(sheet As String, row As Integer, sendTo As Integer) As Integer
     column = column + 1
     y = Worksheets(sheet).Range(columnLetter(column) & row).Value
     column = column + 1
+    '7'
     If x < 0 Then
         x = 0
     End If
@@ -423,6 +424,7 @@ Function Points(sheet As String, row As Integer, sendTo As Integer) As Integer
     column = column + 1
     y = Worksheets(sheet).Range(columnLetter(column) & row).Value
     column = column + 1
+    '9'
     If x < 0 Then
         x = 0
     End If
@@ -431,13 +433,15 @@ Function Points(sheet As String, row As Integer, sendTo As Integer) As Integer
     End If
     val = val + 4 * (x + y)
     x = Worksheets(sheet).Range(columnLetter(column) & row).Value
-    column = column + 1
+    column = column + 2
+    '10'
     If x < 0 Then
         x = 0
     End If
     val = val + 3 * x
     x = Worksheets(sheet).Range(columnLetter(column) & row).Value
-    column = column + 2
+    column = column + 1
+    '12'
     If x < 0 Then
         x = 0
     End If
@@ -492,6 +496,7 @@ Function AutoPoints(sheet As String, row As Integer, sendTo As Integer) As Integ
     column = column + 1
     y = Worksheets(sheet).Range(columnLetter(column) & row).Value
     column = column + 1
+    '7'
     If x < 0 Then
         x = 0
     End If
@@ -503,6 +508,7 @@ Function AutoPoints(sheet As String, row As Integer, sendTo As Integer) As Integ
     column = column + 1
     y = Worksheets(sheet).Range(columnLetter(column) & row).Value
     column = column + 1
+    '9'
     If x < 0 Then
         x = 0
     End If
@@ -511,13 +517,15 @@ Function AutoPoints(sheet As String, row As Integer, sendTo As Integer) As Integ
     End If
     val = val + 4 * (x + y)
     x = Worksheets(sheet).Range(columnLetter(column) & row).Value
-    column = column + 1
+    column = column + 2
+    '10'
     If x < 0 Then
         x = 0
     End If
     val = val + 3 * x
     x = Worksheets(sheet).Range(columnLetter(column) & row).Value
-    column = column + 2
+    column = column + 1
+    '12'
     If x < 0 Then
         x = 0
     End If
