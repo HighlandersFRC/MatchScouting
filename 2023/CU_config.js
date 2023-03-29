@@ -53,7 +53,7 @@ var config_data = `
       "dimensions": "9 3",
       "clickRestriction": "onePerBox",
       "toggleClick": "true",
-      "showFlip": "true",
+      "showFlip": "false",
       "showUndo": "false",
       "shape": "circle 12 black red true"
     },
@@ -83,7 +83,6 @@ var config_data = `
       "toggleClick": "true",
       "showFlip": "false",
       "showUndo": "false",
-      "shape": "circle 12 black red true"
       "shape": "circle 12 black red true"
     },
     { "name": "Fouls",
