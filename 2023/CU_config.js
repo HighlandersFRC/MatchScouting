@@ -74,16 +74,25 @@ var config_data = `
     }
   ],
   "teleop": [
-    { "name": "Grid Scoring",
-      "code": "tsg",
-      "type": "clickable_image",
-      "filename": "2023/grid_image.png",
-      "dimensions": "9 3",
-      "clickRestriction": "onePerBox",
-      "toggleClick": "true",
-      "showFlip": "false",
-      "showUndo": "false",
-      "shape": "circle 12 black red true"
+    { "name": "High Cones",
+      "code": "hc",
+      "type": "counter"
+    },
+    { "name": "High Cubes",
+      "code": "hcu",
+      "type": "counter"
+    },
+    { "name": "Mid Cones",
+      "code": "mc",
+      "type": "counter"
+    },
+    { "name": "Mid Cubes",
+      "code": "mcu",
+      "type": "counter"
+    },
+    { "name": "Low (Any Piece)",
+      "code": "lc",
+      "type": "counter"
     },
     { "name": "Fouls",
       "code": "fl",
