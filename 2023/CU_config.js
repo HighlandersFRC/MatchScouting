@@ -201,10 +201,6 @@ var config_data = `
       },
       "defaultValue": "x"
     },
-    { "name": "Was Defended",
-      "code": "wd",
-      "type": "bool"
-    },
     { "name": "Died/Immobilized",
       "code": "die",
       "type": "bool"
