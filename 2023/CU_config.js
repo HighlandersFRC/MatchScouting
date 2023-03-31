@@ -56,16 +56,29 @@ var config_data = `
     }
   ],
   "auton": [
-    { "name": "Auto Scoring",
-      "code": "asg",
-      "type": "clickable_image",
-      "filename": "2023/grid_image.png",
-      "dimensions": "9 3",
-      "clickRestriction": "onePerBox",
-      "toggleClick": "true",
-      "showFlip": "false",
-      "showUndo": "false",
-      "shape": "circle 12 black red true"
+    { "name": "High Cones",
+      "code": "ahc",
+      "type": "counter"
+    },
+    { "name": "High Cubes",
+      "code": "ahcu",
+      "type": "counter"
+    },
+    { "name": "Mid Cones",
+      "code": "amc",
+      "type": "counter"
+    },
+    { "name": "Mid Cubes",
+      "code": "amcu",
+      "type": "counter"
+    },
+    { "name": "Low (Any Piece)",
+      "code": "alc",
+      "type": "counter"
+    },
+    { "name": "Pieces Missed (Dropped)",
+      "code": "pm",
+      "type": "counter"
     },
     { "name": "Exited Community",
       "code": "ec",
