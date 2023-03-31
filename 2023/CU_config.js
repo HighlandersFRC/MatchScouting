@@ -68,13 +68,13 @@ var config_data = `
       "max": 3,
       "min": 0
     },
-    { "name": "Mid Cones",
+    { "name": "Middle Cones",
       "code": "amc",
       "type": "counter",
       "max": 6,
       "min": 0
     },
-    { "name": "Mid Cubes",
+    { "name": "Middle Cubes",
       "code": "amcu",
       "type": "counter",
       "max": 3,
@@ -119,13 +119,13 @@ var config_data = `
       "max": 3,
       "min": 0
     },
-    { "name": "Mid Cones",
+    { "name": "Middle Cones",
       "code": "mc",
       "type": "counter",
       "max": 6,
       "min": 0
     },
-    { "name": "Mid Cubes",
+    { "name": "Middle Cubes",
       "code": "mcu",
       "type": "counter",
       "max": 3,
