@@ -58,23 +58,33 @@ var config_data = `
   "auton": [
     { "name": "High Cones",
       "code": "ahc",
-      "type": "counter"
+      "type": "counter",
+      "max": 6,
+      "min": 0
     },
     { "name": "High Cubes",
       "code": "ahcu",
-      "type": "counter"
+      "type": "counter",
+      "max": 3,
+      "min": 0
     },
     { "name": "Mid Cones",
       "code": "amc",
-      "type": "counter"
+      "type": "counter",
+      "max": 6,
+      "min": 0
     },
     { "name": "Mid Cubes",
       "code": "amcu",
-      "type": "counter"
+      "type": "counter",
+      "max": 3,
+      "min": 0
     },
     { "name": "Low (Any Piece)",
       "code": "alc",
-      "type": "counter"
+      "type": "counter",
+      "max": 9,
+      "min": 0
     },
     { "name": "Pieces Missed (Dropped)",
       "code": "pm",
@@ -99,23 +109,33 @@ var config_data = `
   "teleop": [
     { "name": "High Cones",
       "code": "hc",
-      "type": "counter"
+      "type": "counter",
+      "max": 6,
+      "min": 0
     },
     { "name": "High Cubes",
       "code": "hcu",
-      "type": "counter"
+      "type": "counter",
+      "max": 3,
+      "min": 0
     },
     { "name": "Mid Cones",
       "code": "mc",
-      "type": "counter"
+      "type": "counter",
+      "max": 6,
+      "min": 0
     },
     { "name": "Mid Cubes",
       "code": "mcu",
-      "type": "counter"
+      "type": "counter",
+      "max": 3,
+      "min": 0
     },
     { "name": "Low (Any Piece)",
       "code": "lc",
-      "type": "counter"
+      "type": "counter",
+      "max": 9,
+      "min": 0
     },
     { "name": "Fouls",
       "code": "fl",
