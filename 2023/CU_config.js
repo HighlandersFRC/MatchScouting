@@ -11,13 +11,6 @@ var config_data = `
       "maxSize": 5,
       "required": "true"
     },
-    { "name": "Event",
-      "code": "e",
-      "type": "event",
-      "defaultValue": "2023alhu",
-      "required": "true",
-      "disabled": "true"
-    },
     { "name": "Match #",
       "code": "m",
       "type": "match",
@@ -170,12 +163,6 @@ var config_data = `
     { "name": "Tippy<br>(almost tipped over)",
       "code": "tip",
       "type": "bool"
-    },
-    { "name": "Comments",
-      "code": "co",
-      "type": "text",
-      "size": 15,
-      "maxSize": 100
     }
   ]
 }`;
