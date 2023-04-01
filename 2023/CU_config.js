@@ -152,16 +152,16 @@ var config_data = `
     { "name": "Driver Skill<br>(1-10)<br>(-1=Not Observed)",
       "code": "ds",
       "type": "counter",
-      "min": -1,
+      "min": 0,
       "max": 10,
-      "defaultValue": -1
+      "defaultValue": 0
     },
     { "name": "Defense Rating<br>(1-10)<br>(-1=Did Not Defend)",
       "code": "dr",
       "type": "counter",
-      "min": -1,
+      "min": 0,
       "max": 10,
-      "defaultValue": -1
+      "defaultValue": 0
     },
     { "name": "Died/Immobilized",
       "code": "die",
