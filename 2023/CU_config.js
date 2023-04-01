@@ -122,10 +122,10 @@ var config_data = `
       "code": "fs",
       "type":"radio",
       "choices": {
-        "6": "Docked (Not Engaged)<br>",
-        "10": "Engaged<br>",
-        "5": "Attempted but failed<br>",
-        "4": "Not attempted"
+        "d": "Docked (Not Engaged)<br>",
+        "e": "Engaged<br>",
+        "a": "Attempted but failed<br>",
+        "x": "Not attempted"
       },
       "defaultValue": "x"
     },
