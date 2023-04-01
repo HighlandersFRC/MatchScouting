@@ -124,8 +124,8 @@ var config_data = `
       "choices": {
         "6": "Docked (Not Engaged)<br>",
         "10": "Engaged<br>",
-        "0": "Attempted but failed<br>",
-        "-1": "Not attempted"
+        "5": "Attempted but failed<br>",
+        "4": "Not attempted"
       },
       "defaultValue": "x"
     },
