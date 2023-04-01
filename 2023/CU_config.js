@@ -48,9 +48,9 @@ var config_data = `
       "code": "sp",
       "type": "radio",
       "choices": {
-        "f": "Feeder Side<br>",
-        "mi": "Middle<br>",
-        "c": "Cable Protector"
+        "1": "Feeder Side<br>",
+        "2": "Middle<br>",
+        "3": "Cable Protector"
       },
       "defaultValue": "f"
     }
@@ -98,10 +98,10 @@ var config_data = `
       "code": "ad",
       "type":"radio",
       "choices": {
-        "d": "Docked (not Engaged)<br>",
-        "e": "Engaged<br>",
-        "a": "Attempted but failed<br>",
-        "x": "Not attempted"
+        "12": "Docked (not Engaged)<br>",
+        "8": "Engaged<br>",
+        "0": "Attempted but failed<br>",
+        "-1": "Not attempted"
       },
       "defaultValue": "x"
     }
@@ -129,10 +129,10 @@ var config_data = `
       "code": "fs",
       "type":"radio",
       "choices": {
-        "d": "Docked (Not Engaged)<br>",
-        "e": "Engaged<br>",
-        "a": "Attempted but failed<br>",
-        "x": "Not attempted"
+        "6": "Docked (Not Engaged)<br>",
+        "10": "Engaged<br>",
+        "0": "Attempted but failed<br>",
+        "-1": "Not attempted"
       },
       "defaultValue": "x"
     },
@@ -149,27 +149,19 @@ var config_data = `
     }
   ],
   "postmatch": [
-    { "name": "Driver Skill",
+    { "name": "Driver Skill<br>(-1 Means Not Observed)",
       "code": "ds",
-      "type": "radio",
-      "choices": {
-        "b": "Below Average<br>",
-        "a": "Average<br>",
-        "aa": "Above Average<br>",
-        "x": "Not Observed"
-      },
-      "defaultValue": "x"
+      "type": "counter",
+      "min": -1,
+      "max": 10,
+      "defaultValue": "-1"
     },
-    { "name": "Defense Rating",
+    { "name": "Defense Rating<br>(-1 Means Did Not Defend)",
       "code": "dr",
-      "type": "radio",
-      "choices": {
-        "b": "Below Average<br>",
-        "a": "Average<br>",
-        "aa": "Above Average<br>",
-        "x": "Did not play defense"
-      },
-      "defaultValue": "x"
+      "type": "counter",
+      "min": -1,
+      "max": 10,
+      "defaultValue": "-1"
     },
     { "name": "Died/Immobilized",
       "code": "die",
