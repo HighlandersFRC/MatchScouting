@@ -254,9 +254,9 @@ input , canvas{
 }
 
 input[type='radio']:after {
-    width: 10px;
-    height: 10px;
-    border-radius: 10px;
+    width: 15px;
+    height: 15px;
+    border-radius: 15px;
     top: -2px;
     left: -1px;
     position: relative;
@@ -267,9 +267,9 @@ input[type='radio']:after {
     border: 2px solid black;
 }
 input[type='radio']:checked:after {
-    width: 10px;
-    height: 10px;
-    border-radius: 10px;
+    width: 15px;
+    height: 15px;
+    border-radius: 15px;
     top: -2px;
     left: -1px;
     position: relative;
@@ -281,8 +281,8 @@ input[type='radio']:checked:after {
 }
 
 input[type='checkbox']:after {
-    width: 10px;
-    height: 10px;
+    width: 15px;
+    height: 15px;
     top: -2px;
     left: -1px;
     position: relative;
@@ -294,8 +294,8 @@ input[type='checkbox']:after {
 }
 
 input[type='checkbox']:checked:after {
-    width: 10px;
-    height: 10px;
+    width: 15px;
+    height: 15px;
     top: -2px;
     left: -1px;
     display: \2713;
