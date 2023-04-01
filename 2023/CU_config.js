@@ -107,36 +107,6 @@ var config_data = `
     }
   ],
   "teleop": [
-    { "name": "High Cones",
-      "code": "hc",
-      "type": "counter",
-      "max": 6,
-      "min": 0
-    },
-    { "name": "High Cubes",
-      "code": "hcu",
-      "type": "counter",
-      "max": 3,
-      "min": 0
-    },
-    { "name": "Middle Cones",
-      "code": "mc",
-      "type": "counter",
-      "max": 6,
-      "min": 0
-    },
-    { "name": "Middle Cubes",
-      "code": "mcu",
-      "type": "counter",
-      "max": 3,
-      "min": 0
-    },
-    { "name": "Low (Any Piece)",
-      "code": "lc",
-      "type": "counter",
-      "max": 9,
-      "min": 0
-    },
     { "name": "Fouls",
       "code": "fl",
       "type": "counter"
