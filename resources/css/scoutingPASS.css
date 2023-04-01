@@ -251,6 +251,7 @@ input {
     background-color: darkblue;
     color: white;
     border-color: darkblue;
+    accent-color: darkblue;
 }
 
 /* input[type='radio']:after {
