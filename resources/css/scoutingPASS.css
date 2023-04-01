@@ -245,7 +245,7 @@ td {
     padding: 10px 4px;
 }
 
-input , canvas{
+input {
     font-size: 16px;
     font-family: Source Code Pro;
     background-color: darkblue;
@@ -253,7 +253,7 @@ input , canvas{
     border-color: darkblue;
 }
 
-input[type='radio']:after {
+/* input[type='radio']:after {
     width: 15px;
     height: 15px;
     border-radius: 15px;
@@ -306,7 +306,7 @@ input[type='checkbox']:checked:after {
     visibility: visible;
     border: 2px solid white;
     color: white;
-}
+} */
 
 .title {
     width: "50%";
