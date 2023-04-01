@@ -154,14 +154,14 @@ var config_data = `
       "type": "counter",
       "min": -1,
       "max": 10,
-      "defaultValue": "-1"
+      "defaultValue": -1
     },
     { "name": "Defense Rating<br>(-1 Means Did Not Defend)",
       "code": "dr",
       "type": "counter",
       "min": -1,
       "max": 10,
-      "defaultValue": "-1"
+      "defaultValue": -1
     },
     { "name": "Died/Immobilized",
       "code": "die",
