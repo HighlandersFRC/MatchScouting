@@ -163,7 +163,6 @@ function addCounter(table, idx, name, data) {
     min = data.min
   }
   cell2.classList.add("field");
-
   var button1 = document.createElement("input");
   button1.setAttribute("type", "button");
   button1.setAttribute("onclick", "counter(this.parentElement, -1, "+max+", "+min+")");
@@ -181,7 +180,11 @@ function addCounter(table, idx, name, data) {
   }
   inp.setAttribute("style", "background-color: black; color: white;border: none; text-align: center;");
   inp.setAttribute("disabled", "");
-  inp.setAttribute("value", 0);
+  if (data.hasOwnProperty("defaultValue")){
+    inp.setAttribute("value", data.defaultValue);
+  } else {
+    inp.setAttribute("value", 0);
+  }
   inp.setAttribute("size", 2);
   inp.setAttribute("maxLength", 2);
   cell2.appendChild(inp);
