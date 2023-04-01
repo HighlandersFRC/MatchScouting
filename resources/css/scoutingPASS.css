@@ -22,7 +22,6 @@ html, body{
 }
 
 #prematch_table, #postmatch_table {
-
     font-family : Source Code Pro;
     text-align: center;
     color: white;
@@ -30,17 +29,19 @@ html, body{
     font-style: bold;
     letter-spacing: 1px;
     border-width: 4px;
-    border-color: white;
+    border-color: darkblue;
+    background-color: black;
 }
 
 #auton_table, #endgame_table, #teleop_table {
     font-family : Source Code Pro;
-    color: black;
+    color: white;
     font-size: 13px;
     font-style: bold;
     letter-spacing: 1px;
     border-width: 4px;
-    border-color: black;
+    border-color: darkblue;
+    background-color: black;
 }
 
 .button {
@@ -49,26 +50,26 @@ html, body{
 }
 
 #autonHeader, #endgameHeader, #teleopHeader1, #teleopHeader2{
-    color: black;
-    border-color: black;
+    color: white;
+    border-color: darkblue;
     border-width: 4px;
 }
 
 #postmatchHeader{
     border-width: 4px;
-    border-color: white;
+    border-color: darkblue;
 }
 
 #prematchHeader1, #prematchHeader2{
     color: white;
-    border-color: white;
+    border-color: darkblue;
     border-width: 4px;
 }
 #qr-info{
     font-family: Source Code Pro;
 }
 #qrHeader1 {
-    color: black;
+    color: white;
 }
 
 .field-image {
@@ -123,22 +124,23 @@ html, body{
 #qr-code{
   font-family : Source Code Pro;
   text-align: center;
-  color: black;
+  color: white;
 }
 
 h1{
     font-family: Alexis;
     text-align: center;
     border-style: groove;
-    border-color: white;
+    border-color: darkblue;
     border-width: 2px;
     font-size: 40px;
     padding: 10px;
     font-weight: 350;
+    background-color: black;
 }
 
 #page2, #page4 {
-    color: black;
+    color: white;
 }
 
 h2{
@@ -176,38 +178,44 @@ h2{
 #nextButton1, #nextButton2, #nextButton9, #nextButton10, .clearForm, .submitForm, #displayButton, #copyButton {
     font-family: Alexis;
     padding: 10px;
-    background-color: rgb(151, 199, 240);
+    background-color: darkblue;
     text-decoration: none;
+    color: white;
     display: inline-block;
+    border-color: darkblue;
 }
 
 #nextButton3, #nextButton4, #nextButton5, #nextButton6, #nextButton7, #nextButton8 {
     font-family: Alexis;
-    background-color: black;
+    background-color: darkblue;
     padding: 10px;
     color: white;
+    border-color: darkblue;
 }
 
 .undoButton, .flipButton {
     font-family: Alexis;
-    background-color: black;
+    background-color: darkblue;
     padding: 10px;
     color: white;
     margin-left: 20px;
+    border-color: darkblue;
 }
 
 #prevButton7, #prevButton8, #prevButton9{
     font-family: Alexis;
-    background-color: rgb(151, 199, 240);
+    background-color: darkblue;
+    border-color: darkblue;
     padding: 10px;
+    color: white;
 }
 
 #prevButton1, #prevButton2, #prevButton3, #prevButton4, #prevButton5, #prevButton6{
     font-family: Alexis;
-    background-color: black;
+    background-color: darkblue;
     padding: 10px;
     color: white;
-
+    border-color: darkblue;
 }
 
 #prematch_table{
@@ -237,9 +245,12 @@ td {
     padding: 10px 4px;
 }
 
-input {
+input , canvas{
     font-size: 16px;
     font-family: Source Code Pro;
+    background-color: darkblue;
+    color: white;
+    border-color: darkblue;
 }
 
 .title {
@@ -255,8 +266,9 @@ input {
 #qr-table {
     font-family: Source Code Pro;
     text-align: center;
-    color: black;
-    background-color: white;
+    color: white;
+    border-color: darkblue;
+    border-width: thick;
 }
 
 #data {
