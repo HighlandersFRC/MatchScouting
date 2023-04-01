@@ -11,6 +11,13 @@ var config_data = `
       "maxSize": 5,
       "required": "true"
     },
+    { "name": "Event",
+      "code": "e",
+      "type": "event",
+      "defaultValue": "2023alhu",
+      "required": "true",
+      "disabled": "true"
+    },
     { "name": "Match #",
       "code": "m",
       "type": "match",
@@ -45,7 +52,7 @@ var config_data = `
         "2": "Middle<br>",
         "3": "Cable Protector"
       },
-      "defaultValue": "f"
+      "defaultValue": "1"
     }
   ],
   "auton": [
@@ -91,12 +98,12 @@ var config_data = `
       "code": "ad",
       "type":"radio",
       "choices": {
-        "12": "Docked (not Engaged)<br>",
-        "8": "Engaged<br>",
+        "8": "Docked (not Engaged)<br>",
+        "12": "Engaged<br>",
         "0": "Attempted but failed<br>",
         "-1": "Not attempted"
       },
-      "defaultValue": "x"
+      "defaultValue": "-1"
     }
   ],
   "teleop": [
@@ -122,12 +129,12 @@ var config_data = `
       "code": "fs",
       "type":"radio",
       "choices": {
-        "d": "Docked (Not Engaged)<br>",
-        "e": "Engaged<br>",
-        "a": "Attempted but failed<br>",
-        "x": "Not attempted"
+        "6": "Docked (Not Engaged)<br>",
+        "10": "Engaged<br>",
+        "0": "Attempted but failed<br>",
+        "-1": "Not attempted"
       },
-      "defaultValue": "x"
+      "defaultValue": "-1"
     },
     { "name": "Struggled to Engage",
       "code": "stg",
@@ -142,14 +149,14 @@ var config_data = `
     }
   ],
   "postmatch": [
-    { "name": "Driver Skill<br>(-1 Means Not Observed)",
+    { "name": "Driver Skill<br>(1-10)<br>(-1=Not Observed)",
       "code": "ds",
       "type": "counter",
       "min": -1,
       "max": 10,
       "defaultValue": -1
     },
-    { "name": "Defense Rating<br>(-1 Means Did Not Defend)",
+    { "name": "Defense Rating<br>(1-10)<br>(-1=Did Not Defend)",
       "code": "dr",
       "type": "counter",
       "min": -1,
