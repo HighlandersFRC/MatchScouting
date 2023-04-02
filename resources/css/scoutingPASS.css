@@ -250,11 +250,13 @@ input {
     font-family: Source Code Pro;
     color: white;
 }
+
 input[type="radio"], input[type="checkbox"], input[type="text"], input[type="number"], input[type="button" i]{
     accent-color: darkblue;
     background-color: darkblue;
     border-color: darkblue;
 }
+
 input:disabled{
     color:gray;
 }
