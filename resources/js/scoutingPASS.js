@@ -648,6 +648,12 @@ function addCheckbox(table, idx, name, data) {
   var inp = document.createElement("input");
   inp.setAttribute("id", "input_" + data.code);
   inp.setAttribute("type", "checkbox");
+  if (data.code == "yc"){
+    inp.setAttribute("style", "accent-color: yellow")
+  }
+  if (data.code == "rc"){
+    inp.setAttribute("style", "accent-color: red")
+  }
   if (enableGoogleSheets && data.hasOwnProperty('gsCol')) {
     inp.setAttribute("name", data.gsCol);
   } else {

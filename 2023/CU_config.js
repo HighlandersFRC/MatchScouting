@@ -115,11 +115,11 @@ var config_data = `
       "code": "tf",
       "type": "counter"
     },
-    { "name": "Yellow Card",
+    { "name": "Yellow Card<br>Mark if Holding Card",
       "code": "yc",
       "type": "bool"
     },
-    { "name": "Red Card",
+    { "name": "Red Card<br>Mark if Holding Card",
       "code": "rc",
       "type": "bool"
     }
@@ -149,19 +149,21 @@ var config_data = `
     }
   ],
   "postmatch": [
-    { "name": "Driver Skill<br>(1-10)<br>(-1=Not Observed)",
+    { "name": "Driver Skill<br>(1-10)<br>(0=Not Observed)",
       "code": "ds",
       "type": "counter",
-      "min": -1,
+      "min": 0,
       "max": 10,
-      "defaultValue": -1
+      "modifier": -1,
+      "defaultValue": 0
     },
-    { "name": "Defense Rating<br>(1-10)<br>(-1=Did Not Defend)",
+    { "name": "Defense Rating<br>(1-10)<br>(0=Did Not Defend)",
       "code": "dr",
       "type": "counter",
-      "min": -1,
+      "min": 0,
       "max": 10,
-      "defaultValue": -1
+      "modifier": -1,
+      "defaultValue": 0
     },
     { "name": "Died/Immobilized",
       "code": "die",
