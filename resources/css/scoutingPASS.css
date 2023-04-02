@@ -248,10 +248,15 @@ td {
 input {
     font-size: 16px;
     font-family: Source Code Pro;
-    background-color: darkblue;
     color: white;
-    border-color: darkblue;
+}
+input[type="radio"], input[type="checkbox"], input[type="text"], input[type="number"], input[type="button" i]{
     accent-color: darkblue;
+    background-color: darkblue;
+    border-color: darkblue;
+}
+input:disabled{
+    color:gray;
 }
 
 /* input[type='radio']:after {
