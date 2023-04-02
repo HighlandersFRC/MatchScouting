@@ -167,6 +167,12 @@ function addCounter(table, idx, name, data) {
   button1.setAttribute("type", "button");
   button1.setAttribute("onclick", "counter(this.parentElement, -1, "+max+", "+min+")");
   button1.setAttribute("value", "-");
+  if(data.code == "ahc" || data.code == "amc") {
+    button1.setAttribute("style", "background-color: gold; color: black; border-color: gold;")
+  }
+  if(data.code == "ahcu" || data.code == "amcu") {
+    button1.setAttribute("style", "background-color: indigo; color: white; border-color: indigo;")
+  }
   cell2.appendChild(button1);
 
   var inp = document.createElement("input");
@@ -193,6 +199,12 @@ function addCounter(table, idx, name, data) {
   button2.setAttribute("type", "button");
   button2.setAttribute("onclick", "counter(this.parentElement, 1, "+max+", "+min+")");
   button2.setAttribute("value", "+");
+  if(data.code == "ahc" || data.code == "amc") {
+    button2.setAttribute("style", "background-color: gold; color: black; border-color: gold;")
+  }
+  if(data.code == "ahcu" || data.code == "amcu") {
+    button2.setAttribute("style", "background-color: indigo; color: white; border-color: indigo;")
+  }
   cell2.appendChild(button2);
 
   if (data.hasOwnProperty('cycleTimer')) {
@@ -553,6 +565,7 @@ function addRadio(table, idx, name, data) {
         var inp = document.createElement("input");
         inp.setAttribute("id", "input_" + data.code + "_" + c);
         inp.setAttribute("type", "radio");
+        if (c == "r1"|| c == "r2" || c == "r3") inp.setAttribute("style", "accent-color: red;")
         if (enableGoogleSheets && data.hasOwnProperty('gsCol')) {
           inp.setAttribute("name", data.gsCol);
         } else {
@@ -601,6 +614,7 @@ function addRadio(table, idx, name, data) {
         var inp = document.createElement("input");
         inp.setAttribute("id", "input_" + data.code + "_" + c);
         inp.setAttribute("type", "radio");
+        if (c == "r1"|| c == "r2" || c == "r3") inp.setAttribute("style", "accent-color: red;")
         if (enableGoogleSheets && data.hasOwnProperty('gsCol')) {
           inp.setAttribute("name", data.gsCol);
         } else {
