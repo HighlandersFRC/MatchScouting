@@ -154,7 +154,6 @@ var config_data = `
       "type": "counter",
       "min": 0,
       "max": 10,
-      "modifier": -1,
       "defaultValue": 0
     },
     { "name": "Defense Rating<br>(1-10)<br>(0=Did Not Defend)",
@@ -162,7 +161,6 @@ var config_data = `
       "type": "counter",
       "min": 0,
       "max": 10,
-      "modifier": -1,
       "defaultValue": 0
     },
     { "name": "Died/Immobilized",
