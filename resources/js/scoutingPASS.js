@@ -565,7 +565,11 @@ function addRadio(table, idx, name, data) {
         var inp = document.createElement("input");
         inp.setAttribute("id", "input_" + data.code + "_" + c);
         inp.setAttribute("type", "radio");
-        if (c == "r1"|| c == "r2" || c == "r3") inp.setAttribute("style", "accent-color: red;")
+        if (c == "r1" || c == "r2" || c == "r3") inp.setAttribute("style", "accent-color: red;")
+        if (c == -1) inp.setAttribute("style", "accent-color: gray;")
+        if (c == 0) inp.setAttribute("style", "accent-color: red;")
+        if (c == 6 || c == 8) inp.setAttribute("style", "accent-color: yellow;")
+        if (c == 10 || c == 12) inp.setAttribute("style", "accent-color: green;")
         if (enableGoogleSheets && data.hasOwnProperty('gsCol')) {
           inp.setAttribute("name", data.gsCol);
         } else {
@@ -614,7 +618,11 @@ function addRadio(table, idx, name, data) {
         var inp = document.createElement("input");
         inp.setAttribute("id", "input_" + data.code + "_" + c);
         inp.setAttribute("type", "radio");
-        if (c == "r1"|| c == "r2" || c == "r3") inp.setAttribute("style", "accent-color: red;")
+        if (c == "r1" || c == "r2" || c == "r3") inp.setAttribute("style", "accent-color: red;")
+        if (c == -1) inp.setAttribute("style", "accent-color: gray;")
+        if (c == 0) inp.setAttribute("style", "accent-color: red;")
+        if (c == 6 || c == 8) inp.setAttribute("style", "accent-color: yellow;")
+        if (c == 10 || c == 12) inp.setAttribute("style", "accent-color: green;")
         if (enableGoogleSheets && data.hasOwnProperty('gsCol')) {
           inp.setAttribute("name", data.gsCol);
         } else {
