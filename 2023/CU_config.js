@@ -170,6 +170,12 @@ var config_data = `
     { "name": "Tippy<br>(almost tipped over)",
       "code": "tip",
       "type": "bool"
+    },
+    { "name": "Comments",
+      "code": "co",
+      "type": "text",
+      "size": 16,
+      "maxSize": 100
     }
   ]
 }`;
