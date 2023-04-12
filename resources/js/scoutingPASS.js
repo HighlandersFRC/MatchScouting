@@ -173,6 +173,12 @@ function addCounter(table, idx, name, data) {
   if(data.code == "ahcu" || data.code == "amcu") {
     button1.setAttribute("style", "background-color: indigo; color: white; border-color: indigo;")
   }
+  if(data.code == "hc" || data.code == "mc") {
+    button1.setAttribute("style", "background-color: gold; color: black; border-color: gold;")
+  }
+  if(data.code == "hcu" || data.code == "mcu") {
+    button1.setAttribute("style", "background-color: indigo; color: white; border-color: indigo;")
+  }
   cell2.appendChild(button1);
 
   var inp = document.createElement("input");
@@ -203,6 +209,12 @@ function addCounter(table, idx, name, data) {
     button2.setAttribute("style", "background-color: gold; color: black; border-color: gold;")
   }
   if(data.code == "ahcu" || data.code == "amcu") {
+    button2.setAttribute("style", "background-color: indigo; color: white; border-color: indigo;")
+  }
+  if(data.code == "hc" || data.code == "mc") {
+    button2.setAttribute("style", "background-color: gold; color: black; border-color: gold;")
+  }
+  if(data.code == "hcu" || data.code == "mcu") {
     button2.setAttribute("style", "background-color: indigo; color: white; border-color: indigo;")
   }
   cell2.appendChild(button2);
