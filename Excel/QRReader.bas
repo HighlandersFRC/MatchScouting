@@ -1,93 +1,224 @@
 Sub AggregateData()
-    Dim sendTo As Integer, getFrom As Integer, x As Integer, row As Integer, foulSpot As Integer, lastColumn As Integer, struggled As Integer, cards As Integer
+    Dim sendto As Integer, getFrom As Integer, x As Integer, row As Integer, foulSpot As Integer, lastColumn As Integer, struggled As Integer, cards As Integer
     For row = 2 To numRows("Input") - 1
-        sendTo = 0
+        sendto = 0
         'Starts With Match Number
         getFrom = 3
-        sendTo = sendTo + 1
-        sendTo = copy(getFrom, sendTo, row)
+        sendto = sendto + 1
+        sendto = copy(getFrom, sendto, row)
         'Team Number
         getFrom = getFrom + 2
-        sendTo = copy(getFrom, sendTo, row)
-        'Skip Two Spots For Points
-        sendTo = sendTo + 2
-        'Auto Scoring
+        sendto = copy(getFrom, sendto, row)
+        'skip two for points
+        sendto = sendto + 2
+        'StartPosition
         getFrom = getFrom + 1
-        sendTo = gamePieces(getFrom, sendTo, row)
+        sendto = copy(getFrom, sendto, row)
+        'autoHighCones
+        getFrom = getFrom + 1
+        sendto = copy(getFrom, sendto, row)
+        'autoHighCubes
+        getFrom = getFrom + 1
+        sendto = copy(getFrom, sendto, row)
+        'autoMidCones
+        getFrom = getFrom + 1
+        sendto = copy(getFrom, sendto, row)
+        'autoMidCubes
+        getFrom = getFrom + 1
+        sendto = copy(getFrom, sendto, row)
+        'autoLowPieces
+        getFrom = getFrom + 1
+        sendto = copy(getFrom, sendto, row)
+        'piecesMissed
+        getFrom = getFrom + 1
+        sendto = copy(getFrom, sendto, row)
         'Exited Community
         getFrom = getFrom + 1
-        sendTo = copy(getFrom, sendTo, row)
+        sendto = copy(getFrom, sendto, row)
         'Auto Docking
         getFrom = getFrom + 1
-        sendTo = docking(getFrom, sendTo, row, True)
-        'Teleop Scoring
+        sendto = docking(getFrom, sendto, row, True)
+        'teleopHighCones
         getFrom = getFrom + 1
-        sendTo = gamePieces(getFrom, sendTo, row)
+        sendto = copy(getFrom, sendto, row)
+        'teleopHighCubes
+        getFrom = getFrom + 1
+        sendto = copy(getFrom, sendto, row)
+        'teleopMidCones
+        getFrom = getFrom + 1
+        sendto = copy(getFrom, sendto, row)
+        'teleopMidCubes
+        getFrom = getFrom + 1
+        sendto = copy(getFrom, sendto, row)
+        'teleopLowPieces
+        getFrom = getFrom + 1
+        sendto = copy(getFrom, sendto, row)
+        'supercharged
+        getFrom = getFrom + 1
+        sendto = copy(getFrom, sendto, row)
         'Saving the position from which to grab fouls
         foulSpot = getFrom + 1
         getFrom = getFrom + 4
         'Final Status
         getFrom = getFrom + 1
-        sendTo = docking(getFrom, sendTo, row, False)
+        sendto = docking(getFrom, sendto, row, False)
         'Struggled
         getFrom = getFrom + 1
-        struggled = sendTo
-        sendTo = copy(getFrom, sendTo, row)
+        struggled = sendto
+        sendto = copy(getFrom, sendto, row)
         'Total Docked Bots
         getFrom = getFrom + 1
-        sendTo = copy(getFrom, sendTo, row)
+        sendto = copy(getFrom, sendto, row)
         'Driver Skill
         getFrom = getFrom + 1
-        sendTo = skill(getFrom, sendTo, row)
+        sendto = copy(getFrom, sendto, row)
         'Defense Rating
         getFrom = getFrom + 1
-        sendTo = skill(getFrom, sendTo, row)
-        'Was Defended
-        getFrom = getFrom + 1
-        sendTo = copy(getFrom, sendTo, row)
+        sendto = copy(getFrom, sendto, row)
         'Died
         getFrom = getFrom + 1
-        sendTo = copy(getFrom, sendTo, row)
+        sendto = copy(getFrom, sendto, row)
         'Tippy
         getFrom = getFrom + 1
-        sendTo = copy(getFrom, sendTo, row)
+        sendto = copy(getFrom, sendto, row)
         'Fouls
         getFrom = foulSpot
-        sendTo = copy(getFrom, sendTo, row)
+        sendto = copy(getFrom, sendto, row)
         'Tech Fouls
         getFrom = getFrom + 1
-        sendTo = copy(getFrom, sendTo, row)
+        sendto = copy(getFrom, sendto, row)
         'Yellow Cards
         getFrom = getFrom + 1
-        cards = sendTo
-        sendTo = copy(getFrom, sendTo, row)
+        cards = sendto
+        sendto = copy(getFrom, sendto, row)
         'Red Cards
         getFrom = getFrom + 1
-        sendTo = copy(getFrom, sendTo, row)
-        lastColumn = sendTo - 1
-        'AutoPoints
-        sendTo = 3
-        sendTo = AutoPoints("Numerical", row, sendTo)
+        sendto = copy(getFrom, sendto, row)
+        lastColumn = sendto - 1
+        'Auto Points
+        sendto = autoPoints(3, row)
         'Points
-        sendTo = Points("Numerical", row, sendTo)
+        sendto = points(4, row)
     Next row
     writeTeams
     For x = 3 To lastColumn
         Select Case (x):
-            Case cards:
-                sumColumn (x)
-            Case cards + 1:
-                sumColumn (x)
+            Case yc:
+                hasCard (x)
+            Case rc:
+                hasCard (x)
             Case Else:
                 getFrom = averageColumn(x)
-            End Select
+        End Select
     Next x
 End Sub
 Sub checkErrors()
-    checkScoring
+    highlightEntries
     duplicateStations
     checkNumEntries
 End Sub
+Function autoPoints(sendto As Integer, row As Integer) As Integer
+    Dim ahc As Integer, ahcu As Integer, amc As Integer, amcu As Integer, alp As Integer, ec As Integer, ad As Integer, thc As Integer, thcu As Integer, tmc As Integer, tmcu As Integer, tlp As Integer, td As Integer, yc As Integer, rc As Integer
+    Dim ahcval, ahcuval, amcval, amcuval, alpval, ecval, adval, sheet As String, val As Double
+    sheet = "Numerical"
+    ahc = 6
+    ahcu = 7
+    amc = 8
+    amcu = 9
+    alp = 10
+    ec = 12
+    ad = 13
+    thc = 14
+    thcu = 15
+    tmc = 16
+    tmcu = 17
+    tlp = 18
+    td = 19
+    yc = 29
+    rc = 30
+    ahcuval = Worksheets(sheet).Range(columnLetter(ahcu) & row).Value
+    ahcval = Worksheets(sheet).Range(columnLetter(ahc) & row).Value
+    amcval = Worksheets(sheet).Range(columnLetter(amc) & row).Value
+    amcuval = Worksheets(sheet).Range(columnLetter(amcu) & row).Value
+    alpval = Worksheets(sheet).Range(columnLetter(alp) & row).Value
+    ecval = Worksheets(sheet).Range(columnLetter(ec) & row).Value
+    adval = Worksheets(sheet).Range(columnLetter(ad) & row).Value
+    val = 0
+    val = val + (ahcuval + ahcval) * 6
+    val = val + (amcval + amcuval) * 4
+    val = val + (ecval + alpval) * 3
+    val = val + adval
+    Worksheets(sheet).Range(columnLetter(sendto) & row).Value = val
+    autoPoints = sendto + 1
+End Function
+Function points(sendto As Integer, row As Integer) As Integer
+    Dim ahc As Integer, ahcu As Integer, amc As Integer, amcu As Integer, alp As Integer, ec As Integer, ad As Integer, thc As Integer, thcu As Integer, tmc As Integer, tmcu As Integer, tlp As Integer, td As Integer, yc As Integer, rc As Integer
+    Dim ahcval, ahcuval, amcval, amcuval, alpval, ecval, adval, thcval, thcuval, tmcval, tmcuval, tlpval, tdval, sheet As String, val As Double
+    sheet = "Numerical"
+    ahc = 6
+    ahcu = 7
+    amc = 8
+    amcu = 9
+    alp = 10
+    ec = 12
+    ad = 13
+    thc = 14
+    thcu = 15
+    tmc = 16
+    tmcu = 17
+    tlp = 18
+    td = 19
+    yc = 29
+    rc = 30
+    ahcuval = Worksheets(sheet).Range(columnLetter(ahcu) & row).Value
+    ahcval = Worksheets(sheet).Range(columnLetter(ahc) & row).Value
+    amcval = Worksheets(sheet).Range(columnLetter(amc) & row).Value
+    amcuval = Worksheets(sheet).Range(columnLetter(amcu) & row).Value
+    alpval = Worksheets(sheet).Range(columnLetter(alp) & row).Value
+    ecval = Worksheets(sheet).Range(columnLetter(ec) & row).Value
+    adval = Worksheets(sheet).Range(columnLetter(ad) & row).Value
+    thcuval = Worksheets(sheet).Range(columnLetter(thcu) & row).Value
+    thcval = Worksheets(sheet).Range(columnLetter(thc) & row).Value
+    tmcval = Worksheets(sheet).Range(columnLetter(tmc) & row).Value
+    tmcuval = Worksheets(sheet).Range(columnLetter(tmcu) & row).Value
+    tlpval = Worksheets(sheet).Range(columnLetter(tlp) & row).Value
+    tdval = Worksheets(sheet).Range(columnLetter(td) & row).Value
+    val = 0
+    val = val + (ahcuval + ahcval) * 6
+    val = val + (thcuval + thcval) * 5
+    val = val + (amcval + amcuval) * 4
+    val = val + (ecval + alpval + tmcval + tmcuval) * 3
+    val = val + 2 * tlpval
+    val = val + adval + tdval
+    Worksheets(sheet).Range(columnLetter(sendto) & row).Value = val
+    points = sendto + 1
+End Function
+Function docking(getFrom As Integer, sendto As Integer, row As Integer, auto As Boolean) As Integer
+    Dim Value As Variant
+    Value = Worksheets("Input").Range(columnLetter(getFrom) & row).Value
+    Select Case (Value)
+        Case "p":
+            Value = 2
+        Case "e":
+            If auto Then
+                Value = 12
+            Else
+                Value = 10
+            End If
+        Case "d":
+            If auto Then
+                Value = 8
+            Else
+                Value = 6
+            End If
+        Case "x":
+            Value = -1
+        Case "a":
+            Value = 0
+    End Select
+    Worksheets("Numerical").Range(columnLetter(sendto) & row).Value = Value
+    docking = sendto + 1
+End Function
 Function sumColumn(column As Integer)
     Dim row As Integer, val As Double
     For row = 2 To numRows("Average") - 1
@@ -130,6 +261,71 @@ Sub writeLinks()
         Worksheets("Average").Range("C" & row).Value = Worksheets("Average").Range("C" & row).Value + links
     Next row
 End Sub
+Sub oprCombos()
+    Dim tableexists As Boolean, table As ListObject, ws As Worksheet, tablename As String, teams As Object, eventKey As String, team As Variant, teamnum As Integer, i As Integer, row As ListRow, polar As Object, stat As Object, tba As Object
+    eventKey = InputBox("eventKey")
+    Set ws = ActiveSheet
+    tablename = "OPRs"
+    tableexists = False
+        Dim tbl As ListObject
+        Dim sht As Worksheet
+        'Loop through each sheet and table in the workbook
+        For Each sht In ThisWorkbook.Worksheets
+            For Each tbl In sht.ListObjects
+                If tbl.Name = tablename Then
+                    tableexists = True
+                    Set table = tbl
+                    Set ws = sht
+                End If
+            Next tbl
+        Next sht
+        If tableexists Then
+            'Set table = ws.ListObjects(tableName)
+        Else
+            Dim tablerange As Range
+            ws.ListObjects.Add(xlSrcRange, Range("A1:H1"), , xlYes).Name = tablename
+            i = 0
+            Set table = ws.ListObjects(tablename)
+            table.Range(1, i + 1) = "Team"
+            i = i + 1
+            table.Range(1, i + 1) = "TBA + Polar + Statbotics"
+            i = i + 1
+            table.Range(1, i + 1) = "Polar + Statbotics"
+            i = i + 1
+            table.Range(1, i + 1) = "TBA + Statbotics"
+            i = i + 1
+            table.Range(1, i + 1) = "TBA + Polar"
+            i = i + 1
+            table.Range(1, i + 1) = "Statbotics"
+            i = i + 1
+            table.Range(1, i + 1) = "TBA"
+            i = i + 1
+            table.Range(1, i + 1) = "Polar"
+            i = i + 1
+        End If
+        Set teams = GetTeams(eventKey)
+        Set tba = GetOPRs(eventKey)
+        i = 0
+        For i = table.ListRows.Count To 1 Step -1
+                table.ListRows(i).Delete
+        Next i
+        i = 0
+        For Each team In teams
+            i = i + 1
+            table.ListRows.Add.Range(table.ListColumns("Team").Index).Value = team("team_number")
+            table.ListRows(i).Range(table.ListColumns("TBA").Index).Value = tba("oprs")(team("key"))
+            Set polar = GetPolarForecastData((Split(eventKey, "2023")(1)), (team("team_number")))
+            table.ListRows(i).Range(table.ListColumns("Polar").Index).Value = polar("OPR")
+            Set stat = GetStatboticsData(eventKey, (team("team_number")))
+            table.ListRows(i).Range(table.ListColumns("Statbotics").Index).Value = stat("epa_end")
+            With table.ListRows(i)
+                .Range(table.ListColumns("TBA + Polar + Statbotics").Index).Value = (.Range(table.ListColumns("Statbotics").Index).Value + .Range(table.ListColumns("Polar").Index).Value + .Range(table.ListColumns("TBA").Index).Value) / 3
+                .Range(table.ListColumns("Polar + Statbotics").Index).Value = (.Range(table.ListColumns("Statbotics").Index).Value + .Range(table.ListColumns("Polar").Index).Value) / 2
+                .Range(table.ListColumns("TBA + Polar").Index).Value = (.Range(table.ListColumns("TBA").Index).Value + .Range(table.ListColumns("Polar").Index).Value) / 2
+                .Range(table.ListColumns("TBA + Statbotics").Index).Value = (.Range(table.ListColumns("Statbotics").Index).Value + .Range(table.ListColumns("TBA").Index).Value) / 2
+            End With
+        Next team
+End Sub
 Function GetPolarForecastData(eventKey As String, team As Integer) As Object
     ' Define variables
     Dim requestUrl As String
@@ -154,107 +350,85 @@ Function GetPolarForecastData(eventKey As String, team As Integer) As Object
     ' Return JSON object
     Set GetPolarForecastData = json
 End Function
-Sub checkScoring()
-    Dim tableexists As Boolean, max As Integer, tableName As String, table As ListObject, bluestr As String, redstr As String, redPos() As String, bluePos() As String, pos As Variant, checkPos As Variant, row As ListRow, tbl As ListObject, sht As Worksheet, x As Integer, y As Integer, z As Integer
-    tableName = "ScoutingData"
-    tableexists = False
-    'Loop through each sheet and table in the workbook
-    For Each sht In ThisWorkbook.Worksheets
-        For Each tbl In sht.ListObjects
-            If tbl.Name = tableName Then
-                tableexists = True
-                Set table = tbl
-                Set ws = sht
-            End If
-        Next tbl
-    Next sht
-    If tableexists Then
-        'Set table = ws.ListObjects(tableName)
-    Else
-        MsgBox ("No Table Found")
-        Exit Sub
-    End If
-    max = Application.WorksheetFunction.max(table.ListColumns("matchNumber").Range)
-    For Each row In table.ListRows
-        bluestr = ""
-        redstr = ""
-        For Each checkRow In table.ListRows
-            If row.Range(table.ListColumns("matchNumber").Index).Value = checkRow.Range(table.ListColumns("matchNumber").Index).Value Then
-            If Not IsNull(checkRow) Then
-                If InStr(checkRow.Range(table.ListColumns("robot").Index).Value, "r") Then
-                    If Not IsEmpty(checkRow.Range(table.ListColumns("autoScoring").Index).Value) Then
-                        redstr = redstr & checkRow.Range(table.ListColumns("autoScoring").Index).Value & ","
-                    End If
-                    If Not IsEmpty(row.Range(table.ListColumns("teleopScoring").Index).Value) Then
-                        redstr = redstr & checkRow.Range(table.ListColumns("teleopScoring").Index).Value & ","
-                    End If
-                Else
-                    If Not IsEmpty(checkRow.Range(table.ListColumns("autoScoring").Index).Value) Then
-                        bluestr = bluestr & checkRow.Range(table.ListColumns("autoScoring").Index).Value & ","
-                    End If
-                    If Not IsEmpty(checkRow.Range(table.ListColumns("teleopScoring").Index).Value) Then
-                        bluestr = bluestr & checkRow.Range(table.ListColumns("teleopScoring").Index).Value & ","
-                    End If
-                End If
-            End If
-            End If
-        Next checkRow
-        If Not bluestr = "" Then
-        z = Len(bluestr) - Len(Replace(bluestr, ",", ""))
-        ReDim bluePos(z + 1)
-        bluePos = Split(bluestr, ",")
-        z = 0
-        For Each pos In bluePos
-            For Each checkPos In bluePos
-                If Not pos = "" Or Not checkPos = "" Then
-                    If pos = checkPos Then
-                        z = z + 1
-                    End If
-                End If
-            Next checkPos
-        Next pos
-        z = z - ArrayLen(bluePos) + 1
-        z = z / 2
-        If z > 0 Then
-            If InStr(row.Range(table.ListColumns("robot").Index).Value, "b") Then
-                row.Range(table.ListColumns("autoScoring").Index).Interior.Color = RGB(255, 49, 49)
-                row.Range(table.ListColumns("teleopScoring").Index).Interior.Color = RGB(255, 49, 49)
-                row.Range(table.ListColumns("autoScoring").Index).Borders.Color = RGB(255, 49, 49)
-                row.Range(table.ListColumns("teleopScoring").Index).Borders.Color = RGB(255, 49, 49)
-            End If
-        End If
-        End If
-        If Not redstr = "" Then
-        z = Len(redstr) - Len(Replace(redstr, ",", ""))
-        ReDim redPos(z + 1)
-        redPos = Split(redstr, ",")
-        z = 0
-        For Each pos In redPos
-            For Each checkPos In redPos
-                If Not pos = "" Or Not checkPos = "" Then
-                    If pos = checkPos Then
-                        z = z + 1
-                    End If
-                End If
-            Next checkPos
-        Next pos
-        z = z - ArrayLen(redPos)
-        If z > 0 Then
-            If InStr(row.Range(table.ListColumns("robot").Index).Value, "r") Then
-                row.Range(table.ListColumns("autoScoring").Index).Interior.Color = RGB(255, 49, 49)
-                row.Range(table.ListColumns("teleopScoring").Index).Interior.Color = RGB(255, 49, 49)
-                row.Range(table.ListColumns("autoScoring").Index).Borders.Color = RGB(255, 49, 49)
-                row.Range(table.ListColumns("teleopScoring").Index).Borders.Color = RGB(255, 49, 49)
-            End If
-        End If
-        End If
-    Next row
-End Sub
+Function GetTeams(eventKey As String) As Object
+    ' Define variables
+    Dim requestUrl As String
+    Dim http As New MSXML2.XMLHTTP
+    Dim responseText As String
+    Dim json As Object
+    
+    ' Construct request URL
+    requestUrl = "https://www.thebluealliance.com/api/v3/event/" & eventKey & "/teams"
+    
+    ' Make HTTP request
+    http.Open "GET", requestUrl, False
+    http.setRequestHeader "X-TBA-Auth-Key", "mRpZzqVWf2fc5UNyrzb7UChKwh9edXKlJHEdeE5L5J7jX6BCGmBHIhnCmkZDHnMC"
+    http.send
+    
+    ' Get response text
+    responseText = http.responseText
+    'MsgBox responseText
+    
+    ' Parse response text as JSON object
+    Set json = JsonConverter.ParseJson(responseText)
+    
+    ' Return JSON object
+    Set GetTeams = json
+End Function
+Function GetOPRs(eventKey As String) As Object
+    ' Define variables
+    Dim requestUrl As String
+    Dim http As New MSXML2.XMLHTTP
+    Dim responseText As String
+    Dim json As Object
+    
+    ' Construct request URL
+    requestUrl = "https://www.thebluealliance.com/api/v3/event/" & eventKey & "/oprs"
+    
+    ' Make HTTP request
+    http.Open "GET", requestUrl, False
+    http.setRequestHeader "X-TBA-Auth-Key", "mRpZzqVWf2fc5UNyrzb7UChKwh9edXKlJHEdeE5L5J7jX6BCGmBHIhnCmkZDHnMC"
+    http.send
+    
+    ' Get response text
+    responseText = http.responseText
+    'MsgBox responseText
+    
+    ' Parse response text as JSON object
+    Set json = JsonConverter.ParseJson(responseText)
+    
+    ' Return JSON object
+    Set GetOPRs = json
+End Function
+Function GetStatboticsData(eventKey As String, team As Integer) As Object
+    ' Define variables
+    Dim requestUrl As String
+    Dim http As New MSXML2.XMLHTTP
+    Dim responseText As String
+    Dim json As Object
+    
+    ' Construct request URL
+    requestUrl = "https://api.statbotics.io/v2/team_event/" & team & "/" & eventKey
+    
+    ' Make HTTP request
+    http.Open "GET", requestUrl, False
+    http.send
+    
+    ' Get response text
+    responseText = http.responseText
+    'MsgBox responseText
+    
+    ' Parse response text as JSON object
+    Set json = JsonConverter.ParseJson(responseText)
+    
+    ' Return JSON object
+    Set GetStatboticsData = json
+End Function
 Sub highlightEntries()
     Dim tableexists As Boolean, max As Integer
-    Dim tableName As String, table As ListObject
+    Dim tablename As String, table As ListObject
     Dim row As ListRow
-    tableName = "ScoutingData"
+    tablename = "ScoutingData"
     tableexists = False
     Dim tbl As ListObject
     Dim sht As Worksheet
@@ -262,7 +436,7 @@ Sub highlightEntries()
     'Loop through each sheet and table in the workbook
     For Each sht In ThisWorkbook.Worksheets
         For Each tbl In sht.ListObjects
-            If tbl.Name = tableName Then
+            If tbl.Name = tablename Then
                 tableexists = True
                 Set table = tbl
                 Set ws = sht
@@ -298,9 +472,9 @@ Sub highlightEntries()
 End Sub
 Sub duplicateStations()
     Dim tableexists As Boolean, max As Integer
-    Dim tableName As String, table As ListObject
+    Dim tablename As String, table As ListObject
     Dim rows() As ListRow
-    tableName = "ScoutingData"
+    tablename = "ScoutingData"
     tableexists = False
     Dim tbl As ListObject
     Dim sht As Worksheet
@@ -308,7 +482,7 @@ Sub duplicateStations()
     'Loop through each sheet and table in the workbook
     For Each sht In ThisWorkbook.Worksheets
         For Each tbl In sht.ListObjects
-            If tbl.Name = tableName Then
+            If tbl.Name = tablename Then
                 tableexists = True
                 Set table = tbl
                 Set ws = sht
@@ -341,9 +515,9 @@ Sub duplicateStations()
 End Sub
 Sub checkNumEntries()
     Dim tableexists As Boolean, max As Integer, z As Range, a As Range
-    Dim tableName As String, table As ListObject
+    Dim tablename As String, table As ListObject
     Dim rows() As ListRow
-    tableName = "ScoutingData"
+    tablename = "ScoutingData"
     tableexists = False
     Dim tbl As ListObject
     Dim sht As Worksheet
@@ -351,7 +525,7 @@ Sub checkNumEntries()
     'Loop through each sheet and table in the workbook
     For Each sht In ThisWorkbook.Worksheets
         For Each tbl In sht.ListObjects
-            If tbl.Name = tableName Then
+            If tbl.Name = tablename Then
                 tableexists = True
                 Set table = tbl
                 Set ws = sht
@@ -405,140 +579,6 @@ Function writeTeams()
         Next row
     Loop
 End Function
-Function Points(sheet As String, row As Integer, sendTo As Integer) As Integer
-    Dim val As Double, x As Double, y As Double, column As Integer
-    column = 5
-    x = Worksheets(sheet).Range(columnLetter(column) & row).Value
-    column = column + 1
-    y = Worksheets(sheet).Range(columnLetter(column) & row).Value
-    column = column + 1
-    '7'
-    If x < 0 Then
-        x = 0
-    End If
-    If y < 0 Then
-        y = 0
-    End If
-    val = val + 6 * (x + y)
-    x = Worksheets(sheet).Range(columnLetter(column) & row).Value
-    column = column + 1
-    y = Worksheets(sheet).Range(columnLetter(column) & row).Value
-    column = column + 1
-    '9'
-    If x < 0 Then
-        x = 0
-    End If
-    If y < 0 Then
-        y = 0
-    End If
-    val = val + 4 * (x + y)
-    x = Worksheets(sheet).Range(columnLetter(column) & row).Value
-    column = column + 2
-    '10'
-    If x < 0 Then
-        x = 0
-    End If
-    val = val + 3 * x
-    x = Worksheets(sheet).Range(columnLetter(column) & row).Value
-    column = column + 1
-    '12'
-    If x < 0 Then
-        x = 0
-    End If
-    val = val + 3 * x
-    x = Worksheets(sheet).Range(columnLetter(column) & row).Value
-    column = column + 1
-    If x < 0 Then
-        x = 0
-    End If
-    val = val + x
-    x = Worksheets(sheet).Range(columnLetter(column) & row).Value
-    column = column + 1
-    y = Worksheets(sheet).Range(columnLetter(column) & row).Value
-    column = column + 1
-    If x < 0 Then
-        x = 0
-    End If
-    If y < 0 Then
-        y = 0
-    End If
-    val = val + 5 * (x + y)
-    x = Worksheets(sheet).Range(columnLetter(column) & row).Value
-    column = column + 1
-    y = Worksheets(sheet).Range(columnLetter(column) & row).Value
-    column = column + 1
-    If x < 0 Then
-        x = 0
-    End If
-    If y < 0 Then
-        y = 0
-    End If
-    val = val + 3 * (x + y)
-    x = Worksheets(sheet).Range(columnLetter(column) & row).Value
-    column = column + 2
-    If x < 0 Then
-        x = 0
-    End If
-    val = val + 2 * x
-    x = Worksheets(sheet).Range(columnLetter(column) & row).Value
-    column = column + 1
-    If x < 0 Then
-        x = 0
-    End If
-    val = val + x
-    Worksheets(sheet).Range(columnLetter(sendTo) & row).Value = val
-    Points = sendTo + 1
-End Function
-Function AutoPoints(sheet As String, row As Integer, sendTo As Integer) As Integer
-    Dim val As Double, x As Double, y As Double, column As Integer
-    column = 5
-    x = Worksheets(sheet).Range(columnLetter(column) & row).Value
-    column = column + 1
-    y = Worksheets(sheet).Range(columnLetter(column) & row).Value
-    column = column + 1
-    '7'
-    If x < 0 Then
-        x = 0
-    End If
-    If y < 0 Then
-        y = 0
-    End If
-    val = val + 6 * (x + y)
-    x = Worksheets(sheet).Range(columnLetter(column) & row).Value
-    column = column + 1
-    y = Worksheets(sheet).Range(columnLetter(column) & row).Value
-    column = column + 1
-    '9'
-    If x < 0 Then
-        x = 0
-    End If
-    If y < 0 Then
-        y = 0
-    End If
-    val = val + 4 * (x + y)
-    x = Worksheets(sheet).Range(columnLetter(column) & row).Value
-    column = column + 2
-    '10'
-    If x < 0 Then
-        x = 0
-    End If
-    val = val + 3 * x
-    x = Worksheets(sheet).Range(columnLetter(column) & row).Value
-    column = column + 1
-    '12'
-    If x < 0 Then
-        x = 0
-    End If
-    val = val + 3 * x
-    x = Worksheets(sheet).Range(columnLetter(column) & row).Value
-    column = column + 1
-    If x < 0 Then
-        x = 0
-    End If
-    val = val + x
-    Worksheets(sheet).Range(columnLetter(sendTo) & row).Value = val
-    AutoPoints = sendTo + 1
-End Function
 Function averageColumn(column As Integer) As Integer
     Dim row As Integer, val As Double, div As Integer, team, x
     For row = 2 To numRows("Average") - 1
@@ -560,6 +600,21 @@ Function averageColumn(column As Integer) As Integer
         End If
     Next row
 End Function
+Function hasCard(column As Integer) As Integer
+    Dim row As Integer, val As Boolean, team, x
+    For row = 2 To numRows("Average") - 1
+        val = False
+        team = Worksheets("Average").Range("A" & row).Value
+        For x = 2 To numRows("Numerical")
+            If Worksheets("Numerical").Range("B" & x).Value = team Then
+                If Worksheets("Numerical").Range(columnLetter(column) & x).Value = 1 Then
+                    val = True
+                End If
+            End If
+        Next x
+        Worksheets("Average").Range(columnLetter(column - 1) & row).Value = val
+    Next row
+End Function
 Function numRows(Worksheet As String) As Integer
     Dim repeat As Boolean
     repeat = True
@@ -572,92 +627,11 @@ Function numRows(Worksheet As String) As Integer
         End If
     Loop
 End Function
-Function gamePieces(getFrom As Integer, sendTo As Integer, row As Integer) As Integer
-    Dim hiCo As Integer, hiCu As Integer, miCo As Integer, miCu As Integer, loPi As Integer, numPieces As Integer, pieces As Variant, piece As Variant, modNumber As Integer, cube As Boolean, high As Boolean, low As Boolean, mid As Boolean
-    pieces = Split(Worksheets("Input").Range(columnLetter(getFrom) & row).Value, ",")
-    numPieces = ArrayLen(pieces)
-    For Each piece In pieces
-        modNumber = (piece + 1) Mod 3
-        cube = (modNumber = 0)
-        If piece < 10 Then
-            If cube Then
-                hiCu = hiCu + 1
-            Else
-                hiCo = hiCo + 1
-            End If
-        Else
-            If piece > 18 Then
-                loPi = loPi + 1
-            Else
-                If cube Then
-                    miCu = miCu + 1
-                Else
-                    miCo = miCo + 1
-                End If
-            End If
-        End If
-    Next piece
-    Worksheets("Numerical").Range(columnLetter(sendTo) & row).Value = hiCo
-    sendTo = sendTo + 1
-    Worksheets("Numerical").Range(columnLetter(sendTo) & row).Value = hiCu
-    sendTo = sendTo + 1
-    Worksheets("Numerical").Range(columnLetter(sendTo) & row).Value = miCo
-    sendTo = sendTo + 1
-    Worksheets("Numerical").Range(columnLetter(sendTo) & row).Value = miCu
-    sendTo = sendTo + 1
-    Worksheets("Numerical").Range(columnLetter(sendTo) & row).Value = loPi
-    sendTo = sendTo + 1
-    Worksheets("Numerical").Range(columnLetter(sendTo) & row).Value = numPieces
-    sendTo = sendTo + 1
-    gamePieces = sendTo
-End Function
-Function copy(getFrom As Integer, sendTo As Integer, row As Integer) As Integer
+Function copy(getFrom As Integer, sendto As Integer, row As Integer) As Integer
     Dim val As Variant
     val = Worksheets("Input").Range(columnLetter(getFrom) & row).Value
-    Worksheets("Numerical").Range(columnLetter(sendTo) & row).Value = val
-    copy = sendTo + 1
-End Function
-Function docking(getFrom As Integer, sendTo As Integer, row As Integer, auto As Boolean) As Integer
-    Dim Value As Variant
-    Value = Worksheets("Input").Range(columnLetter(getFrom) & row).Value
-    Select Case (Value)
-        Case "p":
-            Value = 2
-        Case "e":
-            If auto Then
-                Value = 12
-            Else
-                Value = 10
-            End If
-        Case "d":
-            If auto Then
-                Value = 8
-            Else
-                Value = 6
-            End If
-        Case "x":
-            Value = -1
-        Case "a":
-            Value = 0
-    End Select
-    Worksheets("Numerical").Range(columnLetter(sendTo) & row).Value = Value
-    docking = sendTo + 1
-End Function
-Function skill(getFrom As Integer, sendTo As Integer, row As Integer) As Integer
-    Dim val As Variant, x As Double
-    val = Worksheets("Input").Range(columnLetter(getFrom) & row).Value
-    Select Case (val)
-        Case "x":
-            x = -1
-        Case "b":
-            x = 0
-        Case "a":
-            x = 1
-        Case "aa":
-            x = 2
-    End Select
-    Worksheets("Numerical").Range(columnLetter(sendTo) & row).Value = x
-    skill = sendTo + 1
+    Worksheets("Numerical").Range(columnLetter(sendto) & row).Value = val
+    copy = sendto + 1
 End Function
 Public Function ArrayLen(arr As Variant) As Integer
     ArrayLen = UBound(arr) - LBound(arr) + 1
@@ -695,8 +669,8 @@ Sub saveData(inp As String)
     Set mapper = CreateObject("Scripting.Dictionary")
     Dim data
     Set data = CreateObject("Scripting.Dictionary")
-    Dim tableName As String
-    tableName = "ScoutingData"
+    Dim tablename As String
+    tablename = "ScoutingData"
     ' Set up map
     ' Fields for every year
     mapper.Add "s", "scouter"
@@ -705,14 +679,20 @@ Sub saveData(inp As String)
     mapper.Add "m", "matchNumber"
     mapper.Add "r", "robot"
     mapper.Add "t", "teamNumber"
-    mapper.Add "as", "autoStartPosition"
-    mapper.Add "asg", "autoScoring"
-    mapper.Add "ec", "exitedCommunity"
+    mapper.Add "sp", "StartPosition"
+    mapper.Add "amc", "autoHighCones"
+    mapper.Add "amcu", "autoHighCubes"
+    mapper.Add "amc", "autoMidCones"
+    mapper.Add "amcu", "autoMidCubes"
+    mapper.Add "alc", "autoLowPieces"
     mapper.Add "ad", "autoDocking"
-    mapper.Add "agpa", "autoAttemptedPieces"
-    mapper.Add "gph", "gamePiecesStillWithBot"
-    mapper.Add "tct", "Cycles"
-    mapper.Add "tsg", "teleopScoring"
+    mapper.Add "pm", "piecesMissed"
+    mapper.Add "ec", "exitedCommunity"
+    mapper.Add "hc", "teleopHighCones"
+    mapper.Add "hcu", "teleopHighCubes"
+    mapper.Add "mc", "teleopMidCones"
+    mapper.Add "mcu", "teleopMidCubes"
+    mapper.Add "lc", "teleopLowPieces"
     mapper.Add "dt", "dockingTimer"
     mapper.Add "fs", "finalStatus"
     mapper.Add "stg", "struggled"
@@ -759,7 +739,7 @@ Sub saveData(inp As String)
         'Loop through each sheet and table in the workbook
         For Each sht In ThisWorkbook.Worksheets
             For Each tbl In sht.ListObjects
-                If tbl.Name = tableName Then
+                If tbl.Name = tablename Then
                     tableexists = True
                     Set table = tbl
                     Set ws = sht
@@ -770,9 +750,9 @@ Sub saveData(inp As String)
             'Set table = ws.ListObjects(tableName)
         Else
             Dim tablerange As Range
-            ws.ListObjects.Add(xlSrcRange, Range("A1:AO1"), , xlYes).Name = tableName
+            ws.ListObjects.Add(xlSrcRange, Range("A1:AO1"), , xlYes).Name = tablename
             i = 0
-            Set table = ws.ListObjects(tableName)
+            Set table = ws.ListObjects(tablename)
             For Each Key In data.Keys
                 table.Range(i + 1) = Key
                 i = i + 1
@@ -781,7 +761,15 @@ Sub saveData(inp As String)
         Dim newrow As ListRow
         Set newrow = table.ListRows.Add
         For Each str In data.Keys
-            newrow.Range(table.ListColumns(str).Index) = data(str)
+            If str = "driverSkill" Or str = "defenseRating" Then
+                If data(str) = 0 Then
+                    newrow.Range(table.ListColumns(str).Index) = data(str) - 1
+                Else
+                    newrow.Range(table.ListColumns(str).Index) = data(str)
+                End If
+            Else
+                newrow.Range(table.ListColumns(str).Index) = data(str)
+            End If
         Next
         Dim x As Integer
         x = newrow.Range(table.ListColumns("matchNumber").Index).Value Mod 5
@@ -800,9 +788,9 @@ Sub saveData(inp As String)
     End If
 End Sub
 Sub SecondPick()
-    Dim sheet As String, row As Integer, sendTo As Integer, val As Double, column As Integer, weightsFrom As Integer, x As Integer
+    Dim sheet As String, row As Integer, sendto As Integer, val As Double, column As Integer, weightsFrom As Integer, x As Integer
     sheet = "average"
-    sendTo = 31
+    sendto = 31
     weightsFrom = 100
     For x = 1 To CInt(InputBox("How many weighted scores?"))
     For row = 2 To numRows(sheet) - 1
@@ -810,9 +798,10 @@ Sub SecondPick()
         For column = 2 To 30
             val = val + Worksheets(sheet).Range(columnLetter(column) & weightsFrom).Value * Worksheets("Average").Range(columnLetter(column) & row).Value
         Next column
-        Worksheets(sheet).Range(columnLetter(sendTo) & row).Value = val
+        Worksheets(sheet).Range(columnLetter(sendto) & row).Value = val
     Next row
-    sendTo = sendTo + 1
+    sendto = sendto + 1
     weightsFrom = weightsFrom + 1
     Next x
 End Sub
+
