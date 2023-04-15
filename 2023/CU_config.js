@@ -137,6 +137,12 @@ var config_data = `
       "max": 9,
       "min": 0
     },
+    { "name": "Super Charged",
+      "code": "sc",
+      "type": "counter",
+      "max": 27,
+      "min": 0
+    },
     { "name": "Fouls",
       "code": "fl",
       "type": "counter"
