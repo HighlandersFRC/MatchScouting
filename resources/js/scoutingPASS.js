@@ -167,17 +167,14 @@ function addCounter(table, idx, name, data) {
   button1.setAttribute("type", "button");
   button1.setAttribute("onclick", "counter(this.parentElement, -1, "+max+", "+min+")");
   button1.setAttribute("value", "-");
-  if(data.code == "ahc" || data.code == "amc") {
+  if(data.code == "ahc" || data.code == "amc" || data.code == "hc" || data.code == "mc") {
     button1.setAttribute("style", "background-color: gold; color: black; border-color: gold;")
   }
-  if(data.code == "ahcu" || data.code == "amcu") {
+  if(data.code == "ahcu" || data.code == "amcu" || data.code == "hcu" || data.code == "mcu") {
     button1.setAttribute("style", "background-color: indigo; color: white; border-color: indigo;")
   }
-  if(data.code == "hc" || data.code == "mc") {
-    button1.setAttribute("style", "background-color: gold; color: black; border-color: gold;")
-  }
-  if(data.code == "hcu" || data.code == "mcu") {
-    button1.setAttribute("style", "background-color: indigo; color: white; border-color: indigo;")
+  if(data.code == "sc") {
+    button1.setAttribute("style", "background-color: aqua; color: black; border-color: aqua;")
   }
   cell2.appendChild(button1);
 
@@ -205,17 +202,14 @@ function addCounter(table, idx, name, data) {
   button2.setAttribute("type", "button");
   button2.setAttribute("onclick", "counter(this.parentElement, 1, "+max+", "+min+")");
   button2.setAttribute("value", "+");
-  if(data.code == "ahc" || data.code == "amc") {
+  if(data.code == "ahc" || data.code == "amc" || data.code == "hc" || data.code == "mc") {
     button2.setAttribute("style", "background-color: gold; color: black; border-color: gold;")
   }
-  if(data.code == "ahcu" || data.code == "amcu") {
+  if(data.code == "ahcu" || data.code == "amcu" || data.code == "hcu" || data.code == "mcu") {
     button2.setAttribute("style", "background-color: indigo; color: white; border-color: indigo;")
   }
-  if(data.code == "hc" || data.code == "mc") {
-    button2.setAttribute("style", "background-color: gold; color: black; border-color: gold;")
-  }
-  if(data.code == "hcu" || data.code == "mcu") {
-    button2.setAttribute("style", "background-color: indigo; color: white; border-color: indigo;")
+    if(data.code == "sc") {
+    button2.setAttribute("style", "background-color: aqua; color: black; border-color: aqua;")
   }
   cell2.appendChild(button2);
 
