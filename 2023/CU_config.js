@@ -104,45 +104,16 @@ var config_data = `
         "-1": "Not attempted"
       },
       "defaultValue": "-1"
+    },
+    { "name": "Autonomous Strategy",
+      "code": "as",
+      "type": "text",
+      "size": 16,
+      "maxSize": 40,
+      "required": "true"
     }
   ],
   "teleop": [
-    { "name": "High Cones",
-      "code": "hc",
-      "type": "counter",
-      "max": 6,
-      "min": 0
-    },
-    { "name": "High Cubes",
-      "code": "hcu",
-      "type": "counter",
-      "max": 3,
-      "min": 0
-    },
-    { "name": "Middle Cones",
-      "code": "mc",
-      "type": "counter",
-      "max": 6,
-      "min": 0
-    },
-    { "name": "Middle Cubes",
-      "code": "mcu",
-      "type": "counter",
-      "max": 3,
-      "min": 0
-    },
-    { "name": "Low (Any Piece)",
-      "code": "lc",
-      "type": "counter",
-      "max": 9,
-      "min": 0
-    },
-    { "name": "Super Charged",
-      "code": "sc",
-      "type": "counter",
-      "max": 27,
-      "min": 0
-    },
     { "name": "Fouls",
       "code": "fl",
       "type": "counter"
@@ -158,6 +129,13 @@ var config_data = `
     { "name": "Red Card<br>Mark if Holding Card",
       "code": "rc",
       "type": "bool"
+    },
+    { "name": "Teleop Strategy",
+      "code": "ts",
+      "type": "text",
+      "size": 16,
+      "maxSize": 40,
+      "required": "true"
     }
   ],
   "endgame": [
@@ -181,6 +159,13 @@ var config_data = `
       "type": "counter",
       "max": 3,
       "min": 0,
+      "required": "true"
+    },
+    { "name": "Endgame Strategy",
+      "code": "es",
+      "type": "text",
+      "size": 16,
+      "maxSize": 40,
       "required": "true"
     }
   ],
