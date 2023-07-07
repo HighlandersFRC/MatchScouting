@@ -9,8 +9,8 @@ Sub AggregateData()
         'Team Number
         getFrom = getFrom + 2
         sendto = copy(getFrom, sendto, row)
-        'skip two for points
-        sendto = sendto + 2
+        'skip three for points
+        sendto = sendto + 3
         'StartPosition
         getFrom = getFrom + 1
         sendto = copy(getFrom, sendto, row)
@@ -38,27 +38,28 @@ Sub AggregateData()
         'Auto Docking
         getFrom = getFrom + 1
         sendto = docking(getFrom, sendto, row, True)
-        'teleopHighCones
+        'Auto Strategy
+        getFrom = getFrom + 1
+        'highCones
         getFrom = getFrom + 1
         sendto = copy(getFrom, sendto, row)
-        'teleopHighCubes
+        'highCubes
         getFrom = getFrom + 1
         sendto = copy(getFrom, sendto, row)
-        'teleopMidCones
+        'midCones
         getFrom = getFrom + 1
         sendto = copy(getFrom, sendto, row)
-        'teleopMidCubes
+        'midCubes
         getFrom = getFrom + 1
         sendto = copy(getFrom, sendto, row)
-        'teleopLowPieces
-        getFrom = getFrom + 1
-        sendto = copy(getFrom, sendto, row)
-        'supercharged
+        'lowPieces
         getFrom = getFrom + 1
         sendto = copy(getFrom, sendto, row)
         'Saving the position from which to grab fouls
         foulSpot = getFrom + 1
         getFrom = getFrom + 4
+        'Teleop Strategy
+        getFrom = getFrom + 1
         'Final Status
         getFrom = getFrom + 1
         sendto = docking(getFrom, sendto, row, False)
@@ -69,6 +70,8 @@ Sub AggregateData()
         'Total Docked Bots
         getFrom = getFrom + 1
         sendto = copy(getFrom, sendto, row)
+        'Endgame Strategy
+        getFrom = getFrom + 1
         'Driver Skill
         getFrom = getFrom + 1
         sendto = copy(getFrom, sendto, row)
@@ -79,6 +82,14 @@ Sub AggregateData()
         getFrom = getFrom + 1
         sendto = copy(getFrom, sendto, row)
         'Tippy
+        getFrom = getFrom + 1
+        sendto = copy(getFrom, sendto, row)
+        'allianceScore
+        getFrom = getFrom + 1
+        Dim alliancePts As Integer
+        alliancePts = sendto
+        sendto = copy(getFrom, sendto, row)
+        'oppositionAllianceScore
         getFrom = getFrom + 1
         sendto = copy(getFrom, sendto, row)
         'Fouls
@@ -99,6 +110,8 @@ Sub AggregateData()
         sendto = autoPoints(3, row)
         'Points
         sendto = points(4, row)
+        'contribution
+        sendto = contribution(4, alliancePts, 5, row)
     Next row
     writeTeams
     For x = 3 To lastColumn
@@ -121,21 +134,21 @@ Function autoPoints(sendto As Integer, row As Integer) As Integer
     Dim ahc As Integer, ahcu As Integer, amc As Integer, amcu As Integer, alp As Integer, ec As Integer, ad As Integer, thc As Integer, thcu As Integer, tmc As Integer, tmcu As Integer, tlp As Integer, td As Integer, yc As Integer, rc As Integer
     Dim ahcval, ahcuval, amcval, amcuval, alpval, ecval, adval, sheet As String, val As Double
     sheet = "Numerical"
-    ahc = 6
-    ahcu = 7
-    amc = 8
-    amcu = 9
-    alp = 10
-    ec = 12
-    ad = 13
-    thc = 14
-    thcu = 15
-    tmc = 16
-    tmcu = 17
-    tlp = 18
-    td = 19
-    yc = 29
-    rc = 30
+    ahc = 7
+    ahcu = 8
+    amc = 9
+    amcu = 10
+    alp = 11
+    ec = 13
+    ad = 14
+    thc = 15
+    thcu = 16
+    tmc = 17
+    tmcu = 18
+    tlp = 19
+    td = 20
+    yc = 30
+    rc = 31
     ahcuval = Worksheets(sheet).Range(columnLetter(ahcu) & row).Value
     ahcval = Worksheets(sheet).Range(columnLetter(ahc) & row).Value
     amcval = Worksheets(sheet).Range(columnLetter(amc) & row).Value
@@ -143,6 +156,9 @@ Function autoPoints(sendto As Integer, row As Integer) As Integer
     alpval = Worksheets(sheet).Range(columnLetter(alp) & row).Value
     ecval = Worksheets(sheet).Range(columnLetter(ec) & row).Value
     adval = Worksheets(sheet).Range(columnLetter(ad) & row).Value
+    If adval < 0 Then
+        adval = 0
+    End If
     val = 0
     val = val + (ahcuval + ahcval) * 6
     val = val + (amcval + amcuval) * 4
@@ -155,21 +171,21 @@ Function points(sendto As Integer, row As Integer) As Integer
     Dim ahc As Integer, ahcu As Integer, amc As Integer, amcu As Integer, alp As Integer, ec As Integer, ad As Integer, thc As Integer, thcu As Integer, tmc As Integer, tmcu As Integer, tlp As Integer, td As Integer, yc As Integer, rc As Integer
     Dim ahcval, ahcuval, amcval, amcuval, alpval, ecval, adval, thcval, thcuval, tmcval, tmcuval, tlpval, tdval, sheet As String, val As Double
     sheet = "Numerical"
-    ahc = 6
-    ahcu = 7
-    amc = 8
-    amcu = 9
-    alp = 10
-    ec = 12
-    ad = 13
-    thc = 14
-    thcu = 15
-    tmc = 16
-    tmcu = 17
-    tlp = 18
-    td = 19
-    yc = 29
-    rc = 30
+    ahc = 7
+    ahcu = 8
+    amc = 9
+    amcu = 10
+    alp = 11
+    ec = 13
+    ad = 14
+    thc = 15
+    thcu = 16
+    tmc = 17
+    tmcu = 18
+    tlp = 19
+    td = 20
+    yc = 30
+    rc = 31
     ahcuval = Worksheets(sheet).Range(columnLetter(ahcu) & row).Value
     ahcval = Worksheets(sheet).Range(columnLetter(ahc) & row).Value
     amcval = Worksheets(sheet).Range(columnLetter(amc) & row).Value
@@ -183,6 +199,12 @@ Function points(sendto As Integer, row As Integer) As Integer
     tmcuval = Worksheets(sheet).Range(columnLetter(tmcu) & row).Value
     tlpval = Worksheets(sheet).Range(columnLetter(tlp) & row).Value
     tdval = Worksheets(sheet).Range(columnLetter(td) & row).Value
+    If tdval < 0 Then
+        tdval = 0
+    End If
+    If adval < 0 Then
+        adval = 0
+    End If
     val = 0
     val = val + (ahcuval + ahcval) * 6
     val = val + (thcuval + thcval) * 5
@@ -627,6 +649,15 @@ Function numRows(Worksheet As String) As Integer
         End If
     Loop
 End Function
+Function contribution(points As Integer, alliancePoints As Integer, sendto As Integer, row As Integer) As Integer
+    Dim val As Double, sheet As Worksheet, p As Double, w As Double
+    Set sheet = Worksheets("Numerical")
+    p = sheet.Range(columnLetter(points) & row).Value
+    w = sheet.Range(columnLetter(alliancePoints) & row).Value
+    val = p / w
+    sheet.Range(columnLetter(sendto) & row).Value = val
+    contribution = sendto + 1
+End Function
 Function copy(getFrom As Integer, sendto As Integer, row As Integer) As Integer
     Dim val As Variant
     val = Worksheets("Input").Range(columnLetter(getFrom) & row).Value
@@ -680,12 +711,13 @@ Sub saveData(inp As String)
     mapper.Add "r", "robot"
     mapper.Add "t", "teamNumber"
     mapper.Add "sp", "StartPosition"
-    mapper.Add "amc", "autoHighCones"
-    mapper.Add "amcu", "autoHighCubes"
+    mapper.Add "ahc", "autoHighCones"
+    mapper.Add "ahcu", "autoHighCubes"
     mapper.Add "amc", "autoMidCones"
     mapper.Add "amcu", "autoMidCubes"
     mapper.Add "alc", "autoLowPieces"
     mapper.Add "ad", "autoDocking"
+    mapper.Add "as", "autoStrategy"
     mapper.Add "pm", "piecesMissed"
     mapper.Add "ec", "exitedCommunity"
     mapper.Add "hc", "teleopHighCones"
@@ -693,10 +725,12 @@ Sub saveData(inp As String)
     mapper.Add "mc", "teleopMidCones"
     mapper.Add "mcu", "teleopMidCubes"
     mapper.Add "lc", "teleopLowPieces"
+    mapper.Add "ts", "teleopStrategy"
     mapper.Add "dt", "dockingTimer"
     mapper.Add "fs", "finalStatus"
     mapper.Add "stg", "struggled"
     mapper.Add "dn", "totalDockedBots"
+    mapper.Add "es", "endgameStrategy"
     mapper.Add "ds", "driverSkill"
     mapper.Add "dr", "defenseRating"
     mapper.Add "wd", "wasDefended"
@@ -707,7 +741,9 @@ Sub saveData(inp As String)
     mapper.Add "rc", "red"
     mapper.Add "tip", "Tippy?"
     mapper.Add "co", "Comments"
-    ' Additional custom mapping
+    mapper.Add "gang", "allianceScore"
+    mapper.Add "opp", "oppositionScore"
+    'Additional custom mapping
     'mapper.Add "f", "fouls"
     'mapper.Add "c", "climb"
     'mapper.Add "dr", "defenseRating"
@@ -791,7 +827,7 @@ Sub SecondPick()
     Dim sheet As String, row As Integer, sendto As Integer, val As Double, column As Integer, weightsFrom As Integer, x As Integer
     sheet = "average"
     sendto = 31
-    weightsFrom = 100
+    weightsFrom = CInt(InputBox("From which row are you setting the weights?"))
     For x = 1 To CInt(InputBox("How many weighted scores?"))
     For row = 2 To numRows(sheet) - 1
         val = 0
@@ -804,4 +840,3 @@ Sub SecondPick()
     weightsFrom = weightsFrom + 1
     Next x
 End Sub
-

@@ -14,7 +14,7 @@ var config_data = `
     { "name": "Event",
       "code": "e",
       "type": "event",
-      "defaultValue": "No Event Code",
+      "defaultValue": "N/A",
       "required": "true",
       "disabled": "true"
     },
@@ -114,6 +114,36 @@ var config_data = `
     }
   ],
   "teleop": [
+    { "name": "High Cones",
+      "code": "hc",
+      "type": "counter",
+      "max": 6,
+      "min": 0
+    },
+    { "name": "High Cubes",
+      "code": "hcu",
+      "type": "counter",
+      "max": 3,
+      "min": 0
+    },
+    { "name": "Middle Cones",
+      "code": "mc",
+      "type": "counter",
+      "max": 6,
+      "min": 0
+    },
+    { "name": "Middle Cubes",
+      "code": "mcu",
+      "type": "counter",
+      "max": 3,
+      "min": 0
+    },
+    { "name": "Low (Any Piece)",
+      "code": "lc",
+      "type": "counter",
+      "max": 9,
+      "min": 0
+    },
     { "name": "Fouls",
       "code": "fl",
       "type": "counter"
@@ -143,6 +173,7 @@ var config_data = `
       "code": "fs",
       "type":"radio",
       "choices": {
+        "2": "Parked",
         "6": "Docked (Not Engaged)<br>",
         "10": "Engaged<br>",
         "0": "Attempted but failed<br>",
@@ -191,6 +222,18 @@ var config_data = `
     { "name": "Tippy<br>(almost tipped over)",
       "code": "tip",
       "type": "bool"
+    },
+    { "name": "Alliance Score",
+      "code": "gang",
+      "type": "number",
+      "min": 0,
+      "max": 300
+    },
+    { "name": "Opposition Alliance Score",
+      "code": "opp",
+      "type": "number",
+      "min": 0,
+      "max": 300
     },
     { "name": "Comments",
       "code": "co",
